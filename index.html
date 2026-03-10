@@ -76,11 +76,11 @@ nav {
 .social-bar a:hover { color: var(--gold); transform: translateX(4px); }
 
 /* HERO */
-#hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
-.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 120px 64px 80px 96px; position: relative; z-index: 2; }
+#hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; width: 100%; }
+.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 120px 64px 80px 96px; position: relative; z-index: 10; }
 .hero-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; }
 .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
-.hero-name { font-family: 'Playfair Display', serif; font-size: clamp(64px, 7vw, 96px); font-weight: 900; line-height: 0.95; color: var(--cream); margin-bottom: 24px; letter-spacing: -1px; }
+.hero-name { font-family: 'Playfair Display', serif; font-size: clamp(64px, 7vw, 96px); font-weight: 900; line-height: 0.95; color: var(--cream); margin-bottom: 24px; letter-spacing: -1px; min-height: 1.9em; }
 .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 6px; color: var(--amber); margin-bottom: 32px; }
 .hero-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; line-height: 1.7; color: var(--dim); max-width: 400px; border-left: 2px solid var(--brown); padding-left: 20px; margin-bottom: 48px; }
 .hero-quote strong { color: var(--text); font-style: normal; }
@@ -97,9 +97,9 @@ nav {
 
 /* EVIDENCE BOARD */
 .hero-right { position: relative; overflow: hidden; background: #0d0a05; border-left: 1px solid rgba(139,94,42,0.15); }
-.evidence-board-label { position: absolute; top: 54px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.evidence-board-label { position: absolute; top: 54px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; white-space: nowrap; z-index: 10; }
 .board-grid { position: absolute; inset: 0; background-image: radial-gradient(circle at 50% 50%, rgba(139,94,42,0.06) 0%, transparent 70%), linear-gradient(rgba(139,94,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(139,94,42,0.04) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px; }
-.cards-container { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 14px; padding: 80px 32px 40px; }
+.cards-container { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 14px; padding: 80px 32px 40px; z-index: 3; }
 .card { background: #F5F0E8; padding: 18px 20px; position: relative; transform: rotate(var(--rot, 0deg)); box-shadow: 4px 6px 20px rgba(0,0,0,0.5); transition: transform 0.3s, box-shadow 0.3s; overflow: hidden; opacity: 0; animation: cardIn 0.6s forwards; }
 .card:hover { transform: rotate(0deg) scale(1.02); box-shadow: 6px 10px 30px rgba(0,0,0,0.7); z-index: 10; }
 .card::before { content: ''; width: 14px; height: 14px; background: radial-gradient(circle, #D4A853 40%, #8B6914 100%); border-radius: 50%; position: absolute; top: -7px; left: 50%; transform: translateX(-50%); box-shadow: 0 2px 4px rgba(0,0,0,0.4); }
@@ -467,12 +467,10 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 /* BOARD SILHOUETTES & STRINGS */
 .board-string-svg, .board-silhouettes {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  pointer-events: none; z-index: 0;
+  pointer-events: none;
 }
-.board-string-svg { z-index: 2; }
-.board-silhouettes { z-index: 0; }
-.cards-container { position: relative; }
-.cards-container > .card { position: relative; z-index: 3; }
+.board-string-svg { z-index: 5; }
+.board-silhouettes { z-index: 2; }
 
 /* ===== DOSSIER HOVER CARD ===== */
 .dossier-trigger { position: relative; display: inline-block; cursor: none; }
@@ -644,137 +642,108 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   <div class="hero-right">
     <div class="board-grid"></div>
     <div class="evidence-board-label">Evidence Board</div>
+
+    <!-- Silhouettes layer (behind cards) -->
+    <svg class="board-silhouettes" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- Great Pyramid top-left -->
+      <g opacity="0.42">
+        <polygon points="22,220 68,128 114,220" fill="rgba(139,94,42,0.22)" stroke="#C4812A" stroke-width="1.4"/>
+        <polygon points="36,220 68,142 100,220" fill="rgba(139,94,42,0.12)"/>
+        <line x1="46" y1="196" x2="90" y2="196" stroke="#C4812A" stroke-width="0.7"/>
+        <line x1="39" y1="208" x2="97" y2="208" stroke="#C4812A" stroke-width="0.7"/>
+        <line x1="55" y1="172" x2="81" y2="172" stroke="#C4812A" stroke-width="0.6"/>
+      </g>
+      <g opacity="0.32">
+        <polygon points="112,220 130,184 148,220" fill="rgba(139,94,42,0.18)" stroke="#C4812A" stroke-width="0.9"/>
+      </g>
+      <!-- Greek Temple right side -->
+      <g opacity="0.42" transform="translate(388,118)">
+        <polygon points="0,30 58,30 29,6" fill="rgba(196,129,42,0.18)" stroke="#C4812A" stroke-width="1.1"/>
+        <rect x="0" y="30" width="58" height="6" fill="rgba(196,129,42,0.28)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="3"  y="36" width="7" height="28" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="15" y="36" width="7" height="28" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="27" y="36" width="7" height="28" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="39" y="36" width="7" height="28" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="51" y="36" width="6" height="28" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="-4" y="64" width="66" height="5" fill="rgba(196,129,42,0.28)" stroke="#C4812A" stroke-width="0.8"/>
+        <rect x="-8" y="69" width="74" height="5" fill="rgba(196,129,42,0.28)" stroke="#C4812A" stroke-width="0.8"/>
+      </g>
+      <!-- Trilobite fossil bottom-left -->
+      <g opacity="0.4" transform="translate(14,440)">
+        <ellipse cx="24" cy="22" rx="18" ry="26" fill="none" stroke="#C4812A" stroke-width="1.4"/>
+        <line x1="24" y1="0" x2="24" y2="46" stroke="#C4812A" stroke-width="1"/>
+        <path d="M6,12 C14,16 34,16 42,12" fill="none" stroke="#C4812A" stroke-width="0.9"/>
+        <path d="M4,22 C13,26 35,26 44,22" fill="none" stroke="#C4812A" stroke-width="0.9"/>
+        <path d="M6,32 C14,36 34,36 42,32" fill="none" stroke="#C4812A" stroke-width="0.9"/>
+        <path d="M16,2 C11,-5 8,-9 4,-13" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <path d="M32,2 C37,-5 40,-9 44,-13" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <path d="M9,7 C15,3 33,3 39,7" fill="rgba(196,129,42,0.08)" stroke="#C4812A" stroke-width="0.8"/>
+      </g>
+      <!-- Ancient amphora right-middle -->
+      <g opacity="0.4" transform="translate(396,280)">
+        <path d="M14,0 L22,0 C30,0 38,10 40,22 C42,36 40,54 36,64 C32,72 28,76 18,76 C8,76 4,72 0,64 C-4,54 -6,36 -4,22 C-2,10 6,0 14,0Z" fill="none" stroke="#C4812A" stroke-width="1.3"/>
+        <rect x="11" y="-10" width="14" height="10" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <ellipse cx="18" cy="-10" rx="11" ry="3.5" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <path d="M-4,18 C-13,18 -14,34 -4,34" fill="none" stroke="#C4812A" stroke-width="1.2"/>
+        <path d="M40,18 C49,18 50,34 40,34" fill="none" stroke="#C4812A" stroke-width="1.2"/>
+        <path d="M2,28 C10,32 26,32 34,28" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M0,44 C10,49 26,49 36,44" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+      </g>
+      <!-- Compass rose right-lower -->
+      <g opacity="0.38" transform="translate(430,380)">
+        <circle cx="22" cy="22" r="20" fill="none" stroke="#D4A853" stroke-width="1.1"/>
+        <circle cx="22" cy="22" r="13" fill="none" stroke="#D4A853" stroke-width="0.6"/>
+        <polygon points="22,2 19,16 22,14 25,16" fill="#D4A853"/>
+        <polygon points="22,42 19,28 22,30 25,28" fill="rgba(139,94,42,0.7)" stroke="#D4A853" stroke-width="0.7"/>
+        <polygon points="2,22 16,19 14,22 16,25" fill="rgba(139,94,42,0.7)" stroke="#D4A853" stroke-width="0.7"/>
+        <polygon points="42,22 28,19 30,22 28,25" fill="rgba(139,94,42,0.7)" stroke="#D4A853" stroke-width="0.7"/>
+        <circle cx="22" cy="22" r="3.5" fill="none" stroke="#D4A853" stroke-width="1"/>
+        <text x="22" y="-3" text-anchor="middle" fill="#D4A853" font-size="10" font-family="serif" font-weight="bold">N</text>
+      </g>
+      <!-- Ankh left-middle -->
+      <g opacity="0.4" transform="translate(12,310)">
+        <circle cx="20" cy="16" r="13" fill="none" stroke="#C4812A" stroke-width="1.6"/>
+        <circle cx="20" cy="16" r="6" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <line x1="20" y1="29" x2="20" y2="64" stroke="#C4812A" stroke-width="1.6"/>
+        <line x1="6" y1="42" x2="34" y2="42" stroke="#C4812A" stroke-width="1.6"/>
+      </g>
+      <!-- Magnifying glass top-right -->
+      <g opacity="0.36" transform="translate(446,36)">
+        <circle cx="18" cy="18" r="16" fill="none" stroke="#D4A853" stroke-width="2"/>
+        <circle cx="13" cy="13" r="6" fill="rgba(212,168,83,0.05)"/>
+        <line x1="29" y1="29" x2="46" y2="46" stroke="#8B5E2A" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="29" y1="29" x2="46" y2="46" stroke="#D4A853" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+      <!-- Fossil skull bottom-right -->
+      <g opacity="0.4" transform="translate(392,500)">
+        <path d="M12,40 C4,40 0,32 0,24 C0,12 6,4 14,2 C22,0 36,0 44,5 C52,10 54,18 52,28 C50,36 44,40 38,42 L38,54 L14,54 L14,42 Z" fill="none" stroke="#C4812A" stroke-width="1.3"/>
+        <circle cx="14" cy="17" r="6" fill="none" stroke="#C4812A" stroke-width="1.1"/>
+        <circle cx="32" cy="14" r="7" fill="none" stroke="#C4812A" stroke-width="1.1"/>
+        <path d="M22,25 L26,32 L30,25" fill="none" stroke="#C4812A" stroke-width="0.9"/>
+        <line x1="16" y1="54" x2="16" y2="62" stroke="#C4812A" stroke-width="1.1"/>
+        <line x1="22" y1="54" x2="22" y2="66" stroke="#C4812A" stroke-width="1.1"/>
+        <line x1="28" y1="54" x2="28" y2="66" stroke="#C4812A" stroke-width="1.1"/>
+        <line x1="34" y1="54" x2="34" y2="62" stroke="#C4812A" stroke-width="1.1"/>
+      </g>
+    </svg>
+
+    <!-- Red strings layer (above cards) -->
+    <svg class="board-string-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M125,95 C200,140 295,125 378,95" stroke="rgba(210,40,40,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M118,100 C128,210 128,310 128,358" stroke="rgba(210,40,40,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M382,100 C372,210 372,310 372,358" stroke="rgba(210,40,40,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M138,362 C205,408 295,404 365,362" stroke="rgba(210,40,40,0.6)" stroke-width="1.5" fill="none"/>
+      <path d="M118,100 C240,210 340,300 382,358" stroke="rgba(210,40,40,0.28)" stroke-width="1.1" fill="none" stroke-dasharray="5,7"/>
+      <path d="M382,100 C260,200 165,290 128,358" stroke="rgba(210,40,40,0.22)" stroke-width="1" fill="none" stroke-dasharray="4,8"/>
+      <path d="M250,365 L250,460" stroke="rgba(210,40,40,0.55)" stroke-width="1.5" fill="none"/>
+      <circle cx="125" cy="93" r="5" fill="rgba(220,45,45,0.88)"/>
+      <circle cx="378" cy="93" r="5" fill="rgba(220,45,45,0.88)"/>
+      <circle cx="128" cy="360" r="5" fill="rgba(220,45,45,0.88)"/>
+      <circle cx="372" cy="360" r="5" fill="rgba(220,45,45,0.88)"/>
+      <circle cx="250" cy="462" r="5" fill="rgba(220,45,45,0.88)"/>
+    </svg>
+
     <div class="cards-container">
-
-    <!-- SVG red strings connecting cards -->
-    <svg class="board-string-svg" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <!-- String from card1 pin to card2 pin -->
-      <path d="M130,90 C200,130 280,115 370,90" stroke="rgba(200,40,40,0.65)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <!-- String from card1 to card3 -->
-      <path d="M120,95 C130,200 130,290 130,340" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-      <!-- String from card2 to card4 -->
-      <path d="M380,95 C370,200 370,290 370,340" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-      <!-- String from card3 to card5 (bottom) -->
-      <path d="M140,345 C200,390 280,385 360,345" stroke="rgba(200,40,40,0.55)" stroke-width="1.3" fill="none"/>
-      <!-- Diagonal cross string -->
-      <path d="M130,90 C240,200 330,280 370,340" stroke="rgba(200,40,40,0.3)" stroke-width="1" fill="none" stroke-dasharray="4,6"/>
-      <!-- String to bottom card -->
-      <path d="M250,345 L250,430" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none"/>
-      <!-- Pin dots at card tops -->
-      <circle cx="130" cy="88" r="4" fill="rgba(220,50,50,0.85)"/>
-      <circle cx="370" cy="88" r="4" fill="rgba(220,50,50,0.85)"/>
-      <circle cx="130" cy="342" r="4" fill="rgba(220,50,50,0.85)"/>
-      <circle cx="370" cy="342" r="4" fill="rgba(220,50,50,0.85)"/>
-      <circle cx="250" cy="432" r="4" fill="rgba(220,50,50,0.85)"/>
-    </svg>
-
-    <!-- Scattered silhouettes: pyramids, temples, artifacts, fossils -->
-    <svg class="board-silhouettes" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-
-      <!-- Great Pyramid (top-left, prominent) -->
-      <g opacity="0.38">
-        <polygon points="22,210 65,128 108,210" fill="rgba(139,94,42,0.25)" stroke="#C4812A" stroke-width="1.2"/>
-        <polygon points="35,210 65,140 95,210" fill="rgba(139,94,42,0.15)"/>
-        <!-- Pyramid lines suggesting blocks -->
-        <line x1="44" y1="188" x2="86" y2="188" stroke="#8B5E2A" stroke-width="0.6" opacity="0.6"/>
-        <line x1="37" y1="200" x2="93" y2="200" stroke="#8B5E2A" stroke-width="0.6" opacity="0.6"/>
-        <line x1="53" y1="166" x2="77" y2="166" stroke="#8B5E2A" stroke-width="0.6" opacity="0.5"/>
-      </g>
-      <!-- Small pyramid beside -->
-      <g opacity="0.3">
-        <polygon points="108,210 125,176 142,210" fill="rgba(139,94,42,0.2)" stroke="#C4812A" stroke-width="0.8"/>
-      </g>
-
-      <!-- Greek Temple with columns (right side) -->
-      <g opacity="0.38" transform="translate(392, 130)">
-        <!-- Pediment (triangle roof) -->
-        <polygon points="0,32 54,32 27,8" fill="rgba(196,129,42,0.2)" stroke="#C4812A" stroke-width="1"/>
-        <!-- Entablature (top beam) -->
-        <rect x="0" y="32" width="54" height="5" fill="rgba(196,129,42,0.3)" stroke="#C4812A" stroke-width="0.7"/>
-        <!-- Columns -->
-        <rect x="3"  y="37" width="6" height="26" fill="rgba(196,129,42,0.25)" stroke="#C4812A" stroke-width="0.7"/>
-        <rect x="14" y="37" width="6" height="26" fill="rgba(196,129,42,0.25)" stroke="#C4812A" stroke-width="0.7"/>
-        <rect x="25" y="37" width="6" height="26" fill="rgba(196,129,42,0.25)" stroke="#C4812A" stroke-width="0.7"/>
-        <rect x="36" y="37" width="6" height="26" fill="rgba(196,129,42,0.25)" stroke="#C4812A" stroke-width="0.7"/>
-        <rect x="47" y="37" width="5" height="26" fill="rgba(196,129,42,0.25)" stroke="#C4812A" stroke-width="0.7"/>
-        <!-- Base -->
-        <rect x="0" y="63" width="54" height="4" fill="rgba(196,129,42,0.3)" stroke="#C4812A" stroke-width="0.7"/>
-        <rect x="-4" y="67" width="62" height="4" fill="rgba(196,129,42,0.3)" stroke="#C4812A" stroke-width="0.7"/>
-      </g>
-
-      <!-- Trilobite fossil (bottom-left, bigger) -->
-      <g opacity="0.38" transform="translate(18, 410) scale(1.4)">
-        <ellipse cx="22" cy="20" rx="16" ry="22" fill="none" stroke="#C4812A" stroke-width="1.3"/>
-        <line x1="22" y1="0" x2="22" y2="40" stroke="#C4812A" stroke-width="0.9"/>
-        <path d="M6,11 C14,14 30,14 38,11" fill="none" stroke="#C4812A" stroke-width="0.8"/>
-        <path d="M4,20 C13,23 31,23 40,20" fill="none" stroke="#C4812A" stroke-width="0.8"/>
-        <path d="M6,29 C14,32 30,32 38,29" fill="none" stroke="#C4812A" stroke-width="0.8"/>
-        <path d="M14,2 C10,-5 7,-8 4,-11" fill="none" stroke="#C4812A" stroke-width="0.9"/>
-        <path d="M30,2 C34,-5 37,-8 40,-11" fill="none" stroke="#C4812A" stroke-width="0.9"/>
-        <!-- Head shield -->
-        <path d="M8,6 C14,2 30,2 36,6" fill="rgba(196,129,42,0.1)" stroke="#C4812A" stroke-width="0.7"/>
-      </g>
-
-      <!-- Ancient amphora / vase (right-middle) -->
-      <g opacity="0.38" transform="translate(398, 265)">
-        <path d="M12,0 L20,0 C26,0 34,8 36,18 C38,30 36,46 32,54 C28,60 24,64 16,64 C8,64 4,60 0,54 C-4,46 -6,30 -4,18 C-2,8 6,0 12,0Z" fill="none" stroke="#C4812A" stroke-width="1.2"/>
-        <!-- Neck -->
-        <rect x="10" y="-8" width="12" height="8" fill="none" stroke="#C4812A" stroke-width="1"/>
-        <!-- Lip -->
-        <ellipse cx="16" cy="-8" rx="10" ry="3" fill="none" stroke="#C4812A" stroke-width="1"/>
-        <!-- Handles -->
-        <path d="M-4,16 C-12,16 -12,30 -4,30" fill="none" stroke="#C4812A" stroke-width="1.1"/>
-        <path d="M36,16 C44,16 44,30 36,30" fill="none" stroke="#C4812A" stroke-width="1.1"/>
-        <!-- Decorative bands -->
-        <path d="M0,24 C8,27 24,27 32,24" fill="none" stroke="#C4812A" stroke-width="0.7"/>
-        <path d="M-2,38 C8,42 24,42 34,38" fill="none" stroke="#C4812A" stroke-width="0.7"/>
-      </g>
-
-      <!-- Compass rose (right side, clearer) -->
-      <g opacity="0.35" transform="translate(432, 320)">
-        <circle cx="22" cy="22" r="18" fill="none" stroke="#D4A853" stroke-width="1"/>
-        <circle cx="22" cy="22" r="12" fill="none" stroke="#D4A853" stroke-width="0.6"/>
-        <polygon points="22,4 19,16 22,14 25,16" fill="#D4A853"/>
-        <polygon points="22,40 19,28 22,30 25,28" fill="rgba(139,94,42,0.6)" stroke="#D4A853" stroke-width="0.6"/>
-        <polygon points="4,22 16,19 14,22 16,25" fill="rgba(139,94,42,0.6)" stroke="#D4A853" stroke-width="0.6"/>
-        <polygon points="40,22 28,19 30,22 28,25" fill="rgba(139,94,42,0.6)" stroke="#D4A853" stroke-width="0.6"/>
-        <circle cx="22" cy="22" r="3" fill="none" stroke="#D4A853" stroke-width="1"/>
-        <text x="22" y="-1" text-anchor="middle" fill="#D4A853" font-size="9" font-family="'IM Fell English',serif" font-weight="bold">N</text>
-      </g>
-
-      <!-- Ankh (left-middle, bolder) -->
-      <g opacity="0.36" transform="translate(14, 295)">
-        <circle cx="18" cy="14" r="11" fill="none" stroke="#C4812A" stroke-width="1.5"/>
-        <line x1="18" y1="25" x2="18" y2="56" stroke="#C4812A" stroke-width="1.5"/>
-        <line x1="6" y1="36" x2="30" y2="36" stroke="#C4812A" stroke-width="1.5"/>
-        <!-- Inner circle detail -->
-        <circle cx="18" cy="14" r="5" fill="none" stroke="#C4812A" stroke-width="0.7"/>
-      </g>
-
-      <!-- Magnifying glass (top-right corner) -->
-      <g opacity="0.32" transform="translate(444, 42)">
-        <circle cx="18" cy="18" r="15" fill="none" stroke="#D4A853" stroke-width="1.8"/>
-        <circle cx="13" cy="13" r="5" fill="rgba(212,168,83,0.06)"/>
-        <line x1="28" y1="28" x2="42" y2="42" stroke="#8B5E2A" stroke-width="4" stroke-linecap="round"/>
-        <line x1="28" y1="28" x2="42" y2="42" stroke="#D4A853" stroke-width="2" stroke-linecap="round"/>
-      </g>
-
-      <!-- Dinosaur / fossil skull (bottom-right) -->
-      <g opacity="0.36" transform="translate(396, 442)">
-        <path d="M10,36 C4,36 0,30 0,22 C0,12 5,4 13,2 C20,0 32,0 40,4 C47,8 50,16 48,24 C46,32 40,36 34,38 L34,48 L14,48 L14,38 Z" fill="none" stroke="#C4812A" stroke-width="1.2"/>
-        <!-- Eye sockets -->
-        <circle cx="14" cy="15" r="5" fill="none" stroke="#C4812A" stroke-width="1"/>
-        <circle cx="30" cy="13" r="6" fill="none" stroke="#C4812A" stroke-width="1"/>
-        <!-- Nasal -->
-        <path d="M20,22 L24,28 L28,22" fill="none" stroke="#C4812A" stroke-width="0.8"/>
-        <!-- Teeth -->
-        <path d="M14,48 L14,54 M19,48 L19,56 M24,48 L24,56 M29,48 L29,54 M34,48 L34,52" stroke="#C4812A" stroke-width="1"/>
-        <!-- Jaw -->
-        <path d="M10,36 C14,42 34,42 38,36" fill="none" stroke="#C4812A" stroke-width="0.8"/>
-      </g>
-
-    </svg>
-
       <div class="card">
         <div class="card-classified">Verified</div>
         <div class="card-tag">Verified · Current</div>
@@ -817,6 +786,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     </div>
   </div>
 </section>
+
 
 <!-- ABOUT -->
 <section id="about" class="section">
@@ -1487,12 +1457,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     </div>
   </div>
 </section>
-
-
 <script>
-// =====================================================
 // LOADING SCREEN
-// =====================================================
 const loader = document.getElementById('loader');
 const loaderBar = document.getElementById('loaderBar');
 const loaderStatus = document.getElementById('loaderStatus');
@@ -1508,11 +1474,7 @@ const steps = [
 ];
 let stepIdx = 0;
 function runLoader() {
-  if (stepIdx >= steps.length) {
-    loaderStamp.classList.add('show');
-    setTimeout(() => { loader.classList.add('done'); }, 900);
-    return;
-  }
+  if (stepIdx >= steps.length) { loaderStamp.classList.add('show'); setTimeout(() => loader.classList.add('done'), 900); return; }
   const s = steps[stepIdx++];
   loaderBar.style.width = s.pct + '%';
   loaderStatus.textContent = s.msg;
@@ -1520,15 +1482,10 @@ function runLoader() {
 }
 setTimeout(runLoader, 1200);
 
-// =====================================================
-// TYPEWRITER EFFECT
-// =====================================================
+// TYPEWRITER
 function typeWriter(el, text, speed, onDone) {
   let i = 0; el.textContent = '';
-  function tick() {
-    if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, speed); }
-    else if (onDone) onDone();
-  }
+  function tick() { if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, speed); } else if (onDone) onDone(); }
   tick();
 }
 const twFirst = document.getElementById('tw-first');
@@ -1542,41 +1499,27 @@ setTimeout(() => {
   });
 }, 2800);
 
-// =====================================================
 // CURSOR
-// =====================================================
 const magCursor = document.getElementById('mag-cursor');
 const magLens = document.getElementById('mag-lens');
 let mx = 0, my = 0, lx = 0, ly = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  magCursor.style.left = mx + 'px';
-  magCursor.style.top = my + 'px';
-});
-function animateLens() {
-  lx += (mx - lx) * 0.1; ly += (my - ly) * 0.1;
-  magLens.style.left = lx + 'px'; magLens.style.top = ly + 'px';
-  requestAnimationFrame(animateLens);
-}
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; magCursor.style.left = mx+'px'; magCursor.style.top = my+'px'; });
+function animateLens() { lx += (mx-lx)*0.1; ly += (my-ly)*0.1; magLens.style.left = lx+'px'; magLens.style.top = ly+'px'; requestAnimationFrame(animateLens); }
 animateLens();
 document.querySelectorAll('a, button, .stack-item, .project-row, .card, .chip, .map-marker').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
 
-// =====================================================
 // SCROLL REVEAL
-// =====================================================
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
-      const children = e.target.querySelectorAll('.stack-item, .project-row, .skill-group, .resume-entry, .resume-edu');
-      children.forEach((child, i) => {
-        child.style.opacity = '0';
-        child.style.transform = 'translateY(16px)';
-        child.style.transition = 'opacity 0.5s ' + (i*0.07) + 's, transform 0.5s ' + (i*0.07) + 's';
-        setTimeout(() => { child.style.opacity = '1'; child.style.transform = 'translateY(0)'; }, i * 70 + 100);
+      e.target.querySelectorAll('.stack-item, .project-row, .skill-group, .resume-entry, .resume-edu').forEach((child, i) => {
+        child.style.opacity = '0'; child.style.transform = 'translateY(16px)';
+        child.style.transition = 'opacity 0.5s '+(i*0.07)+'s, transform 0.5s '+(i*0.07)+'s';
+        setTimeout(() => { child.style.opacity = '1'; child.style.transform = 'translateY(0)'; }, i*70+100);
       });
       if (e.target.id === 'projects') { triggerInkDraw(); maybeDrawStrings(); }
     }
@@ -1584,14 +1527,12 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.06 });
 document.querySelectorAll('.section').forEach(s => observer.observe(s));
 
-// =====================================================
 // MAP POPUP
-// =====================================================
 const projects = [
-  { tag: 'ACTIVE · FRAUD', title: 'Fraud Intelligence @ Meta', sub: 'Built a fraud trend dashboard identifying patterns in Ads & Payments. MO Labeling within Risk Ops, enabling proactive threat detection from Aug 2025 to present.', chips: ['SQL','Dashboard','Risk Ops','Trust & Safety'] },
-  { tag: 'COMPLETE · BI', title: 'Samba Sips BI System', sub: '+140% reel engagement, +22% sales lift via A/B testing. KPI dashboards built from zero in Power BI and Excel. Jun 2024 to Aug 2025.', chips: ['Power BI','Python','A/B Testing','SQL'] },
-  { tag: 'PERSONAL · NLP', title: 'Incredibles 2 Sentiment Analysis', sub: 'Custom 13-category emotion lexicon. Act-by-act breakdown and scene-level arc visualization using Python and matplotlib.', chips: ['Python','NLP','matplotlib','Lexicon Engineering'] },
-  { tag: 'ACADEMIC · RESEARCH', title: 'AI Sepsis Detection', sub: 'AI-based early warning system proposal using symptom clustering and EHR data. Bilingual thesis awarded top honors.', chips: ['NLP','Research','EHR','Healthcare'] }
+  { tag: 'ACTIVE · FRAUD', title: 'Fraud Intelligence @ Meta', sub: 'Fraud trend dashboard for Ads & Payments. MO Labeling within Risk Ops, Aug 2025–present.', chips: ['SQL','Dashboard','Risk Ops','Trust & Safety'] },
+  { tag: 'COMPLETE · BI', title: 'Samba Sips BI System', sub: '+140% reel engagement, +22% sales lift via A/B testing. Power BI & Excel dashboards built from zero.', chips: ['Power BI','Python','A/B Testing','SQL'] },
+  { tag: 'PERSONAL · NLP', title: 'Incredibles 2 Sentiment Analysis', sub: 'Custom 13-category emotion lexicon. Act-by-act and scene-level arc visualization.', chips: ['Python','NLP','matplotlib','Lexicon Engineering'] },
+  { tag: 'ACADEMIC · RESEARCH', title: 'AI Sepsis Detection', sub: 'AI-based early warning system proposal using symptom clustering and EHR data. Top honors.', chips: ['NLP','Research','EHR','Healthcare'] }
 ];
 const popup = document.getElementById('mapPopup');
 const popupTag = document.getElementById('popupTag');
@@ -1599,114 +1540,59 @@ const popupTitle = document.getElementById('popupTitle');
 const popupSub = document.getElementById('popupSub');
 const popupChips = document.getElementById('popupChips');
 const mapContainer = document.getElementById('mapContainer');
-
 document.querySelectorAll('.map-marker').forEach(marker => {
   marker.addEventListener('click', e => {
     e.stopPropagation();
-    const idx = parseInt(marker.dataset.project);
-    const p = projects[idx];
-    popupTag.textContent = p.tag;
-    popupTitle.textContent = p.title;
-    popupSub.textContent = p.sub;
+    const p = projects[parseInt(marker.dataset.project)];
+    popupTag.textContent = p.tag; popupTitle.textContent = p.title; popupSub.textContent = p.sub;
     popupChips.innerHTML = p.chips.map(c => '<span class="popup-chip">'+c+'</span>').join('');
-    const rect = mapContainer.getBoundingClientRect();
-    const mRect = marker.getBoundingClientRect();
-    let left = mRect.left - rect.left + 24;
-    let top = mRect.top - rect.top - 20;
+    const rect = mapContainer.getBoundingClientRect(), mRect = marker.getBoundingClientRect();
+    let left = mRect.left - rect.left + 24, top = mRect.top - rect.top - 20;
     if (left + 340 > rect.width) left = mRect.left - rect.left - 360;
     if (top + 180 > rect.height) top = mRect.top - rect.top - 200;
     if (top < 0) top = 16;
-    popup.style.left = left + 'px';
-    popup.style.top = top + 'px';
-    popup.classList.add('active');
+    popup.style.left = left+'px'; popup.style.top = top+'px'; popup.classList.add('active');
   });
 });
 if (mapContainer) mapContainer.addEventListener('click', () => popup.classList.remove('active'));
 
-// =====================================================
-// RED STRING CONNECTING MAP PINS
-// =====================================================
+// RED STRINGS ON MAP
 let stringsDrawn = false;
 function drawRedStrings() {
   if (stringsDrawn || !mapContainer) return;
-  const canvas = document.getElementById('string-canvas');
-  if (!canvas) return;
-  canvas.width = mapContainer.offsetWidth;
-  canvas.height = mapContainer.offsetHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const mapRect = mapContainer.getBoundingClientRect();
-  const markers = document.querySelectorAll('.map-marker');
-  const pins = Array.from(markers).map(m => {
+  const canvas = document.getElementById('string-canvas'); if (!canvas) return;
+  canvas.width = mapContainer.offsetWidth; canvas.height = mapContainer.offsetHeight;
+  const ctx = canvas.getContext('2d'), mapRect = mapContainer.getBoundingClientRect();
+  const pins = Array.from(document.querySelectorAll('.map-marker')).map(m => {
     const mr = m.getBoundingClientRect();
-    return { x: mr.left - mapRect.left + mr.width / 2, y: mr.top - mapRect.top + mr.height * 0.85 };
+    return { x: mr.left - mapRect.left + mr.width/2, y: mr.top - mapRect.top + mr.height*0.85 };
   });
   if (pins.length < 2) return;
-  function drawString(a, b, alpha, width) {
-    const cpX = (a.x + b.x) / 2 + (Math.random()-0.5)*30;
-    const cpY = (a.y + b.y) / 2 + 16 + Math.random()*18;
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.quadraticCurveTo(cpX, cpY, b.x, b.y);
-    ctx.strokeStyle = 'rgba(210,40,40,' + alpha + ')';
-    ctx.lineWidth = width;
-    ctx.shadowColor = 'rgba(200,40,40,0.35)';
-    ctx.shadowBlur = 5;
-    ctx.setLineDash([]);
-    ctx.stroke();
+  function ds(a,b,alpha,w) {
+    ctx.beginPath(); ctx.moveTo(a.x,a.y);
+    ctx.quadraticCurveTo((a.x+b.x)/2+(Math.random()-.5)*30,(a.y+b.y)/2+16+Math.random()*18,b.x,b.y);
+    ctx.strokeStyle='rgba(210,40,40,'+alpha+')'; ctx.lineWidth=w; ctx.shadowColor='rgba(200,40,40,0.3)'; ctx.shadowBlur=4; ctx.stroke();
   }
-  for (let i = 0; i < pins.length; i++) drawString(pins[i], pins[(i+1) % pins.length], 0.7, 1.5);
-  drawString(pins[0], pins[2], 0.35, 1);
-  drawString(pins[1], pins[3], 0.35, 1);
-  pins.forEach(p => {
-    ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(220,50,50,0.85)'; ctx.shadowBlur = 8; ctx.shadowColor = 'rgba(220,50,50,0.5)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,180,180,0.9)'; ctx.fill();
-  });
-  stringsDrawn = true;
-  canvas.classList.add('visible');
+  for(let i=0;i<pins.length;i++) ds(pins[i],pins[(i+1)%pins.length],0.7,1.5);
+  ds(pins[0],pins[2],0.35,1); ds(pins[1],pins[3],0.35,1);
+  pins.forEach(p => { ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fillStyle='rgba(220,50,50,0.85)'; ctx.fill(); });
+  stringsDrawn = true; canvas.classList.add('visible');
 }
-function maybeDrawStrings() {
-  if (stringsDrawn || !mapContainer) return;
-  const rect = mapContainer.getBoundingClientRect();
-  if (rect.top < window.innerHeight * 0.9) setTimeout(drawRedStrings, 700);
-}
-window.addEventListener('scroll', maybeDrawStrings, { passive: true });
-window.addEventListener('resize', () => { stringsDrawn = false; drawRedStrings(); });
+function maybeDrawStrings() { if(!stringsDrawn&&mapContainer){const r=mapContainer.getBoundingClientRect();if(r.top<window.innerHeight*.9)setTimeout(drawRedStrings,700);} }
+window.addEventListener('scroll', maybeDrawStrings, {passive:true});
+window.addEventListener('resize', () => { stringsDrawn=false; drawRedStrings(); });
 setTimeout(maybeDrawStrings, 500);
 
-// =====================================================
-// INK DRAW ANIMATION ON MAP
-// =====================================================
+// INK DRAW
 let inkTriggered = false;
 function triggerInkDraw() {
-  if (inkTriggered) return;
-  inkTriggered = true;
-  const mapSvg = document.querySelector('.map-svg-layer');
-  if (!mapSvg) return;
-  const drawables = Array.from(mapSvg.querySelectorAll('path, polygon, line, ellipse')).filter(el => {
-    const s = el.getAttribute('stroke');
-    return s && s !== 'none' && !s.includes('url(');
-  });
-  drawables.forEach((el, i) => {
-    try {
-      if (typeof el.getTotalLength === 'function') {
-        const len = Math.ceil(el.getTotalLength()) + 10;
-        el.style.strokeDasharray = len;
-        el.style.strokeDashoffset = len;
-        const delay = 0.05 + i * 0.035;
-        const dur = 0.6 + Math.random() * 1.2;
-        el.style.transition = 'stroke-dashoffset ' + dur + 's ease ' + delay + 's';
-        setTimeout(() => { el.style.strokeDashoffset = '0'; }, 60 + i * 30);
-      }
-    } catch(err) {}
-  });
+  if (inkTriggered) return; inkTriggered = true;
+  const mapSvg = document.querySelector('.map-svg-layer'); if (!mapSvg) return;
+  Array.from(mapSvg.querySelectorAll('path,polygon,line,ellipse')).filter(el => { const s=el.getAttribute('stroke'); return s&&s!=='none'&&!s.includes('url('); })
+  .forEach((el,i) => { try { if(typeof el.getTotalLength==='function') { const len=Math.ceil(el.getTotalLength())+10; el.style.strokeDasharray=len; el.style.strokeDashoffset=len; el.style.transition='stroke-dashoffset '+(0.6+Math.random()*1.2)+'s ease '+(0.05+i*0.035)+'s'; setTimeout(()=>{el.style.strokeDashoffset='0';},60+i*30); } } catch(e){} });
 }
 
-// =====================================================
-// TRANSMISSION FOOTER QUOTES
-// =====================================================
+// TRANSMISSION QUOTES
 const transmissions = [
   { q: "Every dataset is a crime scene. The clues are always there — you just have to know where to dig.", src: "Field Manual · Section 4" },
   { q: "The most dangerous analyst is the one who asks why, not just what.", src: "Operative Debrief · Case 17" },
@@ -1716,80 +1602,47 @@ const transmissions = [
   { q: "Trust the data. Question the methodology. Verify everything else.", src: "Standard Protocol · Clearance 4" },
   { q: "The best discoveries are buried beneath what everyone else overlooked.", src: "Research Vale · Field Dispatch" },
 ];
-const pick = transmissions[Math.floor(Math.random() * transmissions.length)];
-const qEl = document.getElementById('transmissionQuote');
-const sEl = document.getElementById('transmissionSource');
-if (qEl) qEl.textContent = pick.q;
-if (sEl) sEl.textContent = pick.src;
+const pick = transmissions[Math.floor(Math.random()*transmissions.length)];
+const qEl = document.getElementById('transmissionQuote'), sEl = document.getElementById('transmissionSource');
+if (qEl) qEl.textContent = pick.q; if (sEl) sEl.textContent = pick.src;
 
-// =====================================================
-// CASE FILE COUNTER ANIMATION
-// =====================================================
+// CASE COUNTER
 const caseObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const rows = e.target.querySelectorAll('.project-row');
-      rows.forEach((row, i) => {
-        setTimeout(() => {
-          row.classList.add('counted');
-          const badge = row.querySelector('.case-badge');
-          if (!badge) return;
-          const finalText = badge.textContent;
-          const num = finalText.replace('CASE #','');
-          let count = 0;
-          const target = parseInt(num);
-          badge.textContent = 'CASE #0000';
-          const ticker = setInterval(() => {
-            count += Math.ceil(target / 12);
-            if (count >= target) { count = target; clearInterval(ticker); }
-            badge.textContent = 'CASE #' + String(count).padStart(4,'0');
-          }, 40);
-        }, i * 180 + 200);
-      });
-      caseObserver.unobserve(e.target);
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) {
+    e.target.querySelectorAll('.project-row').forEach((row,i) => {
+      setTimeout(() => {
+        row.classList.add('counted');
+        const badge = row.querySelector('.case-badge'); if (!badge) return;
+        const target = parseInt(badge.textContent.replace('CASE #',''));
+        let count = 0; badge.textContent = 'CASE #0000';
+        const t = setInterval(() => { count += Math.ceil(target/12); if(count>=target){count=target;clearInterval(t);} badge.textContent='CASE #'+String(count).padStart(4,'0'); }, 40);
+      }, i*180+200);
+    });
+    caseObserver.unobserve(e.target);
+  }});
 }, { threshold: 0.2 });
 const projList = document.querySelector('.projects-list');
 if (projList) caseObserver.observe(projList);
 
-// =====================================================
 // FINGERPRINT REVEAL
-// =====================================================
 const fpWrap = document.getElementById('fingerprintWrap');
-const aboutSection = document.getElementById('about');
-if (fpWrap && aboutSection) {
-  aboutSection.addEventListener('mousemove', e => {
-    const rect = aboutSection.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const fpCX = aboutSection.offsetWidth - 40;
-    const fpCY = aboutSection.offsetHeight - 60;
-    const dist = Math.sqrt(Math.pow(x - fpCX, 2) + Math.pow(y - fpCY, 2));
-    const reveal = Math.max(0, 1 - dist / 260);
-    fpWrap.style.opacity = (reveal * 0.6).toFixed(3);
-  });
-  aboutSection.addEventListener('mouseleave', () => { fpWrap.style.opacity = '0'; });
+const aboutSec = document.getElementById('about');
+if (fpWrap && aboutSec) {
+  aboutSec.addEventListener('mousemove', e => { const r=aboutSec.getBoundingClientRect(); const dist=Math.sqrt(Math.pow(e.clientX-r.left-aboutSec.offsetWidth+40,2)+Math.pow(e.clientY-r.top-aboutSec.offsetHeight+60,2)); fpWrap.style.opacity=(Math.max(0,1-dist/260)*0.6).toFixed(3); });
+  aboutSec.addEventListener('mouseleave', () => fpWrap.style.opacity='0');
 }
 
-// =====================================================
-// PARALLAX ON EVIDENCE BOARD CARDS
-// =====================================================
-const heroSection = document.getElementById('hero');
+// PARALLAX CARDS
+const heroSec = document.getElementById('hero');
 const boardCards = document.querySelectorAll('.card');
 window.addEventListener('scroll', () => {
-  if (!heroSection) return;
-  const scrollY = window.scrollY;
-  const heroH = heroSection.offsetHeight;
-  if (scrollY > heroH) return;
-  const prog = scrollY / heroH;
-  boardCards.forEach((card, i) => {
-    const depth = [0.8, 1.4, 1.0, 1.6, 0.6][i % 5];
-    const ty = prog * depth * 55;
-    const rotVal = card.style.getPropertyValue('--rot') || '0deg';
-    card.style.transform = 'rotate(' + rotVal + ') translateY(' + ty + 'px)';
+  if (!heroSec) return;
+  const prog = Math.min(window.scrollY / heroSec.offsetHeight, 1);
+  boardCards.forEach((card,i) => {
+    const depth = [0.8,1.4,1.0,1.6,0.6][i%5];
+    card.style.transform = 'rotate(var(--rot,0deg)) translateY('+(prog*depth*55)+'px)';
   });
-}, { passive: true });
+}, {passive:true});
 </script>
 </body>
 </html>
