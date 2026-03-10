@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mariana Nannetti — Data Analyst</title>
+<title>Mariana Nannetti · Data Analyst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0804;
@@ -17,6 +17,8 @@
   --muted: #6B5A42;
   --text: #D4C4A8;
   --dim: #7A6A52;
+  --parchment: #C8A96E;
+  --parchment-dark: #8B6914;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -28,35 +30,27 @@ body {
   overflow-x: hidden;
 }
 
-/* ── MAGNIFYING GLASS CURSOR ── */
+/* CURSOR */
 #mag-cursor {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
+  position: fixed; pointer-events: none; z-index: 9999;
   transform: translate(-30%, -30%);
-  transition: transform 0.05s;
   width: 48px; height: 48px;
 }
 #mag-cursor svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(212,168,83,0.6)); }
 #mag-lens {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  width: 80px; height: 80px;
-  border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9998;
+  width: 80px; height: 80px; border-radius: 50%;
   border: 1px solid rgba(212,168,83,0.2);
   transform: translate(-50%, -50%);
-  transition: left 0.12s ease-out, top 0.12s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
   backdrop-filter: brightness(1.15) contrast(1.05);
   background: radial-gradient(circle at 40% 35%, rgba(212,168,83,0.04), transparent 60%);
 }
 body.hovering #mag-cursor svg { filter: drop-shadow(0 0 10px rgba(212,168,83,1)); }
 body.hovering #mag-lens { width: 110px; height: 110px; border-color: rgba(212,168,83,0.5); }
 
-/* ── NAV ── */
+/* NAV */
 nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 100;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 48px;
   background: linear-gradient(to bottom, rgba(10,8,4,0.97), transparent);
@@ -65,119 +59,50 @@ nav {
 .nav-logo-wrap { display: flex; align-items: center; gap: 12px; }
 .nav-logo-icon { width: 40px; height: 40px; flex-shrink: 0; }
 .nav-logo-text { display: flex; flex-direction: column; }
-.nav-logo-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; letter-spacing: 3px; color: var(--gold); line-height: 1;
-}
+.nav-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: var(--gold); line-height: 1; }
 .nav-logo-sub { font-size: 9px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 .nav-links { display: flex; gap: 40px; }
-.nav-links a {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--dim); text-decoration: none; transition: color 0.3s;
-}
+.nav-links a { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
 .nav-links a:hover { color: var(--gold); }
 .nav-right { font-size: 11px; letter-spacing: 1px; color: var(--muted); }
 
-/* ── SOCIAL SIDEBAR ── */
+/* SOCIAL */
 .social-bar {
   position: fixed; left: 28px; bottom: 40px;
-  display: flex; flex-direction: column; align-items: center; gap: 20px;
-  z-index: 100;
+  display: flex; flex-direction: column; align-items: center; gap: 20px; z-index: 100;
 }
 .social-bar::before { content: ''; width: 1px; height: 60px; background: var(--muted); display: block; margin-bottom: 4px; }
 .social-bar a { color: var(--muted); text-decoration: none; display: flex; align-items: center; justify-content: center; transition: color 0.3s, transform 0.3s; }
 .social-bar a:hover { color: var(--gold); transform: translateX(4px); }
 
-/* ── HERO ── */
-#hero {
-  min-height: 100vh;
-  display: grid; grid-template-columns: 1fr 1fr;
-  position: relative; overflow: hidden;
-}
-.hero-left {
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 120px 64px 80px 96px;
-  position: relative; z-index: 2;
-}
-.hero-eyebrow {
-  display: flex; align-items: center; gap: 12px;
-  font-size: 10px; letter-spacing: 4px; color: var(--amber);
-  text-transform: uppercase; margin-bottom: 32px;
-}
+/* HERO */
+#hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 120px 64px 80px 96px; position: relative; z-index: 2; }
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; }
 .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
-.hero-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(64px, 7vw, 96px); font-weight: 900;
-  line-height: 0.95; color: var(--cream); margin-bottom: 24px; letter-spacing: -1px;
-}
+.hero-name { font-family: 'Playfair Display', serif; font-size: clamp(64px, 7vw, 96px); font-weight: 900; line-height: 0.95; color: var(--cream); margin-bottom: 24px; letter-spacing: -1px; }
 .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 6px; color: var(--amber); margin-bottom: 32px; }
-.hero-quote {
-  font-family: 'Playfair Display', serif; font-style: italic;
-  font-size: 16px; line-height: 1.7; color: var(--dim); max-width: 400px;
-  border-left: 2px solid var(--brown); padding-left: 20px; margin-bottom: 48px;
-}
+.hero-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; line-height: 1.7; color: var(--dim); max-width: 400px; border-left: 2px solid var(--brown); padding-left: 20px; margin-bottom: 48px; }
 .hero-quote strong { color: var(--text); font-style: normal; }
 .hero-status { font-size: 10px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; }
 .hero-status::before { content: '●'; margin-right: 8px; animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .hero-btns { display: flex; gap: 16px; }
-.btn-primary {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  background: var(--brown); color: var(--cream);
-  padding: 14px 28px; border: none;
-  transition: background 0.3s; text-decoration: none; display: inline-block;
-}
+.btn-primary { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; background: var(--brown); color: var(--cream); padding: 14px 28px; border: none; transition: background 0.3s; text-decoration: none; display: inline-block; }
 .btn-primary:hover { background: var(--amber); }
-.btn-ghost {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  background: transparent; color: var(--dim);
-  padding: 14px 28px; border: 1px solid var(--muted);
-  transition: color 0.3s, border-color 0.3s; text-decoration: none; display: inline-block;
-}
+.btn-ghost { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; background: transparent; color: var(--dim); padding: 14px 28px; border: 1px solid var(--muted); transition: color 0.3s, border-color 0.3s; text-decoration: none; display: inline-block; }
 .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
-.scroll-hint {
-  margin-top: 48px; font-size: 9px; letter-spacing: 4px; color: var(--muted);
-  text-transform: uppercase; display: flex; align-items: center; gap: 12px;
-  animation: fadeUpIn 1s 1.5s both;
-}
+.scroll-hint { margin-top: 48px; font-size: 9px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; display: flex; align-items: center; gap: 12px; animation: fadeUpIn 1s 1.5s both; }
 .scroll-hint::after { content: ''; width: 40px; height: 1px; background: var(--muted); }
 
 /* EVIDENCE BOARD */
-.hero-right {
-  position: relative; overflow: hidden;
-  background: #0d0a05; border-left: 1px solid rgba(139,94,42,0.15);
-}
-.evidence-board-label {
-  position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
-  font-size: 10px; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; white-space: nowrap;
-}
-.board-grid {
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(circle at 50% 50%, rgba(139,94,42,0.06) 0%, transparent 70%),
-    linear-gradient(rgba(139,94,42,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139,94,42,0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
-}
-.cards-container {
-  position: absolute; inset: 0;
-  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr);
-  gap: 16px; padding: 130px 40px 60px;
-}
-.card {
-  background: #F5F0E8; padding: 18px 20px; position: relative;
-  transform: rotate(var(--rot, 0deg));
-  box-shadow: 4px 6px 20px rgba(0,0,0,0.5);
-  transition: transform 0.3s, box-shadow 0.3s; overflow: hidden;
-  opacity: 0; animation: cardIn 0.6s forwards;
-}
+.hero-right { position: relative; overflow: hidden; background: #0d0a05; border-left: 1px solid rgba(139,94,42,0.15); }
+.evidence-board-label { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+.board-grid { position: absolute; inset: 0; background-image: radial-gradient(circle at 50% 50%, rgba(139,94,42,0.06) 0%, transparent 70%), linear-gradient(rgba(139,94,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(139,94,42,0.04) 1px, transparent 1px); background-size: 100% 100%, 40px 40px, 40px 40px; }
+.cards-container { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 16px; padding: 130px 40px 60px; }
+.card { background: #F5F0E8; padding: 18px 20px; position: relative; transform: rotate(var(--rot, 0deg)); box-shadow: 4px 6px 20px rgba(0,0,0,0.5); transition: transform 0.3s, box-shadow 0.3s; overflow: hidden; opacity: 0; animation: cardIn 0.6s forwards; }
 .card:hover { transform: rotate(0deg) scale(1.02); box-shadow: 6px 10px 30px rgba(0,0,0,0.7); z-index: 10; }
-.card::before {
-  content: ''; width: 14px; height: 14px;
-  background: radial-gradient(circle, #D4A853 40%, #8B6914 100%);
-  border-radius: 50%; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-}
+.card::before { content: ''; width: 14px; height: 14px; background: radial-gradient(circle, #D4A853 40%, #8B6914 100%); border-radius: 50%; position: absolute; top: -7px; left: 50%; transform: translateX(-50%); box-shadow: 0 2px 4px rgba(0,0,0,0.4); }
 .card-tag { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--brown); border: 1px solid var(--brown); padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
 .card h3 { font-size: 13px; font-weight: 700; color: #1a1208; margin-bottom: 6px; }
 .card p { font-size: 11px; color: #4a3a28; line-height: 1.5; margin-bottom: 10px; }
@@ -194,7 +119,7 @@ nav {
 .card:nth-child(5) { --rot: 0deg; animation-delay: 1.3s; }
 @keyframes cardIn { from{opacity:0;transform:rotate(var(--rot,0)) translateY(20px)} to{opacity:1;transform:rotate(var(--rot,0)) translateY(0)} }
 
-/* ── SECTIONS ── */
+/* SECTIONS */
 .section { padding: 120px 96px; position: relative; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .section.visible { opacity: 1; transform: translateY(0); }
 .section-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
@@ -203,7 +128,7 @@ nav {
 .section-title em { color: var(--amber); font-style: italic; }
 .section-divider { width: 100%; height: 1px; background: linear-gradient(to right, var(--brown), transparent); margin-bottom: 60px; }
 
-/* ── ABOUT ── */
+/* ABOUT */
 #about { background: var(--bg2); }
 .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start; }
 .about-text p { font-size: 16px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
@@ -217,13 +142,13 @@ nav {
 .chip { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--muted); color: var(--dim); padding: 6px 12px; transition: border-color 0.3s, color 0.3s; }
 .chip:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ── TIMELINE ── */
+/* TIMELINE */
 #timeline { background: var(--bg); }
 .timeline-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; position: relative; }
 .timeline-line { display: flex; flex-direction: column; align-items: center; position: relative; padding-top: 8px; }
 .timeline-line::before { content: ''; width: 1px; background: linear-gradient(to bottom, var(--brown), transparent); position: absolute; top: 0; bottom: 0; left: 50%; }
-.tl-dot { width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--amber); border-radius: 50%; position: relative; z-index: 1; flex-shrink: 0; margin-bottom: auto; box-shadow: 0 0 12px rgba(196,129,42,0.4); }
-.tl-year { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--cream); text-align: center; position: relative; z-index: 1; margin-top: 0; }
+.tl-dot { width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--amber); border-radius: 50%; position: relative; z-index: 1; flex-shrink: 0; box-shadow: 0 0 12px rgba(196,129,42,0.4); }
+.tl-year { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--cream); text-align: center; position: relative; z-index: 1; }
 .tl-item { padding: 0 0 80px 0; }
 .tl-item.right { padding-left: 32px; }
 .tl-item.left { padding-right: 32px; text-align: right; }
@@ -232,76 +157,137 @@ nav {
 .tl-company { font-size: 11px; letter-spacing: 2px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
 .tl-desc { font-size: 13px; color: var(--dim); line-height: 1.7; }
 
-/* ── TECH STACK ── */
+/* STACK */
 #stack { background: var(--bg2); }
 .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
 .stack-item { background: rgba(139,94,42,0.06); border: 1px solid rgba(139,94,42,0.2); padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.2s; position: relative; overflow: hidden; }
 .stack-item:hover { background: rgba(139,94,42,0.15); border-color: var(--amber); transform: translateY(-4px); }
-.stack-item:hover::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
+.stack-item:hover::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
 .stack-icon { font-size: 26px; }
 .stack-name { font-size: 9px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
 .stack-section-title { font-size: 10px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; margin-top: 32px; }
 
-/* ── PROJECTS MAP ── */
+/* ======= INDIANA JONES MAP ======= */
 #projects { background: var(--bg); }
-.map-container {
-  width: 100%; height: 520px;
-  position: relative; margin-bottom: 60px;
-  border: 1px solid rgba(139,94,42,0.25);
-  overflow: hidden;
-  background: #0e0b06;
+
+.map-wrapper {
+  width: 100%; margin-bottom: 60px; position: relative;
+  border: 2px solid var(--parchment-dark);
+  box-shadow: 0 0 0 1px #3a2208, 0 8px 40px rgba(0,0,0,0.8), inset 0 0 80px rgba(0,0,0,0.4);
 }
-.map-hint {
-  position: absolute; bottom: 16px; right: 20px;
-  font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase;
-  z-index: 10;
+.map-wrapper::before {
+  content: '';
+  position: absolute; inset: 4px; border: 1px solid rgba(200,169,110,0.2);
+  pointer-events: none; z-index: 6;
 }
-/* map marker */
+.map-inner {
+  position: relative; width: 100%; height: 560px; overflow: hidden;
+  background: #1a1005;
+}
+
+/* Parchment base layer */
+.map-parchment {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(139,94,42,0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 80%, rgba(100,65,20,0.1) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(160,110,40,0.08) 0%, transparent 70%),
+    linear-gradient(135deg, #140f06 0%, #1c1408 30%, #18120a 60%, #120d06 100%);
+}
+
+/* Aged paper texture via noise */
+.map-texture {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.6; pointer-events: none;
+}
+
+/* Torn edge effect */
+.map-inner::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(10,8,4,0.7) 0%, transparent 25%),
+    radial-gradient(ellipse at 100% 0%, rgba(10,8,4,0.7) 0%, transparent 25%),
+    radial-gradient(ellipse at 0% 100%, rgba(10,8,4,0.7) 0%, transparent 25%),
+    radial-gradient(ellipse at 100% 100%, rgba(10,8,4,0.7) 0%, transparent 25%);
+}
+
+/* Map SVG content */
+.map-svg-layer { position: absolute; inset: 0; }
+
+/* Marker pins */
 .map-marker {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  cursor: none; z-index: 5;
+  position: absolute; transform: translate(-50%, -100%);
+  cursor: none; z-index: 10;
 }
-.marker-dot {
-  width: 16px; height: 16px; border-radius: 50%;
-  background: radial-gradient(circle, var(--gold) 40%, var(--amber) 100%);
-  border: 2px solid var(--cream);
-  box-shadow: 0 0 0 0 rgba(212,168,83,0.6);
-  animation: markerPulse 2.5s infinite;
-  position: relative; z-index: 2;
-  transition: transform 0.2s;
+.pin-body {
+  width: 22px; height: 28px; position: relative;
+  display: flex; flex-direction: column; align-items: center;
 }
-.map-marker:hover .marker-dot { transform: scale(1.4); }
-@keyframes markerPulse {
-  0% { box-shadow: 0 0 0 0 rgba(212,168,83,0.6); }
-  70% { box-shadow: 0 0 0 12px rgba(212,168,83,0); }
-  100% { box-shadow: 0 0 0 0 rgba(212,168,83,0); }
+.pin-head {
+  width: 16px; height: 16px; border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: radial-gradient(circle at 35% 35%, #F4C956, #C4812A);
+  box-shadow: 0 0 0 2px rgba(10,8,4,0.5), 0 0 10px rgba(212,168,83,0.6);
+  animation: pinGlow 2.5s infinite;
+  flex-shrink: 0;
 }
+@keyframes pinGlow {
+  0%,100% { box-shadow: 0 0 0 2px rgba(10,8,4,0.5), 0 0 8px rgba(212,168,83,0.5); }
+  50% { box-shadow: 0 0 0 2px rgba(10,8,4,0.5), 0 0 18px rgba(212,168,83,0.9), 0 0 30px rgba(212,168,83,0.3); }
+}
+.pin-stem { width: 2px; height: 10px; background: var(--parchment-dark); margin-top: -1px; }
+.pin-shadow { width: 10px; height: 4px; background: rgba(0,0,0,0.4); border-radius: 50%; margin-top: 1px; filter: blur(2px); }
+
 .marker-label {
-  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-  font-size: 9px; letter-spacing: 2px; color: var(--cream); white-space: nowrap;
-  text-transform: uppercase; background: rgba(10,8,4,0.85); padding: 3px 8px;
-  border: 1px solid rgba(139,94,42,0.4); opacity: 0; transition: opacity 0.2s;
-  pointer-events: none;
+  position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  font-family: 'IM Fell English', serif; font-size: 10px; color: var(--parchment);
+  white-space: nowrap; background: rgba(12,9,4,0.9);
+  border: 1px solid rgba(200,169,110,0.3); padding: 4px 10px;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  letter-spacing: 1px;
 }
 .map-marker:hover .marker-label { opacity: 1; }
 
-/* map tooltip / popup */
+/* Popup card */
 .map-popup {
   position: absolute; z-index: 20;
-  background: #1a1408; border: 1px solid var(--brown);
-  padding: 20px 24px; min-width: 260px; max-width: 320px;
+  background: linear-gradient(135deg, #1c1408, #14100a);
+  border: 1px solid var(--parchment-dark);
+  padding: 22px 26px; min-width: 280px; max-width: 340px;
   display: none; pointer-events: none;
-  box-shadow: 8px 12px 32px rgba(0,0,0,0.8);
+  box-shadow: 8px 12px 40px rgba(0,0,0,0.9), inset 0 1px 0 rgba(200,169,110,0.1);
 }
-.map-popup.active { display: block; }
-.popup-tag { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); border: 1px solid var(--amber); padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
-.popup-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); margin-bottom: 6px; }
-.popup-sub { font-size: 11px; color: var(--dim); margin-bottom: 10px; line-height: 1.5; }
+.map-popup::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.map-popup.active { display: block; animation: popupIn 0.2s ease; }
+@keyframes popupIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.popup-tag { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); border: 1px solid rgba(196,129,42,0.4); padding: 3px 10px; display: inline-block; margin-bottom: 12px; }
+.popup-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--cream); margin-bottom: 8px; line-height: 1.3; }
+.popup-sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; line-height: 1.6; }
 .popup-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .popup-chip { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.4); color: var(--muted); padding: 3px 8px; }
 
-/* project list below */
+/* Map hint */
+.map-hint {
+  position: absolute; bottom: 14px; right: 18px;
+  font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; z-index: 10;
+  font-family: 'Courier Prime', monospace;
+}
+
+/* Map title stamp */
+.map-title-stamp {
+  position: absolute; top: 18px; right: 20px; z-index: 8;
+  border: 2px solid rgba(200,169,110,0.35); padding: 8px 16px;
+  text-align: center;
+}
+.map-title-stamp span { display: block; font-family: 'IM Fell English', serif; font-size: 11px; color: var(--parchment); letter-spacing: 3px; text-transform: uppercase; }
+.map-title-stamp small { font-size: 8px; color: var(--muted); letter-spacing: 2px; }
+
+/* PROJECTS LIST */
 .projects-list { display: flex; flex-direction: column; gap: 2px; }
 .project-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 32px; padding: 28px 0; border-bottom: 1px solid rgba(139,94,42,0.15); transition: background 0.3s; position: relative; }
 .project-row::before { content: ''; position: absolute; left: -96px; right: -96px; top: 0; bottom: 0; background: rgba(139,94,42,0.04); opacity: 0; transition: opacity 0.3s; }
@@ -314,8 +300,28 @@ nav {
 .project-arrow { font-size: 20px; color: var(--muted); transition: color 0.3s, transform 0.3s; }
 .project-row:hover .project-arrow { color: var(--gold); transform: translateX(4px); }
 
-/* ── CONTACT ── */
-#contact { background: var(--bg2); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+/* RESUME */
+#resume { background: var(--bg2); }
+.resume-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.resume-col-title { font-size: 10px; letter-spacing: 5px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+.resume-col-title::before { content: ''; width: 16px; height: 1px; background: var(--amber); }
+.resume-entry { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(139,94,42,0.12); }
+.resume-entry:last-child { border-bottom: none; }
+.resume-dates { font-size: 9px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.resume-dates::before { content: '◇'; font-size: 8px; color: var(--amber); }
+.resume-role { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); margin-bottom: 3px; }
+.resume-company { font-size: 11px; letter-spacing: 1px; color: var(--amber); font-style: italic; margin-bottom: 14px; }
+.resume-bullets { list-style: none; padding: 0; }
+.resume-bullets li { font-size: 13px; color: var(--dim); line-height: 1.7; margin-bottom: 8px; padding-left: 16px; position: relative; }
+.resume-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--amber); font-size: 18px; line-height: 1.3; }
+.resume-edu { padding: 24px 0; border-bottom: 1px solid rgba(139,94,42,0.12); }
+.resume-edu:last-child { border-bottom: none; }
+.resume-edu-degree { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--cream); margin-bottom: 4px; }
+.resume-edu-school { font-size: 12px; color: var(--amber); margin-bottom: 3px; letter-spacing: 1px; }
+.resume-edu-dates { font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+
+/* CONTACT */
+#contact { background: var(--bg); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
 .contact-inner { max-width: 700px; }
 .contact-big { font-family: 'Playfair Display', serif; font-size: clamp(48px, 6vw, 80px); font-weight: 900; line-height: 1.0; color: var(--cream); margin-bottom: 32px; }
 .contact-big em { color: var(--amber); font-style: italic; }
@@ -329,25 +335,19 @@ nav {
 .resume-fixed:hover { color: var(--gold); border-color: var(--gold); }
 
 /* NOISE */
-body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; }
 
 /* ANIMS */
 @keyframes fadeUpIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 .hero-left > * { opacity: 0; transform: translateY(20px); animation: fadeUpIn 0.8s forwards; }
-.hero-eyebrow { animation-delay: 0.2s; }
-.hero-name { animation-delay: 0.4s; }
-.hero-title { animation-delay: 0.6s; }
-.hero-quote { animation-delay: 0.7s; }
-.hero-status { animation-delay: 0.8s; }
-.hero-btns { animation-delay: 0.9s; }
-.scroll-hint { animation-delay: 1.1s; }
+.hero-eyebrow{animation-delay:0.2s}.hero-name{animation-delay:0.4s}.hero-title{animation-delay:0.6s}.hero-quote{animation-delay:0.7s}.hero-status{animation-delay:0.8s}.hero-btns{animation-delay:0.9s}.scroll-hint{animation-delay:1.1s}
 
 @media (max-width: 900px) {
   #hero { grid-template-columns: 1fr; }
   .hero-right { display: none; }
   .hero-left { padding: 100px 32px 60px; }
   .section { padding: 80px 32px; }
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-grid, .resume-grid { grid-template-columns: 1fr; gap: 40px; }
   .timeline-grid { grid-template-columns: 1fr 40px 1fr; }
   nav { padding: 16px 24px; }
   .nav-links { gap: 20px; }
@@ -357,14 +357,11 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 </head>
 <body>
 
-<!-- MAGNIFYING GLASS CURSOR -->
+<!-- CURSOR -->
 <div id="mag-cursor">
   <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- lens circle -->
     <circle cx="19" cy="19" r="13" stroke="#D4A853" stroke-width="2.5" fill="rgba(212,168,83,0.07)"/>
-    <!-- inner shine -->
     <circle cx="15" cy="15" r="4" fill="rgba(255,255,255,0.06)"/>
-    <!-- handle -->
     <line x1="28" y1="28" x2="43" y2="43" stroke="#8B5E2A" stroke-width="4" stroke-linecap="round"/>
     <line x1="28" y1="28" x2="42" y2="42" stroke="#D4A853" stroke-width="2" stroke-linecap="round"/>
   </svg>
@@ -374,22 +371,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 <!-- NAV -->
 <nav>
   <div class="nav-logo-wrap">
-    <!-- Logo: trowel + stone SVG, original design -->
     <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- soil mound -->
       <ellipse cx="20" cy="32" rx="14" ry="5" fill="#3a2208" opacity="0.9"/>
-      <!-- stone with code symbol -->
       <rect x="10" y="21" width="20" height="13" rx="3" fill="#5a3a18" stroke="#8B5E2A" stroke-width="1"/>
       <text x="20" y="31" text-anchor="middle" font-family="monospace" font-size="7" fill="#D4A853" font-weight="bold">&lt;/&gt;</text>
-      <!-- scattered dirt flecks -->
       <circle cx="8" cy="25" r="1.2" fill="#3a2208"/>
       <circle cx="32" cy="27" r="1" fill="#3a2208"/>
       <circle cx="9" cy="29" r="0.8" fill="#3a2208"/>
-      <!-- trowel handle -->
       <line x1="22" y1="18" x2="30" y2="8" stroke="#8B5E2A" stroke-width="2" stroke-linecap="round"/>
-      <!-- trowel blade -->
       <polygon points="18,22 22,18 26,14 20,12" fill="#D4A853" stroke="#8B5E2A" stroke-width="0.8"/>
-      <!-- trowel shine -->
       <line x1="20" y1="14" x2="23" y2="17" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
     </svg>
     <div class="nav-logo-text">
@@ -401,6 +391,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <a href="#about">About</a>
     <a href="#timeline">Work</a>
     <a href="#projects">Projects</a>
+    <a href="#resume">Resume</a>
     <a href="#contact">Contact</a>
   </div>
   <div class="nav-right">mari.nannetti@gmail.com</div>
@@ -416,7 +407,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </a>
 </div>
 
-<a class="resume-fixed" href="#">Resume ↗</a>
+<a class="resume-fixed" href="#resume">Resume ↗</a>
 
 <!-- HERO -->
 <section id="hero">
@@ -424,7 +415,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="hero-eyebrow">Field Operative · Austin, TX · Case File Open</div>
     <h1 class="hero-name">Mariana<br>Nannetti</h1>
     <div class="hero-title">Data Analyst</div>
-    <p class="hero-quote">I treat every dataset like an <strong>archaeological site</strong> — digging through complexity, reading the layers, and surfacing the story no one else found.</p>
+    <p class="hero-quote">I treat every dataset like an <strong>archaeological site</strong>: digging through complexity, reading the layers, and surfacing the story no one else found.</p>
     <div class="hero-status">Open to data analyst roles &amp; opportunities</div>
     <div class="hero-btns">
       <a href="#projects" class="btn-primary">Open Case Files</a>
@@ -482,9 +473,9 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="about-grid">
     <div class="about-text">
       <p>I'm a <strong>data analyst</strong> with a background spanning fraud intelligence at Meta, business operations, and hospital leadership. Every role has sharpened the same instinct: <em>find what the numbers are trying to say.</em></p>
-      <p>I approach data like an archaeologist approaches a dig site — with patience, method, and a healthy suspicion that the most interesting find is still buried. I don't just clean and query. I <strong>investigate.</strong></p>
-      <p>I'm open to <strong>data analyst roles</strong> across industries — anywhere curiosity, precision, and good storytelling with data are valued. Open to remote and hybrid opportunities.</p>
-      <p>Fluent in <strong>English, Portuguese, and Spanish</strong> — a real edge in global content markets. Based in <em>Austin, TX.</em></p>
+      <p>I approach data like an archaeologist approaches a dig site: with patience, method, and a healthy suspicion that the most interesting find is still buried. I don't just clean and query. I <strong>investigate.</strong></p>
+      <p>I'm open to <strong>data analyst roles</strong> across industries. Anywhere curiosity, precision, and good storytelling with data are valued. Open to remote and hybrid opportunities.</p>
+      <p>Fluent in <strong>English, Portuguese, and Spanish</strong>: a real edge in global content markets. Based in <em>Austin, TX.</em></p>
       <div class="about-available">Available · Open to Offers</div>
     </div>
     <div class="about-skills">
@@ -519,19 +510,19 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <div class="tl-dates">Aug 2025 – Present</div>
         <div class="tl-role">Fraud Data Analyst</div>
         <div class="tl-company">TekSystems · Meta</div>
-        <div class="tl-desc">MO Labeling Team within Risk Ops. Accurately identifying and labeling fraud methods by bad actors across Ads and Payments. Built a fraud trend dashboard to proactively detect emerging threats.</div>
+        <div class="tl-desc">MO Labeling Team within Risk Ops. Identifying and labeling fraud methods by bad actors across Ads and Payments. Built a fraud trend dashboard to proactively detect emerging threats.</div>
       </div>
       <div class="tl-item left" style="margin-top:60px">
-        <div class="tl-dates">2023 – 2024</div>
-        <div class="tl-role">Team Lead & Operations Analyst</div>
-        <div class="tl-company">Hospital</div>
-        <div class="tl-desc">Led 25+ staff. NPS improved 88→93% in one month. ICD coding, clinical data management, and operational analytics. Client satisfaction award.</div>
+        <div class="tl-dates">Jan 2024 – Jun 2024</div>
+        <div class="tl-role">Clinical Data Analyst &amp; ICD Coding Specialist</div>
+        <div class="tl-company">Hospital Felicio Rocho</div>
+        <div class="tl-desc">Applied ICD coding standards to patient records. Built Excel dashboards to monitor complications and readmission rates. Worked cross-functionally to validate data integrity.</div>
       </div>
       <div class="tl-item left" style="margin-top:60px">
         <div class="tl-dates">Sep 2021 – Feb 2022</div>
         <div class="tl-role">Undergraduate Researcher</div>
         <div class="tl-company">Hospital Nacional de Parapléjicos · Spain</div>
-        <div class="tl-desc">Independently led a neuroscience research project on recovery pattern analysis in spinal cord injuries. Bilingual honors thesis. Top honors awarded.</div>
+        <div class="tl-desc">Independently led a neuroscience research project focused on recovery pattern analysis in spinal cord injuries. Designed A/B tests and applied t-tests and ANOVA. Bilingual honors thesis awarded top honors.</div>
       </div>
     </div>
     <div class="timeline-line">
@@ -551,9 +542,15 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
         <div class="tl-dates">Jun 2024 – Aug 2025</div>
         <div class="tl-role">Business Data Analyst</div>
         <div class="tl-company">Samba Sips</div>
-        <div class="tl-desc">Used SQL and Python to analyze customer behavior. Increased reel engagement by 140% after implementation. A/B tests led to 22% sales lift. KPI dashboards in Excel and Power BI.</div>
+        <div class="tl-desc">Used SQL and Python to analyze customer behavior. Increased reel engagement by 140%. A/B tests led to 22% sales lift. KPI dashboards in Excel and Power BI tracking conversion, CTR, and retention.</div>
       </div>
-      <div class="tl-item right" style="margin-top:100px">
+      <div class="tl-item right" style="margin-top:60px">
+        <div class="tl-dates">Feb 2023 – Dec 2023</div>
+        <div class="tl-role">Operations Business Analyst &amp; Team Lead</div>
+        <div class="tl-company">Hospital Felicio Rocho</div>
+        <div class="tl-desc">Improved NPS from 88% to 93% within one month. Led two departments with 25+ staff. Created monthly financial and operational reports for senior leadership. Hospital client satisfaction award.</div>
+      </div>
+      <div class="tl-item right" style="margin-top:60px">
         <div class="tl-dates">Jan 2021 – Feb 2022</div>
         <div class="tl-role">Undergraduate Researcher</div>
         <div class="tl-company">Yale University Stem Cell Center</div>
@@ -568,7 +565,7 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <div class="section-eyebrow">Equipment</div>
   <h2 class="section-title">Tech <em>Stack</em></h2>
   <div class="section-divider"></div>
-  <div class="stack-section-title">Analytics & Data</div>
+  <div class="stack-section-title">Analytics &amp; Data</div>
   <div class="stack-grid">
     <div class="stack-item"><div class="stack-icon">🐍</div><div class="stack-name">Python</div></div>
     <div class="stack-item"><div class="stack-icon">🗄️</div><div class="stack-name">SQL</div></div>
@@ -580,13 +577,13 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
     <div class="stack-item"><div class="stack-icon">📋</div><div class="stack-name">Excel</div></div>
     <div class="stack-item"><div class="stack-icon">📝</div><div class="stack-name">G Sheets</div></div>
   </div>
-  <div class="stack-section-title">Tools & Platforms</div>
+  <div class="stack-section-title">Tools &amp; Platforms</div>
   <div class="stack-grid">
     <div class="stack-item"><div class="stack-icon">📓</div><div class="stack-name">Jupyter</div></div>
     <div class="stack-item"><div class="stack-icon">🐙</div><div class="stack-name">GitHub</div></div>
     <div class="stack-item"><div class="stack-icon">💻</div><div class="stack-name">VS Code</div></div>
     <div class="stack-item"><div class="stack-icon">☁️</div><div class="stack-name">GCP</div></div>
-    <div class="stack-item"><div class="stack-icon">🌐</div><div class="stack-name">HTML/CSS</div></div>
+    <div class="stack-item"><div class="stack-icon">🌐</div><div class="stack-name">HTML / CSS</div></div>
     <div class="stack-item"><div class="stack-icon">🧠</div><div class="stack-name">NLP</div></div>
   </div>
 </section>
@@ -597,104 +594,415 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   <h2 class="section-title">Key <em>Projects</em></h2>
   <div class="section-divider"></div>
 
-  <!-- INTERACTIVE MAP -->
-  <div class="map-container" id="mapContainer">
-    <!-- Map SVG background -->
-    <svg width="100%" height="100%" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="roughen"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
-        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <radialGradient id="mapFog" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0804" stop-opacity="0.7"/></radialGradient>
-        <pattern id="crosshatch" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="12" stroke="#5a3a18" stroke-width="0.4" opacity="0.4"/>
-        </pattern>
-      </defs>
-      <!-- Base terrain -->
-      <rect width="1000" height="520" fill="#100c06"/>
-      <!-- Parchment texture zones -->
-      <ellipse cx="500" cy="260" rx="460" ry="230" fill="#16100a" filter="url(#roughen)"/>
-      <!-- Region fills -->
-      <path d="M80,80 C150,60 300,50 400,90 C480,120 520,100 600,80 C700,55 800,70 900,100 L920,420 C800,450 700,440 600,430 C500,420 400,440 300,450 C200,460 120,440 80,420 Z" fill="#1a1208" stroke="#3a2208" stroke-width="1.5" filter="url(#roughen)" opacity="0.8"/>
-      <!-- Mountain ranges top -->
-      <g opacity="0.6">
-        <polygon points="200,95 220,60 240,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
-        <polygon points="230,95 255,55 280,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
-        <polygon points="260,95 285,58 310,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
-        <polygon points="290,95 315,62 340,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
-        <text x="265" y="52" text-anchor="middle" fill="#7a5a30" font-size="11" font-family="serif" font-style="italic">Ridgeline of Queries</text>
-      </g>
-      <!-- Forest blobs left -->
-      <circle cx="110" cy="280" r="35" fill="#0f1a0a" opacity="0.6"/>
-      <circle cx="135" cy="295" r="28" fill="#0f1a0a" opacity="0.5"/>
-      <circle cx="95" cy="300" r="22" fill="#0f1a0a" opacity="0.5"/>
-      <text x="118" y="340" text-anchor="middle" fill="#4a6830" font-size="9" font-family="serif" font-style="italic">Dark Forest</text>
-      <!-- River -->
-      <path d="M500,50 C490,130 510,200 480,280 C460,340 470,400 450,470" fill="none" stroke="#2a4060" stroke-width="2.5" opacity="0.5" filter="url(#roughen)"/>
-      <!-- Dashed expedition trails -->
-      <path d="M200,200 C300,180 400,220 500,200 C600,180 700,220 800,200" fill="none" stroke="#5a3a18" stroke-width="1" stroke-dasharray="6,5" opacity="0.5"/>
-      <path d="M300,350 C400,320 500,360 650,330 C720,315 780,340 860,320" fill="none" stroke="#5a3a18" stroke-width="1" stroke-dasharray="6,5" opacity="0.4"/>
-      <text x="500" y="175" text-anchor="middle" fill="#4a3018" font-size="9" font-family="serif" font-style="italic">The Old Data Road</text>
-      <!-- Region names -->
-      <text x="700" y="160" text-anchor="middle" fill="#4a3a20" font-size="13" font-family="serif" font-style="italic" opacity="0.5">Fraudlands</text>
-      <text x="200" y="420" text-anchor="middle" fill="#4a3a20" font-size="11" font-family="serif" font-style="italic" opacity="0.4">Hospitalum</text>
-      <text x="780" y="400" text-anchor="middle" fill="#4a3a20" font-size="11" font-family="serif" font-style="italic" opacity="0.4">Research Vale</text>
-      <!-- Compass rose -->
-      <g transform="translate(900,420)">
-        <circle cx="0" cy="0" r="28" fill="#0e0b06" stroke="#5a3a18" stroke-width="1" opacity="0.8"/>
-        <polygon points="0,-22 -4,-6 0,-10 4,-6" fill="#D4A853"/>
-        <polygon points="0,22 -4,6 0,10 4,6" fill="#5a3a18"/>
-        <polygon points="-22,0 -6,-4 -10,0 -6,4" fill="#5a3a18"/>
-        <polygon points="22,0 6,-4 10,0 6,4" fill="#5a3a18"/>
-        <text x="0" y="-26" text-anchor="middle" fill="#D4A853" font-size="8" font-family="serif">N</text>
-        <text x="0" y="34" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">S</text>
-        <text x="-30" y="3" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">W</text>
-        <text x="30" y="3" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">E</text>
-      </g>
-      <!-- Legend -->
-      <g transform="translate(30,390)">
-        <rect width="130" height="90" rx="2" fill="#0e0b06" stroke="#3a2208" stroke-width="1" opacity="0.9"/>
-        <text x="65" y="16" text-anchor="middle" fill="#8B5E2A" font-size="9" font-family="serif" letter-spacing="2">LEGEND</text>
-        <circle cx="16" cy="30" r="5" fill="#D4A853" stroke="#F5F0E8" stroke-width="1"/>
-        <text x="28" y="34" fill="#7a5a30" font-size="8" font-family="serif">Excavation Site</text>
-        <polygon points="16,48 10,58 22,58" fill="#3a2208" stroke="#5a3a18" stroke-width="0.8"/>
-        <text x="28" y="56" fill="#7a5a30" font-size="8" font-family="serif">Mountain Range</text>
-        <line x1="10" y1="72" x2="22" y2="72" stroke="#2a4060" stroke-width="2"/>
-        <text x="28" y="76" fill="#7a5a30" font-size="8" font-family="serif">River</text>
-      </g>
-      <!-- Fog overlay -->
-      <rect width="1000" height="520" fill="url(#mapFog)" pointer-events="none"/>
-    </svg>
+  <!-- INDIANA JONES MAP -->
+  <div class="map-wrapper">
+    <div class="map-inner" id="mapContainer">
+      <div class="map-parchment"></div>
+      <div class="map-texture"></div>
 
-    <!-- Clickable markers -->
-    <div class="map-marker" style="left:29%;top:38%" data-project="0">
-      <div class="marker-label">Fraud Intelligence</div>
-      <div class="marker-dot"></div>
-    </div>
-    <div class="map-marker" style="left:52%;top:55%" data-project="1">
-      <div class="marker-label">Samba Sips BI</div>
-      <div class="marker-dot"></div>
-    </div>
-    <div class="map-marker" style="left:70%;top:42%" data-project="2">
-      <div class="marker-label">Incredibles 2 NLP</div>
-      <div class="marker-dot"></div>
-    </div>
-    <div class="map-marker" style="left:44%;top:72%" data-project="3">
-      <div class="marker-label">Yale Research</div>
-      <div class="marker-dot"></div>
-    </div>
+      <!-- Map SVG: Indiana Jones Style -->
+      <svg class="map-svg-layer" viewBox="0 0 1100 560" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Terrain displacement filter -->
+          <filter id="terrain" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="turbulence" baseFrequency="0.012 0.018" numOctaves="5" seed="3" result="noise"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <!-- Soft paper texture filter -->
+          <filter id="paper">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
+            <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
+            <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
+            <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+          </filter>
+          <!-- Soft glow -->
+          <filter id="glow2">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- Vignette gradient -->
+          <radialGradient id="vig" cx="50%" cy="50%" r="68%">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="80%" stop-color="rgba(10,8,4,0.3)"/>
+            <stop offset="100%" stop-color="rgba(10,8,4,0.82)"/>
+          </radialGradient>
+          <!-- Parchment ambient glow -->
+          <radialGradient id="ambientGlow" cx="48%" cy="44%" r="52%">
+            <stop offset="0%" stop-color="rgba(180,130,50,0.09)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <!-- Water shimmer -->
+          <radialGradient id="waterL" cx="20%" cy="50%" r="40%">
+            <stop offset="0%" stop-color="#0c1520" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#080c10" stop-opacity="0.9"/>
+          </radialGradient>
+          <radialGradient id="waterR" cx="80%" cy="50%" r="40%">
+            <stop offset="0%" stop-color="#0c1520" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#080c10" stop-opacity="0.9"/>
+          </radialGradient>
+          <!-- Map coordinate grid pattern -->
+          <pattern id="coordGrid" patternUnits="userSpaceOnUse" width="100" height="80">
+            <line x1="0" y1="0" x2="100" y2="0" stroke="rgba(160,110,50,0.07)" stroke-width="0.5"/>
+            <line x1="0" y1="0" x2="0" y2="80" stroke="rgba(160,110,50,0.07)" stroke-width="0.5"/>
+          </pattern>
+          <!-- Hatch for mountains -->
+          <pattern id="mtnHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+            <path d="M0,4 L4,0" stroke="#4a2e0e" stroke-width="0.5" opacity="0.5"/>
+          </pattern>
+        </defs>
 
-    <!-- Popup -->
-    <div class="map-popup" id="mapPopup">
-      <div class="popup-tag" id="popupTag"></div>
-      <div class="popup-title" id="popupTitle"></div>
-      <div class="popup-sub" id="popupSub"></div>
-      <div class="popup-chips" id="popupChips"></div>
-    </div>
+        <!-- ── BASE LAYERS ── -->
+        <!-- Deep background -->
+        <rect width="1100" height="560" fill="#100c07"/>
+        <!-- Coordinate grid -->
+        <rect width="1100" height="560" fill="url(#coordGrid)"/>
+        <!-- Ambient parchment glow -->
+        <rect width="1100" height="560" fill="url(#ambientGlow)"/>
 
-    <div class="map-hint">↑ Click markers to explore</div>
+        <!-- ── WATER BODIES ── -->
+        <!-- Left sea -->
+        <rect x="0" y="0" width="185" height="560" fill="url(#waterL)"/>
+        <!-- Right sea -->
+        <rect x="890" y="0" width="210" height="560" fill="url(#waterR)"/>
+        <!-- Bottom water strip -->
+        <path d="M0,520 C180,510 350,530 550,515 C720,502 900,520 1100,510 L1100,560 L0,560Z" fill="#0a1018" opacity="0.6"/>
+        <!-- Water texture lines -->
+        <g opacity="0.18" stroke="#4a7090" stroke-width="0.6" fill="none">
+          <path d="M20,120 C50,118 80,122 110,120"/>
+          <path d="M15,140 C55,138 85,142 120,138"/>
+          <path d="M25,160 C60,158 90,162 115,158"/>
+          <path d="M18,180 C52,178 82,182 108,178"/>
+          <path d="M22,200 C58,198 88,202 118,198"/>
+          <path d="M16,220 C54,218 84,222 114,218"/>
+          <path d="M20,240 C56,238 86,242 116,238"/>
+          <path d="M15,260 C53,258 83,262 113,258"/>
+          <path d="M18,280 C55,278 85,282 115,278"/>
+          <path d="M22,300 C58,298 88,302 118,298"/>
+          <path d="M960,130 C990,128 1020,132 1055,130"/>
+          <path d="M955,150 C985,148 1015,152 1052,148"/>
+          <path d="M962,170 C992,168 1022,172 1058,168"/>
+          <path d="M958,190 C988,188 1018,192 1054,188"/>
+          <path d="M963,210 C993,208 1023,212 1059,208"/>
+          <path d="M957,230 C987,228 1017,232 1053,228"/>
+          <path d="M961,250 C991,248 1021,252 1057,248"/>
+          <path d="M965,270 C995,268 1025,272 1061,268"/>
+          <path d="M959,290 C989,288 1019,292 1055,288"/>
+          <path d="M963,310 C993,308 1023,312 1059,308"/>
+          <path d="M200,530 C300,528 400,532 500,528"/>
+          <path d="M220,545 C320,543 420,547 520,543"/>
+          <path d="M600,530 C700,528 800,532 900,528"/>
+          <path d="M620,545 C720,543 820,547 920,543"/>
+        </g>
+        <!-- Sea name labels -->
+        <text x="82" y="220" text-anchor="middle" fill="#3a6080" font-size="11" font-family="'IM Fell English', serif" font-style="italic" opacity="0.55" transform="rotate(-90,82,220)">Western Sea</text>
+        <text x="1028" y="230" text-anchor="middle" fill="#3a6080" font-size="11" font-family="'IM Fell English', serif" font-style="italic" opacity="0.55" transform="rotate(90,1028,230)">Eastern Sea</text>
+        <text x="550" y="548" text-anchor="middle" fill="#3a6080" font-size="10" font-family="'IM Fell English', serif" font-style="italic" opacity="0.45">Southern Reaches</text>
+
+        <!-- ── MAIN LANDMASS ── -->
+        <path d="M185,30 C260,18 380,22 480,38 C560,50 640,32 740,28 C820,24 880,38 890,80 C895,200 890,320 888,420 C886,490 875,525 840,538 C760,548 660,540 560,535 C460,530 350,542 260,532 C210,525 188,500 186,440 C182,360 182,240 185,120 Z" fill="#1e1508" stroke="#5a3818" stroke-width="1.8" filter="url(#terrain)" opacity="0.95"/>
+
+        <!-- Inner terrain shading (elevation variation) -->
+        <path d="M220,60 C300,45 420,48 520,65 C600,78 680,55 760,52 C820,50 865,68 870,120 C874,180 870,260 866,340 C862,420 855,480 820,505 C760,520 680,514 600,510 C520,506 430,518 360,510 C300,502 235,488 222,440 C205,380 208,280 210,200 Z" fill="#221a0a" opacity="0.5"/>
+
+        <!-- ── COASTAL DETAILS ── coastline texture dots ── -->
+        <g fill="#3a2508" opacity="0.4">
+          <circle cx="192" cy="90" r="2"/><circle cx="190" cy="105" r="1.5"/><circle cx="194" cy="118" r="2"/>
+          <circle cx="189" cy="130" r="1.5"/><circle cx="193" cy="145" r="2"/><circle cx="190" cy="160" r="1.5"/>
+          <circle cx="885" cy="95" r="2"/><circle cx="887" cy="110" r="1.5"/><circle cx="884" cy="125" r="2"/>
+          <circle cx="886" cy="140" r="1.5"/><circle cx="884" cy="155" r="2"/><circle cx="887" cy="170" r="1.5"/>
+          <circle cx="205" cy="490" r="2"/><circle cx="220" cy="500" r="1.5"/><circle cx="240" cy="508" r="2"/>
+          <circle cx="780" cy="510" r="2"/><circle cx="800" cy="518" r="1.5"/><circle cx="820" cy="508" r="2"/>
+        </g>
+
+        <!-- ── MOUNTAIN RANGES ── -->
+        <!-- Northern Range (detailed, layered) -->
+        <g opacity="0.85">
+          <!-- Back peaks (darker, smaller) -->
+          <polygon points="210,92 224,62 238,92" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="230,94 247,58 264,94" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="255,92 275,55 295,92" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="282,92 303,60 324,92" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="312,92 330,62 348,92" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <!-- Front peaks (lighter, taller) -->
+          <polygon points="218,95 236,48 254,95" fill="#2e200c" stroke="#6a4420" stroke-width="1.2"/>
+          <polygon points="245,95 266,42 287,95" fill="#321e0a" stroke="#6a4420" stroke-width="1.2"/>
+          <polygon points="274,95 298,38 322,95" fill="#2e200c" stroke="#6a4420" stroke-width="1.2"/>
+          <polygon points="305,95 326,46 347,95" fill="#321e0a" stroke="#6a4420" stroke-width="1.2"/>
+          <!-- Snow caps -->
+          <polygon points="266,42 261,57 271,57" fill="rgba(232,220,195,0.18)"/>
+          <polygon points="298,38 292,55 304,55" fill="rgba(232,220,195,0.2)"/>
+          <polygon points="236,48 231,62 241,62" fill="rgba(232,220,195,0.15)"/>
+          <!-- Hatch shadow -->
+          <polygon points="236,48 254,95 218,95" fill="url(#mtnHatch)" opacity="0.5"/>
+          <polygon points="266,42 287,95 245,95" fill="url(#mtnHatch)" opacity="0.5"/>
+          <polygon points="298,38 322,95 274,95" fill="url(#mtnHatch)" opacity="0.5"/>
+        </g>
+        <text x="278" y="33" text-anchor="middle" fill="#8a6a38" font-size="11" font-family="'IM Fell English', serif" font-style="italic" opacity="0.85" letter-spacing="1">Norterra Range</text>
+
+        <!-- NE Mountains -->
+        <g opacity="0.7">
+          <polygon points="700,75 716,48 732,75" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="720,77 739,42 758,77" fill="#2e200c" stroke="#6a4420" stroke-width="1.1"/>
+          <polygon points="745,77 762,50 779,77" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="739,42 733,58 745,58" fill="rgba(232,220,195,0.16)"/>
+        </g>
+        <text x="739" y="38" text-anchor="middle" fill="#7a5a30" font-size="9" font-family="'IM Fell English', serif" font-style="italic" opacity="0.75">Veld Peaks</text>
+
+        <!-- SE hills (smaller) -->
+        <g opacity="0.5">
+          <polygon points="750,450 764,430 778,450" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+          <polygon points="768,452 780,435 792,452" fill="#2a1c0a" stroke="#5a3818" stroke-width="0.8"/>
+          <polygon points="786,452 796,438 806,452" fill="#1e1408" stroke="#4a2e0e" stroke-width="0.8"/>
+        </g>
+
+        <!-- ── FOREST AREAS ── (tree-like dots clusters) -->
+        <!-- West forest -->
+        <g opacity="0.6">
+          <circle cx="215" cy="310" r="18" fill="#0d1a0a" stroke="#1e3018" stroke-width="0.5"/>
+          <circle cx="238" cy="326" r="15" fill="#0f1c0c" stroke="#1e3018" stroke-width="0.5"/>
+          <circle cx="216" cy="340" r="14" fill="#0d1a0a" stroke="#1e3018" stroke-width="0.5"/>
+          <circle cx="242" cy="308" r="12" fill="#0f1c0c"/>
+          <circle cx="228" cy="350" r="10" fill="#0d1a0a"/>
+          <circle cx="252" cy="340" r="12" fill="#0f1c0c"/>
+          <!-- tree trunks -->
+          <line x1="215" y1="325" x2="215" y2="332" stroke="#2a1c0a" stroke-width="1.5"/>
+          <line x1="238" y1="338" x2="238" y2="344" stroke="#2a1c0a" stroke-width="1.5"/>
+          <line x1="228" y1="358" x2="228" y2="363" stroke="#2a1c0a" stroke-width="1.5"/>
+        </g>
+        <text x="230" y="372" text-anchor="middle" fill="#4a6828" font-size="9" font-family="'IM Fell English', serif" font-style="italic" opacity="0.7">Oryn Wood</text>
+
+        <!-- SE forest cluster -->
+        <g opacity="0.5">
+          <circle cx="820" cy="420" r="16" fill="#0d1a0a" stroke="#1e3018" stroke-width="0.5"/>
+          <circle cx="840" cy="434" r="13" fill="#0f1c0c" stroke="#1e3018" stroke-width="0.5"/>
+          <circle cx="814" cy="436" r="12" fill="#0d1a0a"/>
+          <circle cx="855" cy="424" r="11" fill="#0f1c0c"/>
+          <circle cx="835" cy="446" r="10" fill="#0d1a0a"/>
+          <line x1="820" y1="434" x2="820" y2="440" stroke="#2a1c0a" stroke-width="1.5"/>
+          <line x1="840" y1="445" x2="840" y2="450" stroke="#2a1c0a" stroke-width="1.5"/>
+        </g>
+        <text x="835" y="462" text-anchor="middle" fill="#3a5820" font-size="9" font-family="'IM Fell English', serif" font-style="italic" opacity="0.6">Duskwood</text>
+
+        <!-- NW forest patch -->
+        <g opacity="0.4">
+          <circle cx="226" cy="160" r="12" fill="#0d1a0a"/>
+          <circle cx="243" cy="170" r="10" fill="#0f1c0c"/>
+          <circle cx="232" cy="178" r="9" fill="#0d1a0a"/>
+          <circle cx="252" cy="158" r="8" fill="#0f1c0c"/>
+        </g>
+
+        <!-- ── RIVERS ── -->
+        <!-- Main river (central, flowing south) -->
+        <path d="M548,35 C544,90 558,155 540,225 C525,285 528,345 512,405 C500,450 505,500 490,540" fill="none" stroke="#2a4e78" stroke-width="3.5" opacity="0.5" filter="url(#terrain)"/>
+        <path d="M548,35 C544,90 558,155 540,225 C525,285 528,345 512,405 C500,450 505,500 490,540" fill="none" stroke="#3a6080" stroke-width="1.5" opacity="0.3"/>
+        <!-- Tributary west -->
+        <path d="M540,225 C510,235 475,228 440,240 C400,252 360,245 320,258" fill="none" stroke="#2a4e78" stroke-width="2" opacity="0.4" filter="url(#terrain)"/>
+        <!-- Tributary east -->
+        <path d="M528,345 C565,338 610,345 655,340 C695,336 730,345 760,338" fill="none" stroke="#2a4e78" stroke-width="1.8" opacity="0.38" filter="url(#terrain)"/>
+        <!-- River name -->
+        <text x="610" y="245" fill="#3a6070" font-size="9" font-family="'IM Fell English', serif" font-style="italic" opacity="0.6" transform="rotate(-82,590,225)">River Ancrest</text>
+
+        <!-- Lake -->
+        <ellipse cx="440" cy="195" rx="36" ry="22" fill="#1a3550" stroke="#2a4e78" stroke-width="1" opacity="0.55" filter="url(#terrain)"/>
+        <ellipse cx="440" cy="192" rx="20" ry="10" fill="#1e4060" opacity="0.3"/>
+        <text x="440" y="222" text-anchor="middle" fill="#3a6070" font-size="8" font-family="'IM Fell English', serif" font-style="italic" opacity="0.6">Lake Dreveth</text>
+
+        <!-- ── EXPEDITION TRAILS ── -->
+        <!-- Main road (connecting all 4 markers) -->
+        <path d="M328,236 C390,220 430,230 490,218 C550,206 610,215 678,208 C720,202 748,212 760,222" fill="none" stroke="#8a6030" stroke-width="2" stroke-dasharray="10,7" opacity="0.55"/>
+        <path d="M490,218 C492,280 496,330 494,380 C491,420 474,445 470,480" fill="none" stroke="#8a6030" stroke-width="1.5" stroke-dasharray="8,6" opacity="0.45"/>
+        <!-- Trail label -->
+        <text x="540" y="197" text-anchor="middle" fill="#6a4a20" font-size="9" font-family="'IM Fell English', serif" font-style="italic" opacity="0.65" letter-spacing="1">The Ancient Data Road</text>
+
+        <!-- ── SETTLEMENTS ── -->
+        <!-- Small city squares with halos -->
+        <g>
+          <circle cx="330" cy="237" r="8" fill="none" stroke="#6a4420" stroke-width="0.8" opacity="0.4"/>
+          <rect x="326" y="233" width="8" height="8" fill="#2e1c0a" stroke="#7a5428" stroke-width="1"/>
+          <text x="330" y="254" text-anchor="middle" fill="#6a4a20" font-size="8" font-family="'IM Fell English', serif" font-style="italic" opacity="0.7">Velantha</text>
+        </g>
+        <g>
+          <circle cx="760" cy="224" r="8" fill="none" stroke="#6a4420" stroke-width="0.8" opacity="0.4"/>
+          <rect x="756" y="220" width="8" height="8" fill="#2e1c0a" stroke="#7a5428" stroke-width="1"/>
+          <text x="760" y="242" text-anchor="middle" fill="#6a4a20" font-size="8" font-family="'IM Fell English', serif" font-style="italic" opacity="0.7">Ossary</text>
+        </g>
+        <g>
+          <circle cx="470" cy="483" r="7" fill="none" stroke="#6a4420" stroke-width="0.8" opacity="0.4"/>
+          <rect x="466" y="479" width="7" height="7" fill="#2e1c0a" stroke="#7a5428" stroke-width="1"/>
+          <text x="470" y="498" text-anchor="middle" fill="#6a4a20" font-size="8" font-family="'IM Fell English', serif" font-style="italic" opacity="0.6">Maraketh</text>
+        </g>
+
+        <!-- ── REGION TITLES (ornate) ── -->
+        <!-- Underlines for region names -->
+        <g opacity="0.28">
+          <text x="700" y="162" text-anchor="middle" fill="#c8a060" font-size="17" font-family="'IM Fell English', serif" font-style="italic" letter-spacing="4">Fraudlands</text>
+          <line x1="642" y1="165" x2="758" y2="165" stroke="#8a6030" stroke-width="0.5"/>
+        </g>
+        <g opacity="0.24">
+          <text x="290" y="415" text-anchor="middle" fill="#c8a060" font-size="13" font-family="'IM Fell English', serif" font-style="italic" letter-spacing="2">Hospitalum</text>
+          <line x1="238" y1="418" x2="342" y2="418" stroke="#8a6030" stroke-width="0.5"/>
+        </g>
+        <g opacity="0.22">
+          <text x="750" y="375" text-anchor="middle" fill="#c8a060" font-size="12" font-family="'IM Fell English', serif" font-style="italic" letter-spacing="2">Research Vale</text>
+          <line x1="694" y1="378" x2="806" y2="378" stroke="#8a6030" stroke-width="0.5"/>
+        </g>
+        <g opacity="0.18">
+          <text x="490" y="292" text-anchor="middle" fill="#c8a060" font-size="11" font-family="'IM Fell English', serif" font-style="italic" letter-spacing="2">Analytic Reaches</text>
+        </g>
+
+        <!-- ── DECORATIVE BORDER ── -->
+        <rect x="12" y="12" width="1076" height="536" fill="none" stroke="rgba(160,110,50,0.22)" stroke-width="1"/>
+        <rect x="18" y="18" width="1064" height="524" fill="none" stroke="rgba(160,110,50,0.12)" stroke-width="0.5"/>
+        <!-- Corner ornaments -->
+        <g stroke="#8a6030" stroke-width="1" fill="none" opacity="0.5">
+          <path d="M12,12 L38,12 M12,12 L12,38"/>
+          <path d="M1088,12 L1062,12 M1088,12 L1088,38"/>
+          <path d="M12,548 L38,548 M12,548 L12,522"/>
+          <path d="M1088,548 L1062,548 M1088,548 L1088,522"/>
+          <!-- Corner diamonds -->
+          <polygon points="12,12 17,18 12,24 7,18" fill="#8a6030" opacity="0.5"/>
+          <polygon points="1088,12 1093,18 1088,24 1083,18" fill="#8a6030" opacity="0.5"/>
+          <polygon points="12,548 17,542 12,536 7,542" fill="#8a6030" opacity="0.5"/>
+          <polygon points="1088,548 1093,542 1088,536 1083,542" fill="#8a6030" opacity="0.5"/>
+        </g>
+        <!-- Top border tick marks (like ruler/coordinates) -->
+        <g stroke="rgba(160,110,50,0.3)" stroke-width="0.7">
+          <line x1="100" y1="12" x2="100" y2="20"/><line x1="200" y1="12" x2="200" y2="20"/>
+          <line x1="300" y1="12" x2="300" y2="20"/><line x1="400" y1="12" x2="400" y2="20"/>
+          <line x1="500" y1="12" x2="500" y2="20"/><line x1="600" y1="12" x2="600" y2="20"/>
+          <line x1="700" y1="12" x2="700" y2="20"/><line x1="800" y1="12" x2="800" y2="20"/>
+          <line x1="900" y1="12" x2="900" y2="20"/><line x1="1000" y1="12" x2="1000" y2="20"/>
+          <line x1="100" y1="548" x2="100" y2="540"/><line x1="200" y1="548" x2="200" y2="540"/>
+          <line x1="300" y1="548" x2="300" y2="540"/><line x1="400" y1="548" x2="400" y2="540"/>
+          <line x1="500" y1="548" x2="500" y2="540"/><line x1="600" y1="548" x2="600" y2="540"/>
+          <line x1="700" y1="548" x2="700" y2="540"/><line x1="800" y1="548" x2="800" y2="540"/>
+          <line x1="900" y1="548" x2="900" y2="540"/><line x1="1000" y1="548" x2="1000" y2="540"/>
+          <!-- Side ticks -->
+          <line x1="12" y1="100" x2="20" y2="100"/><line x1="12" y1="200" x2="20" y2="200"/>
+          <line x1="12" y1="300" x2="20" y2="300"/><line x1="12" y1="400" x2="20" y2="400"/>
+          <line x1="12" y1="500" x2="20" y2="500"/>
+          <line x1="1088" y1="100" x2="1080" y2="100"/><line x1="1088" y1="200" x2="1080" y2="200"/>
+          <line x1="1088" y1="300" x2="1080" y2="300"/><line x1="1088" y1="400" x2="1080" y2="400"/>
+          <line x1="1088" y1="500" x2="1080" y2="500"/>
+        </g>
+
+        <!-- ── COMPASS ROSE (detailed Indiana Jones style) ── -->
+        <g transform="translate(960, 448)">
+          <!-- Outer ring -->
+          <circle cx="0" cy="0" r="46" fill="#0e0b07" stroke="#6a4820" stroke-width="1.5" opacity="0.95"/>
+          <circle cx="0" cy="0" r="42" fill="none" stroke="#4a2e0e" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="0" cy="0" r="36" fill="none" stroke="#3a2208" stroke-width="0.5" opacity="0.5"/>
+          <!-- Degree marks -->
+          <g stroke="#5a3818" stroke-width="0.6" opacity="0.5">
+            <line x1="0" y1="-42" x2="0" y2="-36"/><line x1="42" y1="0" x2="36" y2="0"/>
+            <line x1="0" y1="42" x2="0" y2="36"/><line x1="-42" y1="0" x2="-36" y2="0"/>
+            <line x1="29.7" y1="-29.7" x2="25.5" y2="-25.5"/>
+            <line x1="29.7" y1="29.7" x2="25.5" y2="25.5"/>
+            <line x1="-29.7" y1="29.7" x2="-25.5" y2="25.5"/>
+            <line x1="-29.7" y1="-29.7" x2="-25.5" y2="-25.5"/>
+          </g>
+          <!-- 8 inner rays -->
+          <g fill="#2a1c0a" stroke="#4a2e0e" stroke-width="0.5" opacity="0.6">
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(22.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(67.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(112.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(157.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(202.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(247.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(292.5)"/>
+            <polygon points="0,-32 -2.5,-14 2.5,-14" transform="rotate(337.5)"/>
+          </g>
+          <!-- 4 cardinal rays -->
+          <polygon points="0,-38 -5,-10 0,-16 5,-10" fill="#D4A853" stroke="#8B6914" stroke-width="0.5"/>
+          <polygon points="0,38 -5,10 0,16 5,10" fill="#3a2208" stroke="#5a3818" stroke-width="0.5"/>
+          <polygon points="-38,0 -10,-5 -16,0 -10,5" fill="#3a2208" stroke="#5a3818" stroke-width="0.5"/>
+          <polygon points="38,0 10,-5 16,0 10,5" fill="#3a2208" stroke="#5a3818" stroke-width="0.5"/>
+          <!-- Center -->
+          <circle cx="0" cy="0" r="5" fill="#D4A853" stroke="#8B6914" stroke-width="1"/>
+          <circle cx="0" cy="0" r="2" fill="#1a1208"/>
+          <!-- Cardinal labels -->
+          <text x="0" y="-44" text-anchor="middle" fill="#D4A853" font-size="11" font-family="'IM Fell English', serif" font-weight="bold">N</text>
+          <text x="0" y="54" text-anchor="middle" fill="#7a5a30" font-size="9" font-family="'IM Fell English', serif">S</text>
+          <text x="-52" y="4" text-anchor="middle" fill="#7a5a30" font-size="9" font-family="'IM Fell English', serif">W</text>
+          <text x="52" y="4" text-anchor="middle" fill="#7a5a30" font-size="9" font-family="'IM Fell English', serif">E</text>
+        </g>
+
+        <!-- ── LEGEND BOX ── -->
+        <g transform="translate(30, 380)">
+          <rect width="162" height="130" rx="2" fill="#0e0b06" stroke="#5a3818" stroke-width="1.5" opacity="0.94"/>
+          <rect x="1" y="1" width="160" height="18" rx="1" fill="#1c1408" opacity="0.9"/>
+          <line x1="1" y1="19" x2="161" y2="19" stroke="#4a2e0e" stroke-width="0.5"/>
+          <text x="81" y="13" text-anchor="middle" fill="#D4A853" font-size="9" font-family="'IM Fell English', serif" letter-spacing="4">LEGEND</text>
+          <!-- Pin -->
+          <circle cx="20" cy="38" r="7" fill="#D4A853" stroke="#F5F0E8" stroke-width="1.2"/>
+          <circle cx="20" cy="38" r="3" fill="#8B6914"/>
+          <text x="36" y="42" fill="#8a6a38" font-size="9" font-family="'IM Fell English', serif">Excavation Site</text>
+          <!-- Mountain triangle -->
+          <polygon points="20,66 13,78 27,78" fill="#2a1c0a" stroke="#5a3818" stroke-width="1"/>
+          <polygon points="20,66 15,74 20,72 25,74" fill="rgba(232,220,195,0.15)"/>
+          <text x="36" y="75" fill="#8a6a38" font-size="9" font-family="'IM Fell English', serif">Mountain Range</text>
+          <!-- River -->
+          <path d="M12,94 C15,92 18,96 22,94 C25,92 28,96 30,94" fill="none" stroke="#2a4e78" stroke-width="2.5" opacity="0.7"/>
+          <text x="36" y="97" fill="#8a6a38" font-size="9" font-family="'IM Fell English', serif">River</text>
+          <!-- Forest -->
+          <circle cx="16" cy="116" r="7" fill="#0d1a0a" stroke="#1e3018" stroke-width="0.8"/>
+          <circle cx="25" cy="116" r="5" fill="#0f1c0c" stroke="#1e3018" stroke-width="0.8"/>
+          <text x="36" y="119" fill="#8a6a38" font-size="9" font-family="'IM Fell English', serif">Forest</text>
+        </g>
+
+        <!-- ── SCALE BAR ── -->
+        <g transform="translate(30, 335)">
+          <text x="0" y="0" fill="#7a5a30" font-size="8" font-family="'IM Fell English', serif" opacity="0.7">SCALE</text>
+          <rect x="0" y="6" width="30" height="5" fill="#3a2208"/>
+          <rect x="30" y="6" width="30" height="5" fill="#5a3a18"/>
+          <rect x="60" y="6" width="30" height="5" fill="#3a2208"/>
+          <line x1="0" y1="4" x2="0" y2="14" stroke="#6a4a20" stroke-width="1"/>
+          <line x1="90" y1="4" x2="90" y2="14" stroke="#6a4a20" stroke-width="1"/>
+          <text x="0" y="22" fill="#6a4a20" font-size="7" font-family="'IM Fell English', serif" opacity="0.7">0</text>
+          <text x="85" y="22" fill="#6a4a20" font-size="7" font-family="'IM Fell English', serif" opacity="0.7">100 mi</text>
+        </g>
+
+        <!-- ── VIGNETTE OVERLAY ── -->
+        <rect width="1100" height="560" fill="url(#vig)" pointer-events="none"/>
+      </svg>
+
+      <!-- Map title stamp -->
+      <div class="map-title-stamp">
+        <span>Project Atlas</span>
+        <small>Field Survey · 2021–Present</small>
+      </div>
+
+      <!-- Clickable markers (HTML overlays for interactivity) -->
+      <div class="map-marker" style="left:29%;top:43%" data-project="0">
+        <div class="marker-label">Fraud Intelligence</div>
+        <div class="pin-body"><div class="pin-head"></div><div class="pin-stem"></div><div class="pin-shadow"></div></div>
+      </div>
+      <div class="map-marker" style="left:50%;top:58%" data-project="1">
+        <div class="marker-label">Samba Sips BI</div>
+        <div class="pin-body"><div class="pin-head"></div><div class="pin-stem"></div><div class="pin-shadow"></div></div>
+      </div>
+      <div class="map-marker" style="left:69%;top:38%" data-project="2">
+        <div class="marker-label">Incredibles 2 NLP</div>
+        <div class="pin-body"><div class="pin-head"></div><div class="pin-stem"></div><div class="pin-shadow"></div></div>
+      </div>
+      <div class="map-marker" style="left:43%;top:75%" data-project="3">
+        <div class="marker-label">Yale Research</div>
+        <div class="pin-body"><div class="pin-head"></div><div class="pin-stem"></div><div class="pin-shadow"></div></div>
+      </div>
+
+      <!-- Popup -->
+      <div class="map-popup" id="mapPopup">
+        <div class="popup-tag" id="popupTag"></div>
+        <div class="popup-title" id="popupTitle"></div>
+        <div class="popup-sub" id="popupSub"></div>
+        <div class="popup-chips" id="popupChips"></div>
+      </div>
+
+      <div class="map-hint">Click the markers to explore</div>
+    </div>
   </div>
 
-  <!-- Project list -->
+  <!-- Projects list -->
   <div class="projects-list">
     <div class="project-row">
       <div class="project-num">01</div>
@@ -735,6 +1043,109 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
   </div>
 </section>
 
+<!-- RESUME -->
+<section id="resume" class="section">
+  <div class="section-eyebrow">Personnel File</div>
+  <h2 class="section-title"><em>Resume</em></h2>
+  <div class="section-divider"></div>
+  <div class="resume-grid">
+
+    <!-- LEFT COL: Work Experience -->
+    <div>
+      <div class="resume-col-title">Work Experience</div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Aug 2025 – Present</div>
+        <div class="resume-role">Fraud Data Analyst</div>
+        <div class="resume-company">TekSystems @ Meta</div>
+        <ul class="resume-bullets">
+          <li>Part of the MO Labeling Team within Risk Ops, responsible for accurately identifying and labeling the underlying methods used by bad actors to commit financial fraud and abuse across platforms, especially Ads and Payments.</li>
+          <li>Designed and developed a dashboard to identify and visualize trends in fraud patterns, enabling the team to proactively detect emerging threats and inform risk strategy.</li>
+        </ul>
+      </div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Jun 2024 – Aug 2025</div>
+        <div class="resume-role">Business Data Analyst</div>
+        <div class="resume-company">Samba Sips</div>
+        <ul class="resume-bullets">
+          <li>Used SQL and Python to analyze customer behavior and identify engagement trends, leading to strategic recommendations that increased reel engagement by 140% after implementation.</li>
+          <li>Conducted A/B tests to evaluate product-market fit and pricing, identifying SKUs that led to a 22% sales lift.</li>
+          <li>Built KPI dashboards in Excel and Power BI to track conversion, CTR, and retention over time.</li>
+        </ul>
+      </div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Jan 2024 – Jun 2024</div>
+        <div class="resume-role">Clinical Data Analyst &amp; ICD Coding Specialist</div>
+        <div class="resume-company">Hospital Felicio Rocho</div>
+        <ul class="resume-bullets">
+          <li>Applied ICD coding standards to patient records, improving reporting accuracy and supporting compliance with healthcare regulations.</li>
+          <li>Built Excel dashboards to monitor complications, readmission rates, and care quality metrics, enabling clinical teams to identify trends and improvement areas.</li>
+          <li>Worked cross-functionally with medical and administrative teams to validate data integrity and improve diagnostic record accuracy.</li>
+        </ul>
+      </div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Feb 2023 – Dec 2023</div>
+        <div class="resume-role">Operations Business Analyst &amp; Team Lead</div>
+        <div class="resume-company">Hospital Felicio Rocho</div>
+        <ul class="resume-bullets">
+          <li>Improved NPS from 88% to 93% within one month through KPI-driven workflow and staffing optimizations; received hospital client satisfaction award.</li>
+          <li>Created monthly financial and operational reports presented to senior leadership to guide resource allocation and process improvements.</li>
+          <li>Led two departments with 25+ staff, aligning operational execution with data insights across surgical and outpatient services.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT COL: Research + Education -->
+    <div>
+      <div class="resume-col-title">Research Experience</div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Jan 2021 – Feb 2022</div>
+        <div class="resume-role">Undergraduate Researcher</div>
+        <div class="resume-company">Yale University Stem Cell Center</div>
+        <ul class="resume-bullets">
+          <li>Proposed AI-based sepsis detection tool using symptom clustering, early warning scores, and EHR data to support early intervention.</li>
+          <li>Strengthened research design, data modeling, and scientific communication through structured proposal development and presentations.</li>
+        </ul>
+      </div>
+
+      <div class="resume-entry">
+        <div class="resume-dates">Sep 2021 – Feb 2022</div>
+        <div class="resume-role">Undergraduate Researcher</div>
+        <div class="resume-company">Hospital Nacional de Parapléjicos · Spain</div>
+        <ul class="resume-bullets">
+          <li>Independently led a neuroscience research project in Spain focused on recovery pattern analysis in cases of spinal cord injuries.</li>
+          <li>Designed A/B tests, and applied t-tests and ANOVA to validate outcomes.</li>
+          <li>Authored and defended a bilingual honors thesis in English and Portuguese; awarded top honors.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 48px;">
+        <div class="resume-col-title">Education</div>
+        <div class="resume-edu">
+          <div class="resume-edu-degree">Master of Science in Artificial Intelligence</div>
+          <div class="resume-edu-school">University of Colorado Boulder</div>
+          <div class="resume-edu-dates">Feb 2026 – Dec 2028</div>
+        </div>
+        <div class="resume-edu">
+          <div class="resume-edu-degree">Bachelor of Science in Nursing</div>
+          <div class="resume-edu-school">PUC Minas · UCLM Toledo</div>
+          <div class="resume-edu-dates">Feb 2018 – Dec 2022</div>
+        </div>
+        <div class="resume-edu">
+          <div class="resume-edu-degree">Data Science · Technical Studies</div>
+          <div class="resume-edu-school">Infinity School</div>
+          <div class="resume-edu-dates">May 2024 – Jan 2025</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="section">
   <div class="contact-inner">
@@ -750,52 +1161,47 @@ body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-i
 </section>
 
 <script>
-// ── MAGNIFYING GLASS CURSOR ──
+// CURSOR
 const magCursor = document.getElementById('mag-cursor');
 const magLens = document.getElementById('mag-lens');
 let mx = 0, my = 0, lx = 0, ly = 0;
-
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
   magCursor.style.left = mx + 'px';
   magCursor.style.top = my + 'px';
 });
-
 function animateLens() {
-  lx += (mx - lx) * 0.1;
-  ly += (my - ly) * 0.1;
-  magLens.style.left = lx + 'px';
-  magLens.style.top = ly + 'px';
+  lx += (mx - lx) * 0.1; ly += (my - ly) * 0.1;
+  magLens.style.left = lx + 'px'; magLens.style.top = ly + 'px';
   requestAnimationFrame(animateLens);
 }
 animateLens();
-
 document.querySelectorAll('a, button, .stack-item, .project-row, .card, .chip, .map-marker').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
 
-// ── SCROLL REVEAL ──
+// SCROLL REVEAL
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       e.target.classList.add('visible');
-      const children = e.target.querySelectorAll('.tl-item, .stack-item, .project-row, .skill-group');
+      const children = e.target.querySelectorAll('.tl-item, .stack-item, .project-row, .skill-group, .resume-entry, .resume-edu');
       children.forEach((child, i) => {
         child.style.opacity = '0';
-        child.style.transform = 'translateY(20px)';
-        child.style.transition = `opacity 0.6s ${i*0.08}s, transform 0.6s ${i*0.08}s`;
-        setTimeout(() => { child.style.opacity = '1'; child.style.transform = 'translateY(0)'; }, i * 80 + 150);
+        child.style.transform = 'translateY(16px)';
+        child.style.transition = `opacity 0.5s ${i*0.07}s, transform 0.5s ${i*0.07}s`;
+        setTimeout(() => { child.style.opacity = '1'; child.style.transform = 'translateY(0)'; }, i * 70 + 100);
       });
     }
   });
-}, { threshold: 0.08 });
+}, { threshold: 0.06 });
 document.querySelectorAll('.section').forEach(s => observer.observe(s));
 
-// ── MAP PROJECTS ──
+// MAP
 const projects = [
-  { tag: 'ACTIVE · FRAUD', title: 'Fraud Intelligence @ Meta', sub: 'Built a fraud trend dashboard identifying patterns in Ads & Payments. MO Labeling within Risk Ops, enabling proactive threat detection.', chips: ['SQL', 'Dashboard', 'Risk Ops', 'Trust & Safety'] },
-  { tag: 'COMPLETE · BI', title: 'Samba Sips BI System', sub: '+140% reel engagement, +22% sales lift via A/B testing. KPI dashboards built from zero in Power BI and Excel.', chips: ['Power BI', 'Python', 'A/B Testing', 'SQL'] },
+  { tag: 'ACTIVE · FRAUD', title: 'Fraud Intelligence @ Meta', sub: 'Built a fraud trend dashboard identifying patterns in Ads & Payments. MO Labeling within Risk Ops, enabling proactive threat detection from Aug 2025 to present.', chips: ['SQL', 'Dashboard', 'Risk Ops', 'Trust & Safety'] },
+  { tag: 'COMPLETE · BI', title: 'Samba Sips BI System', sub: '+140% reel engagement, +22% sales lift via A/B testing. KPI dashboards built from zero in Power BI and Excel. Jun 2024 to Aug 2025.', chips: ['Power BI', 'Python', 'A/B Testing', 'SQL'] },
   { tag: 'PERSONAL · NLP', title: 'Incredibles 2 Sentiment Analysis', sub: 'Custom 13-category emotion lexicon. Act-by-act breakdown and scene-level arc visualization using Python and matplotlib.', chips: ['Python', 'NLP', 'matplotlib', 'Lexicon Engineering'] },
   { tag: 'ACADEMIC · RESEARCH', title: 'AI Sepsis Detection — Yale', sub: 'AI-based early warning system proposal using symptom clustering and EHR data. Bilingual thesis awarded top honors.', chips: ['NLP', 'Research', 'EHR', 'Healthcare'] }
 ];
@@ -806,7 +1212,6 @@ const popupTitle = document.getElementById('popupTitle');
 const popupSub = document.getElementById('popupSub');
 const popupChips = document.getElementById('popupChips');
 const mapContainer = document.getElementById('mapContainer');
-let activeMarker = null;
 
 document.querySelectorAll('.map-marker').forEach(marker => {
   marker.addEventListener('click', e => {
@@ -817,23 +1222,19 @@ document.querySelectorAll('.map-marker').forEach(marker => {
     popupTitle.textContent = p.title;
     popupSub.textContent = p.sub;
     popupChips.innerHTML = p.chips.map(c => `<span class="popup-chip">${c}</span>`).join('');
-
     const rect = mapContainer.getBoundingClientRect();
     const mRect = marker.getBoundingClientRect();
-    let left = mRect.left - rect.left + 20;
-    let top = mRect.top - rect.top - 10;
-    if (left + 320 > rect.width) left = mRect.left - rect.left - 340;
-    if (top + 160 > rect.height) top = mRect.top - rect.top - 170;
-
+    let left = mRect.left - rect.left + 24;
+    let top = mRect.top - rect.top - 20;
+    if (left + 340 > rect.width) left = mRect.left - rect.left - 360;
+    if (top + 180 > rect.height) top = mRect.top - rect.top - 200;
+    if (top < 0) top = 16;
     popup.style.left = left + 'px';
     popup.style.top = top + 'px';
     popup.classList.add('active');
-    activeMarker = marker;
   });
 });
-
-mapContainer.addEventListener('click', () => { popup.classList.remove('active'); activeMarker = null; });
-document.addEventListener('scroll', () => { popup.classList.remove('active'); });
+mapContainer.addEventListener('click', () => popup.classList.remove('active'));
 </script>
 </body>
 </html>
