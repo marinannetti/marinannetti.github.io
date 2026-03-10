@@ -3,2237 +3,837 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mariana Nannetti · Data Analyst</title>
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<title>Mariana Nannetti — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:        #07050302;
-  --ink-solid:  #07050300;
-  --deep:       #0d0904;
-  --panel:      #130c05;
-  --panel-lt:   #1c1208;
-  --border:     #2e1e0a;
-  --border-lt:  #3e2a10;
-
-  /* Brown-amber accent */
-  --br:         #b5621a;
-  --br-bright:  #d4802a;
-  --br-dim:     #7a3e0e;
-  --br-dark:    #4a2408;
-  --br-glow:    rgba(181,98,26,0.13);
-  --br-stamp:   #8a4810;
-
-  /* Text */
-  --parch:      #f0e6ce;
-  --t-mid:      #c8b080;
-  --t-dim:      #7a5830;
-  --worn:       #9a7040;
+  --bg: #0a0804;
+  --bg2: #110e08;
+  --brown: #8B5E2A;
+  --amber: #C4812A;
+  --gold: #D4A853;
+  --cream: #E8DFC8;
+  --muted: #6B5A42;
+  --text: #D4C4A8;
+  --dim: #7A6A52;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
-  background: #07050300;
-  background-color: #070503;
-  color: var(--parch);
-  font-family: 'Libre Baskerville', Georgia, serif;
-  font-size: 16px;
-  line-height: 1.75;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Courier Prime', monospace;
+  cursor: none;
   overflow-x: hidden;
-  cursor: crosshair;
 }
 
-body::after {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
+/* ── MAGNIFYING GLASS CURSOR ── */
+#mag-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-30%, -30%);
+  transition: transform 0.05s;
+  width: 48px; height: 48px;
 }
+#mag-cursor svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(212,168,83,0.6)); }
+#mag-lens {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,168,83,0.2);
+  transform: translate(-50%, -50%);
+  transition: left 0.12s ease-out, top 0.12s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+  backdrop-filter: brightness(1.15) contrast(1.05);
+  background: radial-gradient(circle at 40% 35%, rgba(212,168,83,0.04), transparent 60%);
+}
+body.hovering #mag-cursor svg { filter: drop-shadow(0 0 10px rgba(212,168,83,1)); }
+body.hovering #mag-lens { width: 110px; height: 110px; border-color: rgba(212,168,83,0.5); }
 
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #070503; }
-::-webkit-scrollbar-thumb { background: var(--br-dim); }
-
-/* ═══════════════════════════
-   NAV
-═══════════════════════════ */
+/* ── NAV ── */
 nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-  height: 58px; padding: 0 64px;
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(7,5,3,0.96);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(10px);
+  padding: 18px 48px;
+  background: linear-gradient(to bottom, rgba(10,8,4,0.97), transparent);
+  backdrop-filter: blur(4px);
 }
-nav::after {
-  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--br-dim) 40%, var(--br-dim) 60%, transparent 100%);
-  opacity: 0.6;
+.nav-logo-wrap { display: flex; align-items: center; gap: 12px; }
+.nav-logo-icon { width: 40px; height: 40px; flex-shrink: 0; }
+.nav-logo-text { display: flex; flex-direction: column; }
+.nav-logo-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 3px; color: var(--gold); line-height: 1;
 }
+.nav-logo-sub { font-size: 9px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+.nav-links { display: flex; gap: 40px; }
+.nav-links a {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-right { font-size: 11px; letter-spacing: 1px; color: var(--muted); }
 
-.nav-id { display: flex; align-items: center; gap: 14px; }
+/* ── SOCIAL SIDEBAR ── */
+.social-bar {
+  position: fixed; left: 28px; bottom: 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  z-index: 100;
+}
+.social-bar::before { content: ''; width: 1px; height: 60px; background: var(--muted); display: block; margin-bottom: 4px; }
+.social-bar a { color: var(--muted); text-decoration: none; display: flex; align-items: center; justify-content: center; transition: color 0.3s, transform 0.3s; }
+.social-bar a:hover { color: var(--gold); transform: translateX(4px); }
 
-.nav-logo {
-  width: 38px; height: 38px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
-  transition: transform 0.3s;
-}
-.nav-logo:hover { transform: rotate(-8deg) scale(1.1); }
-.nav-seal {
-  width: 34px; height: 34px;
-  border: 2px solid var(--br-dim); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--br);
-}
-
-.nav-name {
-  font-family: 'Special Elite', cursive;
-  font-size: 15px; color: var(--parch); letter-spacing: 0.05em;
-}
-.nav-sub {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; color: var(--t-dim);
-  letter-spacing: 0.2em; text-transform: uppercase; margin-top: 1px;
-}
-
-nav ul { list-style: none; display: flex; gap: 40px; }
-nav a {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: #b8a888;
-  text-decoration: none; letter-spacing: 0.2em; text-transform: uppercase;
-  transition: color 0.2s; padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-nav a:hover { color: var(--parch); border-bottom-color: var(--br); }
-
-/* ═══════════════════════════
-   BUTTONS
-═══════════════════════════ */
-.btn-primary {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--parch); background: var(--br-dim);
-  border: 1px solid var(--br); padding: 13px 30px;
-  cursor: crosshair; text-decoration: none;
-  transition: background 0.25s, color 0.25s, transform 0.2s;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  display: inline-block;
-}
-.btn-primary:hover {
-  background: var(--br-bright); color: #07050300;
-  color: #1a0c04;
-  transform: translateY(-2px);
-}
-
-.btn-ghost {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--t-mid); background: transparent;
-  border: 1px solid var(--border); padding: 13px 30px;
-  cursor: crosshair; text-decoration: none;
-  transition: background 0.25s, color 0.25s, border-color 0.25s;
-  display: inline-block;
-}
-.btn-ghost:hover {
-  background: var(--br-glow); color: var(--parch);
-  border-color: var(--br);
-}
-
-/* ═══════════════════════════
-   HERO
-═══════════════════════════ */
-#home {
+/* ── HERO ── */
+#hero {
   min-height: 100vh;
   display: grid; grid-template-columns: 1fr 1fr;
-  padding-top: 58px; overflow: hidden;
+  position: relative; overflow: hidden;
 }
-
-/* ═══ AVATAR SYSTEM ═══
-   To use your real avatar:
-   1. Place your image file next to portfolio.html
-   2. Replace every  src="avatar-placeholder.png"  with your filename
-   ══════════════════════ */
-
-/* Hero background avatar */
-.hero-avatar-bg {
-  position: absolute;
-  right: -20px; bottom: 0;
-  height: 95%;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom right;
-  opacity: 0.55;
-  pointer-events: none;
-  filter: sepia(0.15) contrast(1.05) brightness(0.9);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 30%, transparent 85%),
-                      linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 15%, transparent 40%);
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.95) 30%, transparent 85%),
-              linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 15%, transparent 40%);
-  z-index: 1;
-  animation: fadeUp 1s 0.3s both;
-}
-
-/* Nav avatar - small circle */
-.nav-avatar {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  border: 2px solid var(--br-dim);
-  object-fit: cover;
-  object-position: top center;
-  filter: sepia(0.3) contrast(1.05);
-  transform: rotate(-4deg);
-  transition: transform 0.3s, border-color 0.3s;
-}
-.nav-avatar:hover { transform: rotate(0deg) scale(1.08); border-color: var(--br); }
-
-/* Contact avatar - large atmospheric */
-.contact-avatar-wrap {
-  position: absolute;
-  right: 80px; bottom: 0;
-  height: 85%;
-  pointer-events: none;
-  z-index: 0;
-}
-.contact-avatar-wrap img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom;
-  filter: sepia(0.2) contrast(1.05) brightness(0.85);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 20%, transparent 80%),
-                      linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 30%);
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.9) 20%, transparent 80%),
-              linear-gradient(to top, rgba(0,0,0,1) 0%, transparent 30%);
-  opacity: 0.5;
-}
-
-/* Placeholder styling (shown before real image) */
-.avatar-ph {
-  background: linear-gradient(160deg, var(--panel-lt), var(--panel));
-  border: 1px dashed var(--border-lt);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 8px;
-  color: var(--t-dim);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
-}
-
 .hero-left {
-  padding: 80px 40px 80px 64px;
   display: flex; flex-direction: column; justify-content: center;
-  background: linear-gradient(155deg, #140e06 0%, #070503 100%);
-  /* Assassins Creed bg handled in hero-board */
-  border-right: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
+  padding: 120px 64px 80px 96px;
+  position: relative; z-index: 2;
 }
-
-/* Aged paper texture lines */
-.hero-left::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to bottom, transparent, transparent 28px,
-    rgba(181,98,26,0.04) 28px, rgba(181,98,26,0.04) 29px
-  );
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 10px; letter-spacing: 4px; color: var(--amber);
+  text-transform: uppercase; margin-bottom: 32px;
 }
-
-.case-label {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--br);
-  letter-spacing: 0.35em; text-transform: uppercase;
-  margin-bottom: 30px; display: flex; align-items: center; gap: 14px;
-  opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 7vw, 96px); font-weight: 900;
+  line-height: 0.95; color: var(--cream); margin-bottom: 24px; letter-spacing: -1px;
 }
-.case-label::before { content:''; display:block; width:36px; height:1px; background:var(--br); }
-.case-label::after { content:'CASE FILE OPEN'; font-size:8px; color:var(--br-dim); }
-
-h1.hero-name {
-  font-family: 'Special Elite', cursive;
-  font-size: clamp(56px, 7vw, 100px);
-  line-height: 0.95; color: var(--parch);
-  margin-bottom: 12px;
-  opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
-  text-shadow: 0 4px 32px rgba(0,0,0,0.9), 0 0 60px rgba(181,98,26,0.08);
-}
-
-.hero-title {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 12px; color: var(--br);
-  letter-spacing: 0.28em; text-transform: uppercase;
-  margin-bottom: 38px;
-  opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
-}
-.blink { animation: blink 1.2s infinite; }
-
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 6px; color: var(--amber); margin-bottom: 32px; }
 .hero-quote {
-  font-size: 17px; color: var(--t-mid);
-  max-width: 430px; line-height: 1.95; margin-bottom: 16px;
-  border-left: 2px solid var(--br-dim); padding-left: 22px;
-  font-style: italic;
-  opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 16px; line-height: 1.7; color: var(--dim); max-width: 400px;
+  border-left: 2px solid var(--brown); padding-left: 20px; margin-bottom: 48px;
 }
-.hero-quote strong { color: var(--parch); font-style: normal; }
-
-.annotation {
-  font-family: 'Special Elite', cursive;
-  font-size: 14px; color: var(--br);
-  transform: rotate(-1.5deg); display: inline-block;
-  margin-bottom: 40px;
-  opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+.hero-quote strong { color: var(--text); font-style: normal; }
+.hero-status { font-size: 10px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; }
+.hero-status::before { content: '●'; margin-right: 8px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-btns { display: flex; gap: 16px; }
+.btn-primary {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  background: var(--brown); color: var(--cream);
+  padding: 14px 28px; border: none;
+  transition: background 0.3s; text-decoration: none; display: inline-block;
 }
-.annotation::before { content: ''; }
-
-.hero-btns {
-  display: flex; gap: 14px; flex-wrap: wrap;
-  opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+.btn-primary:hover { background: var(--amber); }
+.btn-ghost {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  background: transparent; color: var(--dim);
+  padding: 14px 28px; border: 1px solid var(--muted);
+  transition: color 0.3s, border-color 0.3s; text-decoration: none; display: inline-block;
 }
+.btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+.scroll-hint {
+  margin-top: 48px; font-size: 9px; letter-spacing: 4px; color: var(--muted);
+  text-transform: uppercase; display: flex; align-items: center; gap: 12px;
+  animation: fadeUpIn 1s 1.5s both;
+}
+.scroll-hint::after { content: ''; width: 40px; height: 1px; background: var(--muted); }
 
-/* ── Evidence Board ── */
-.hero-board {
-  padding: 48px 40px 48px 32px;
-  display: flex; flex-direction: column; justify-content: center;
-  position: relative;
-  opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
-  /* Corkboard texture */
-  background-color: #3a2810;
+/* EVIDENCE BOARD */
+.hero-right {
+  position: relative; overflow: hidden;
+  background: #0d0a05; border-left: 1px solid rgba(139,94,42,0.15);
+}
+.evidence-board-label {
+  position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; letter-spacing: 5px; color: var(--muted); text-transform: uppercase; white-space: nowrap;
+}
+.board-grid {
+  position: absolute; inset: 0;
   background-image:
-    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(100,60,10,0.4) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 80% 70%, rgba(60,35,5,0.5) 0%, transparent 55%),
-    repeating-linear-gradient(
-      0deg, transparent, transparent 3px,
-      rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
-    ),
-    repeating-linear-gradient(
-      90deg, transparent, transparent 3px,
-      rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px
-    );
-  border-left: 3px solid #1a0e04;
-  box-shadow: inset 4px 0 20px rgba(0,0,0,0.5), inset -2px 0 12px rgba(0,0,0,0.3);
+    radial-gradient(circle at 50% 50%, rgba(139,94,42,0.06) 0%, transparent 70%),
+    linear-gradient(rgba(139,94,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,94,42,0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
 }
-
-/* Cork grain overlay */
-.hero-board::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
-  mix-blend-mode: multiply;
+.cards-container {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr);
+  gap: 16px; padding: 130px 40px 60px;
 }
-
-/* String lines connecting pins */
-.hero-board::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    linear-gradient(to bottom right, transparent 48%, rgba(120,60,10,0.15) 49%, rgba(120,60,10,0.15) 50%, transparent 51%),
-    linear-gradient(to bottom left, transparent 48%, rgba(120,60,10,0.12) 49%, rgba(120,60,10,0.12) 50%, transparent 51%),
-    linear-gradient(160deg, transparent 35%, rgba(100,50,8,0.1) 36%, rgba(100,50,8,0.1) 36.2%, transparent 37%);
+.card {
+  background: #F5F0E8; padding: 18px 20px; position: relative;
+  transform: rotate(var(--rot, 0deg));
+  box-shadow: 4px 6px 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s, box-shadow 0.3s; overflow: hidden;
+  opacity: 0; animation: cardIn 0.6s forwards;
 }
-
-.board-heading {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; color: var(--t-dim);
-  letter-spacing: 0.35em; text-transform: uppercase;
-  text-align: center; margin-bottom: 32px;
-  display: flex; align-items: center; gap: 10px;
-  justify-content: center;
+.card:hover { transform: rotate(0deg) scale(1.02); box-shadow: 6px 10px 30px rgba(0,0,0,0.7); z-index: 10; }
+.card::before {
+  content: ''; width: 14px; height: 14px;
+  background: radial-gradient(circle, #D4A853 40%, #8B6914 100%);
+  border-radius: 50%; position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
-.board-heading::before, .board-heading::after {
-  content: ''; flex: 1; max-width: 40px; height: 1px;
-  background: var(--border-lt);
+.card-tag { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--brown); border: 1px solid var(--brown); padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
+.card h3 { font-size: 13px; font-weight: 700; color: #1a1208; margin-bottom: 6px; }
+.card p { font-size: 11px; color: #4a3a28; line-height: 1.5; margin-bottom: 10px; }
+.card-meta { font-size: 9px; color: #7a6040; letter-spacing: 1px; margin-bottom: 8px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #c8b898; }
+.card-tags span { font-size: 8px; color: #5a4830; letter-spacing: 1px; }
+.card-tags span::after { content: ' ·'; }
+.card-tags span:last-child::after { content: ''; }
+.card.span2 { grid-column: 1 / -1; }
+.card:nth-child(1) { --rot: -1deg; animation-delay: 0.5s; }
+.card:nth-child(2) { --rot: 1.5deg; animation-delay: 0.7s; }
+.card:nth-child(3) { --rot: 0.5deg; animation-delay: 0.9s; }
+.card:nth-child(4) { --rot: -1.5deg; animation-delay: 1.1s; }
+.card:nth-child(5) { --rot: 0deg; animation-delay: 1.3s; }
+@keyframes cardIn { from{opacity:0;transform:rotate(var(--rot,0)) translateY(20px)} to{opacity:1;transform:rotate(var(--rot,0)) translateY(0)} }
+
+/* ── SECTIONS ── */
+.section { padding: 120px 96px; position: relative; opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.section.visible { opacity: 1; transform: translateY(0); }
+.section-eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
+.section-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 700; color: var(--cream); line-height: 1.1; margin-bottom: 60px; }
+.section-title em { color: var(--amber); font-style: italic; }
+.section-divider { width: 100%; height: 1px; background: linear-gradient(to right, var(--brown), transparent); margin-bottom: 60px; }
+
+/* ── ABOUT ── */
+#about { background: var(--bg2); }
+.about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start; }
+.about-text p { font-size: 16px; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+.about-text strong { color: var(--cream); }
+.about-text em { color: var(--amber); font-style: italic; }
+.about-available { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--brown); padding: 10px 20px; font-size: 10px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-top: 24px; }
+.about-available::before { content: '●'; animation: pulse 2s infinite; }
+.skill-group { margin-bottom: 28px; }
+.skill-label { font-size: 9px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
+.skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--muted); color: var(--dim); padding: 6px 12px; transition: border-color 0.3s, color 0.3s; }
+.chip:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── TIMELINE ── */
+#timeline { background: var(--bg); }
+.timeline-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; position: relative; }
+.timeline-line { display: flex; flex-direction: column; align-items: center; position: relative; padding-top: 8px; }
+.timeline-line::before { content: ''; width: 1px; background: linear-gradient(to bottom, var(--brown), transparent); position: absolute; top: 0; bottom: 0; left: 50%; }
+.tl-dot { width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--amber); border-radius: 50%; position: relative; z-index: 1; flex-shrink: 0; margin-bottom: auto; box-shadow: 0 0 12px rgba(196,129,42,0.4); }
+.tl-year { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--cream); text-align: center; position: relative; z-index: 1; margin-top: 0; }
+.tl-item { padding: 0 0 80px 0; }
+.tl-item.right { padding-left: 32px; }
+.tl-item.left { padding-right: 32px; text-align: right; }
+.tl-dates { font-size: 10px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 8px; }
+.tl-role { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--cream); margin-bottom: 4px; }
+.tl-company { font-size: 11px; letter-spacing: 2px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
+.tl-desc { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+/* ── TECH STACK ── */
+#stack { background: var(--bg2); }
+.stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
+.stack-item { background: rgba(139,94,42,0.06); border: 1px solid rgba(139,94,42,0.2); padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.2s; position: relative; overflow: hidden; }
+.stack-item:hover { background: rgba(139,94,42,0.15); border-color: var(--amber); transform: translateY(-4px); }
+.stack-item:hover::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
+.stack-icon { font-size: 26px; }
+.stack-name { font-size: 9px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+.stack-section-title { font-size: 10px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; margin-top: 32px; }
+
+/* ── PROJECTS MAP ── */
+#projects { background: var(--bg); }
+.map-container {
+  width: 100%; height: 520px;
+  position: relative; margin-bottom: 60px;
+  border: 1px solid rgba(139,94,42,0.25);
+  overflow: hidden;
+  background: #0e0b06;
 }
-
-.pins {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  position: relative; z-index: 1;
+.map-hint {
+  position: absolute; bottom: 16px; right: 20px;
+  font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase;
+  z-index: 10;
 }
-
-.pin {
-  background: #f0e8d0;
-  color: #1a0c04;
-  padding: 20px 18px 16px;
-  position: relative;
-  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
-  box-shadow: 3px 6px 18px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.25);
+/* map marker */
+.map-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: none; z-index: 5;
 }
-
-/* Each pin: aged parchment tints + rotations for handmade feel */
-.pin:nth-child(1) { background: #ece0be; transform: rotate(-2.2deg); }
-.pin:nth-child(2) { background: #f3e9cb; transform: rotate(1.5deg); }
-.pin:nth-child(3) { background: #e7dbb8; transform: rotate(0.6deg); }
-.pin:nth-child(4) { background: #f1e7c6; transform: rotate(-1.4deg); }
-.pin:nth-child(5) { background: #eae0be; transform: rotate(-0.7deg); grid-column: span 2; }
-
-/* Tape accent on some pins */
-.pin:nth-child(2)::before,
-.pin:nth-child(4)::before {
-  content: '';
-  position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
-  width: 40px; height: 14px;
-  background: rgba(220,200,140,0.45);
-  border: 1px solid rgba(180,150,80,0.3);
-  z-index: 2;
-}
-
-/* Thumbtack on pins 1, 3, 5 */
-.pin:nth-child(1)::before,
-.pin:nth-child(3)::before,
-.pin:nth-child(5)::before {
-  content: '';
-  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+.marker-dot {
   width: 16px; height: 16px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #f0d060, #9a6010);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.7), inset 0 1px 3px rgba(255,255,255,0.4);
-  z-index: 2;
+  background: radial-gradient(circle, var(--gold) 40%, var(--amber) 100%);
+  border: 2px solid var(--cream);
+  box-shadow: 0 0 0 0 rgba(212,168,83,0.6);
+  animation: markerPulse 2.5s infinite;
+  position: relative; z-index: 2;
+  transition: transform 0.2s;
 }
-
-/* Pin hole shadow */
-.pin:nth-child(1)::after,
-.pin:nth-child(3)::after,
-.pin:nth-child(5)::after {
-  content: '';
-  position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
-  width: 5px; height: 5px; border-radius: 50%;
-  background: rgba(0,0,0,0.2);
-  z-index: 2;
+.map-marker:hover .marker-dot { transform: scale(1.4); }
+@keyframes markerPulse {
+  0% { box-shadow: 0 0 0 0 rgba(212,168,83,0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(212,168,83,0); }
+  100% { box-shadow: 0 0 0 0 rgba(212,168,83,0); }
 }
-
-.pin:hover {
-  transform: rotate(0deg) scale(1.04) translateY(-5px) !important;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.3);
-  z-index: 20;
-}
-
-/* Aged edge effect on each pin */
-.pin-inner {
-  position: relative;
-}
-.pin-inner::before {
-  content: '';
-  position: absolute; inset: -20px -18px -16px;
-  background: linear-gradient(135deg, rgba(0,0,0,0.04) 0%, transparent 40%),
-              linear-gradient(315deg, rgba(0,0,0,0.06) 0%, transparent 40%);
+.marker-label {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  font-size: 9px; letter-spacing: 2px; color: var(--cream); white-space: nowrap;
+  text-transform: uppercase; background: rgba(10,8,4,0.85); padding: 3px 8px;
+  border: 1px solid rgba(139,94,42,0.4); opacity: 0; transition: opacity 0.2s;
   pointer-events: none;
 }
-
-.pin-stamp {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 7px; color: #7a3a08;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  border: 1.5px solid #9a4e18;
-  display: inline-block;
-  padding: 2px 6px; margin-bottom: 10px;
-  opacity: 0.8; transform: rotate(-1.5deg);
-  background: rgba(181,98,26,0.06);
-}
-
-.pin-title {
-  font-family: 'Special Elite', cursive;
-  font-size: 13px; color: #120804; line-height: 1.25; margin-bottom: 8px;
-  font-weight: 700;
-}
-
-.pin-body {
-  font-size: 11.5px; color: #3a2010; line-height: 1.65;
-  font-family: 'Libre Baskerville', serif;
-}
-
-/* Handwritten annotation style on some pins */
-.pin-annotation {
-  font-family: 'Special Elite', cursive;
-  font-size: 10px; color: #6a3808;
-  margin-top: 8px; transform: rotate(-1deg); display: inline-block;
-  opacity: 0.75;
-}
-
-.pin-foot {
-  margin-top: 10px; padding-top: 7px;
-  border-top: 1px dashed rgba(120,70,20,0.4);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; color: #7a4820; letter-spacing: 0.1em;
-}
-
-/* Red string indicator on bottom pin */
-.pin:nth-child(5) .pin-foot::before {
-  content: '⬤ ';
-  color: #c03020;
-  font-size: 7px;
-}
-
-/* ═══════════════════════════
-   SECTION SHARED
-═══════════════════════════ */
-section { position: relative; }
-.sw { padding: 100px 80px; }
-
-.sec-eye {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--br);
-  letter-spacing: 0.4em; text-transform: uppercase;
-  margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
-}
-.sec-eye::before { content:''; display:block; width:28px; height:1px; background:var(--br); }
-
-h2.sec-title {
-  font-family: 'Special Elite', cursive;
-  font-size: clamp(36px, 4.5vw, 60px);
-  color: var(--parch); line-height: 1.05;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.7);
-}
-
-.sec-rule {
-  width: 100%; height: 1px; margin-top: 18px;
-  background: linear-gradient(to right, var(--border-lt), transparent);
-}
-
-/* ═══════════════════════════
-   ABOUT
-═══════════════════════════ */
-
-
-.about-grid { display:grid; grid-template-columns:1.1fr 0.9fr; gap:80px; align-items:start; }
-
-.field-notes { position:relative; padding-left:28px; }
-.field-notes::before {
-  content:''; position:absolute; top:0; left:0; bottom:0; width:1px;
-  background: linear-gradient(to bottom, transparent, var(--br-dim) 10%, var(--br-dim) 90%, transparent);
-  opacity: 0.45;
-}
-
-.field-notes p { font-size:16px; color:var(--t-mid); margin-bottom:22px; line-height:1.95; }
-.field-notes p strong { color:var(--parch); font-weight:700; }
-.field-notes p em { color:var(--br); font-style:italic; }
-
-.available-stamp {
-  display: inline-block;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: var(--br-stamp);
-  border: 2px solid var(--br-stamp);
-  padding: 7px 16px; letter-spacing: 0.25em; text-transform: none;
-  transform: none; opacity: 0.8; margin-top: 22px;
-}
-
-.skill-group { margin-bottom:28px; }
-.skill-lbl {
-  font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--br);
-  letter-spacing:0.3em; text-transform:uppercase; margin-bottom:12px;
-  display:flex; align-items:center; gap:8px;
-}
-.skill-lbl::after { content:''; flex:1; height:1px; background:var(--border); }
-
-.tags { display:flex; flex-wrap:wrap; gap:7px; }
-.tag {
-  font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--t-mid);
-  border:1px solid var(--border); padding:5px 12px;
-  letter-spacing:0.1em; text-transform:uppercase;
-  transition: all 0.2s; cursor:default;
-}
-.tag:hover { color:var(--parch); border-color:var(--br-dim); background:var(--br-glow); }
-
-/* ═══════════════════════════
-   CONTRIBUTIONS CAROUSEL
-═══════════════════════════ */
-#contributions { overflow: hidden; }
-
-.carousel-wrap { position:relative; }
-
-.carousel-track-outer {
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
-  will-change: transform;
-  cursor: grab;
-}
-
-.c-slide {
-  flex: 0 0 auto;
-  /* width set by JS to outerWidth px */
-  padding: 60px 80px 60px 80px;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.c-visual {
-  display: flex; flex-direction: column;
-  align-items: flex-start; justify-content: center;
-  position: relative;
-}
-
-.c-num {
-  font-family: 'Special Elite', cursive;
-  font-size: 120px; line-height: 1;
-  color: var(--border);
-  user-select: none; pointer-events: none;
-  position: absolute; top: -20px; left: -10px;
-  transition: color 0.4s;
-}
-
-.c-icon {
-  font-size: 52px; margin-bottom: 24px;
-  position: relative; z-index: 2;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
-}
-
-.c-org {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--br);
-  letter-spacing: 0.3em; text-transform: uppercase;
-  margin-bottom: 10px; position: relative; z-index: 2;
-}
-
-.c-role {
-  font-family: 'Special Elite', cursive;
-  font-size: 28px; color: var(--parch); line-height: 1.2;
-  position: relative; z-index: 2;
-}
-
-.c-body-col {}
-
-.c-desc {
-  font-size: 16px; color: var(--t-mid); line-height: 1.95;
-  margin-bottom: 28px; font-style: italic;
-  border-left: 2px solid var(--br-dim); padding-left: 22px;
-}
-.c-desc strong { color: var(--parch); font-style: normal; }
-
-.c-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
-.c-tag {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; color: var(--t-dim);
-  border: 1px solid var(--border); padding: 4px 11px;
-  letter-spacing: 0.12em; text-transform: uppercase;
-}
-
-.c-foot {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--br-dim); letter-spacing: 0.15em;
-  padding-top: 18px; border-top: 1px solid var(--border);
-}
-
-/* Carousel controls */
-.carousel-controls {
-  display: flex; align-items: center; justify-content: center;
-  gap: 24px; padding: 0 80px 48px;
-}
-
-.c-btn {
-  width: 44px; height: 44px;
-  background: var(--panel); border: 1px solid var(--border);
-  color: var(--t-mid); font-size: 18px;
-  cursor: crosshair; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
-  font-family: monospace;
-}
-.c-btn:hover { background: var(--br-dim); color: var(--parch); border-color: var(--br); }
-
-.c-dots { display:flex; gap:10px; align-items:center; }
-
-.c-dot {
-  width: 6px; height: 6px;
-  background: var(--border-lt); cursor: crosshair;
-  transform: rotate(45deg);
-  transition: background 0.2s, transform 0.2s;
-}
-.c-dot.active { background: var(--br); transform: rotate(45deg) scale(1.4); }
-
-.c-counter {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px; color: var(--t-dim); letter-spacing: 0.15em;
-}
-
-/* ═══════════════════════════
-   PROJECTS — RUINS MAP
-═══════════════════════════ */
-
-
-.map-container {
-  position: relative;
-  width: 100%;
-  padding-bottom: 62%;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse 120% 80% at 50% 60%, #1e1408 0%, #0c0904 50%, #07050300 100%);
-  border: 1px solid var(--border);
-  cursor: crosshair;
-}
-
-/* Aged map grid lines */
-.map-container::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background-image:
-    linear-gradient(rgba(181,98,26,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(181,98,26,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Vignette */
-.map-container::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 2;
-  background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(7,5,3,0.7) 100%);
-}
-
-.map-svg {
-  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3;
-}
-
-/* ── Map site markers ── */
-.site-group {
-  cursor: crosshair;
-}
-
-.site-group:hover .site-ring { opacity: 1; }
-.site-group:hover .site-label-bg { opacity: 1; }
-
-.site-pulse {
-  transform-origin: center;
-  animation: sitePulse 2.5s ease-in-out infinite;
-}
-
-.site-group:nth-child(2) .site-pulse { animation-delay: 0.4s; }
-.site-group:nth-child(3) .site-pulse { animation-delay: 0.8s; }
-.site-group:nth-child(4) .site-pulse { animation-delay: 1.2s; }
-
-@keyframes sitePulse {
-  0%, 100% { opacity: 0.35; r: 8; }
-  50%       { opacity: 0.65; r: 11; }
-}
-
-.site-ring {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* ── Site detail panel ── */
-.site-panel {
-  position: absolute; z-index: 10;
-  background: rgba(13,9,4,0.97);
-  border: 1px solid var(--border-lt);
-  padding: 28px 32px;
-  width: 300px;
-  opacity: 0; pointer-events: none;
-  transform: translateY(8px);
-  transition: opacity 0.3s, transform 0.3s;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.8);
-}
-
-.site-panel::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 2px; background: var(--br-dim);
-}
-
-.site-panel.visible {
-  opacity: 1; pointer-events: all; transform: translateY(0);
-}
-
-.panel-close {
-  position: absolute; top: 10px; right: 14px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: var(--t-dim); cursor: crosshair;
-  background: none; border: none;
-  transition: color 0.2s;
-}
-.panel-close:hover { color: var(--parch); }
-
-.panel-stamp {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 8px; color: var(--br);
-  letter-spacing: 0.3em; text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.panel-title {
-  font-family: 'Special Elite', cursive;
-  font-size: 20px; color: var(--parch);
-  line-height: 1.2; margin-bottom: 12px;
-}
-
-.panel-desc {
-  font-size: 13px; color: var(--t-mid); line-height: 1.8; margin-bottom: 16px;
+.map-marker:hover .marker-label { opacity: 1; }
+
+/* map tooltip / popup */
+.map-popup {
+  position: absolute; z-index: 20;
+  background: #1a1408; border: 1px solid var(--brown);
+  padding: 20px 24px; min-width: 260px; max-width: 320px;
+  display: none; pointer-events: none;
+  box-shadow: 8px 12px 32px rgba(0,0,0,0.8);
+}
+.map-popup.active { display: block; }
+.popup-tag { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); border: 1px solid var(--amber); padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
+.popup-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); margin-bottom: 6px; }
+.popup-sub { font-size: 11px; color: var(--dim); margin-bottom: 10px; line-height: 1.5; }
+.popup-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.popup-chip { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.4); color: var(--muted); padding: 3px 8px; }
+
+/* project list below */
+.projects-list { display: flex; flex-direction: column; gap: 2px; }
+.project-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 32px; padding: 28px 0; border-bottom: 1px solid rgba(139,94,42,0.15); transition: background 0.3s; position: relative; }
+.project-row::before { content: ''; position: absolute; left: -96px; right: -96px; top: 0; bottom: 0; background: rgba(139,94,42,0.04); opacity: 0; transition: opacity 0.3s; }
+.project-row:hover::before { opacity: 1; }
+.project-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 32px; color: rgba(139,94,42,0.3); }
+.project-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--cream); margin-bottom: 4px; }
+.project-subtitle { font-size: 12px; color: var(--dim); margin-bottom: 8px; }
+.project-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.project-chip { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.3); color: var(--muted); padding: 4px 10px; }
+.project-arrow { font-size: 20px; color: var(--muted); transition: color 0.3s, transform 0.3s; }
+.project-row:hover .project-arrow { color: var(--gold); transform: translateX(4px); }
+
+/* ── CONTACT ── */
+#contact { background: var(--bg2); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+.contact-inner { max-width: 700px; }
+.contact-big { font-family: 'Playfair Display', serif; font-size: clamp(48px, 6vw, 80px); font-weight: 900; line-height: 1.0; color: var(--cream); margin-bottom: 32px; }
+.contact-big em { color: var(--amber); font-style: italic; }
+.contact-sub { font-size: 14px; color: var(--dim); margin-bottom: 48px; line-height: 1.7; max-width: 480px; }
+.contact-links { display: flex; gap: 32px; flex-wrap: wrap; }
+.contact-link { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.3s; border-bottom: 1px solid transparent; padding-bottom: 2px; }
+.contact-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* RESUME FIXED */
+.resume-fixed { position: fixed; bottom: 40px; right: 40px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--muted); padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; z-index: 100; }
+.resume-fixed:hover { color: var(--gold); border-color: var(--gold); }
+
+/* NOISE */
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; }
+
+/* ANIMS */
+@keyframes fadeUpIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.hero-left > * { opacity: 0; transform: translateY(20px); animation: fadeUpIn 0.8s forwards; }
+.hero-eyebrow { animation-delay: 0.2s; }
+.hero-name { animation-delay: 0.4s; }
+.hero-title { animation-delay: 0.6s; }
+.hero-quote { animation-delay: 0.7s; }
+.hero-status { animation-delay: 0.8s; }
+.hero-btns { animation-delay: 0.9s; }
+.scroll-hint { animation-delay: 1.1s; }
+
+@media (max-width: 900px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 100px 32px 60px; }
+  .section { padding: 80px 32px; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .timeline-grid { grid-template-columns: 1fr 40px 1fr; }
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 20px; }
+  .social-bar { display: none; }
 }
-
-.panel-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
-.panel-tag {
-  font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--t-dim);
-  border:1px solid var(--border); padding:3px 8px;
-  letter-spacing:0.1em; text-transform:uppercase;
-}
-
-.panel-status {
-  font-family:'Share Tech Mono',monospace; font-size:8px;
-  letter-spacing:0.18em; text-transform:uppercase;
-  padding:4px 10px; display:inline-block;
-}
-.ps-active { color:var(--br-bright); border:1px solid var(--br-dim); background:var(--br-glow); }
-.ps-pending { color:var(--t-dim); border:1px solid var(--border); }
-
-/* Terrain / topographic decorations via SVG (drawn inline) */
-
-/* ═══════════════════════════
-   RESUME
-═══════════════════════════ */
-
-
-.dossier-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; }
-
-.dossier-col h3 {
-  font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--br);
-  letter-spacing:0.28em; text-transform:uppercase;
-  margin-bottom:32px; padding-bottom:10px;
-  border-bottom:1px solid var(--border);
-  display:flex; align-items:center; gap:10px;
-}
-.dossier-col h3::before { content:'📁'; font-size:14px; }
-
-.entry {
-  padding:22px 0 22px 24px;
-  border-left:1px solid var(--border);
-  position:relative; margin-bottom:4px;
-  transition: border-color 0.25s;
-}
-.entry:hover { border-left-color:var(--br-dim); }
-.entry::before {
-  content:''; position:absolute; left:-5px; top:26px;
-  width:9px; height:9px;
-  background:var(--deep); border:1.5px solid var(--br-dim);
-  transform:rotate(45deg); transition:background 0.25s;
-}
-.entry:hover::before { background:var(--br-dim); }
-
-.entry-period {
-  font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--br);
-  letter-spacing:0.2em; text-transform:uppercase; margin-bottom:5px;
-}
-.entry-role {
-  font-family:'Special Elite',cursive; font-size:18px; color:var(--parch);
-  margin-bottom:3px; line-height:1.2;
-}
-.entry-org { font-size:13px; color:var(--worn); font-style:italic; margin-bottom:8px; }
-.entry-desc { font-size:13px; color:var(--t-dim); line-height:1.8; }
-
-.resume-foot {
-  margin-top:52px; padding-top:36px;
-  border-top:1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
-}
-.resume-foot p {
-  font-family:'Libre Baskerville',serif; font-size:14px;
-  color:var(--t-dim); font-style:italic; max-width:380px; line-height:1.7;
-}
-
-/* ═══════════════════════════
-   CONTACT
-═══════════════════════════ */
-#contact {
-  background: linear-gradient(160deg, #0f0a04 0%, #070503 100%);
-  border-top:1px solid var(--border);
-  min-height: 60vh; display:flex; flex-direction:column; justify-content:center;
-  position: relative; overflow: hidden;
-}
-
-/* big decorative text behind */
-#contact::before {
-  content: 'EXCAVATE';
-  position: absolute; bottom: -30px; right: -20px;
-  font-family: 'Special Elite', cursive;
-  font-size: 200px; line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(181,98,26,0.06);
-  pointer-events: none; user-select: none;
-  z-index: 0;
-}
-
-.contact-inner { position: relative; z-index: 1; }
-
-.transmission {
-  font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--br);
-  letter-spacing:0.4em; text-transform:uppercase; margin-bottom:28px;
-}
-.transmission::before { content:''; }
-.transmission::after { content:' OPEN CHANNEL'; color:var(--br-dim); }
-
-.contact-heading {
-  font-family:'Special Elite',cursive;
-  font-size:clamp(38px,5.5vw,72px); color:var(--parch); line-height:1.05;
-  margin-bottom:22px; text-shadow:0 2px 24px rgba(0,0,0,0.7);
-}
-.contact-heading em { color:var(--br-bright); font-style:normal; }
-
-.contact-body {
-  font-size:16px; color:var(--t-dim); font-style:italic;
-  max-width:500px; line-height:1.9; margin-bottom:48px;
-}
-.contact-body strong { color:var(--t-mid); font-style:normal; }
-
-.contact-links { display:flex; flex-wrap:wrap; }
-.contact-link {
-  font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--t-mid);
-  text-decoration:none; letter-spacing:0.2em; text-transform:uppercase;
-  padding:15px 28px; border:1px solid var(--border);
-  margin-right:-1px; margin-bottom:-1px;
-  display:flex; align-items:center; gap:10px; transition:all 0.25s;
-}
-.contact-link:hover {
-  color:var(--parch); background:var(--br-glow);
-  border-color:var(--br); position:relative; z-index:1;
-}
-
-/* ═══════════════════════════
-   FOOTER
-═══════════════════════════ */
-footer {
-  padding:26px 80px; border-top:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:center;
-  background: #07050300; background-color: #050302;
-}
-footer p {
-  font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--t-dim);
-  letter-spacing:0.16em; text-transform:uppercase;
-}
-footer span { color:var(--br); }
-
-/* ═══════════════════════════
-   ANIMATIONS
-═══════════════════════════ */
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(18px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes blink {
-  0%,100% { opacity:1; }
-  50%      { opacity:0; }
-}
-
-/* ═══════════════════════════
-   MOBILE
-═══════════════════════════ */
-@media(max-width:960px){
-  nav { padding:0 20px; }
-  nav ul { gap:16px; }
-  #home { grid-template-columns:1fr; }
-  .hero-board { display:none; }
-  .hero-left { padding:100px 24px 60px; }
-  .sw { padding:70px 24px; }
-  .about-grid { grid-template-columns:1fr; gap:48px; }
-  .field-notes { padding-left:20px; }
-  .c-slide { grid-template-columns:1fr; gap:32px; padding:48px 24px; }
-  .c-num { display:none; }
-  .carousel-controls { padding:0 24px 40px; }
-  .dossier-grid { grid-template-columns:1fr; gap:48px; }
-  .resume-foot { flex-direction:column; gap:20px; align-items:flex-start; }
-  footer { flex-direction:column; gap:10px; padding:20px 24px; text-align:center; }
-}
-
-
-
-/* PROJECTS — back down, deep */
-
-
-/* RESUME — warm dark lift */
-
-
-/* CONTACT — darkest, hat photo bg handled inline */
-
-
-/* ══ SECTION SEPARATION — strict alternating zones ══
-   Dark UI contrast rule: min 8 lightness points between adjacent sections
-   All borders use amber at low opacity as visual "seam"
-*/
-
-
-#contributions::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url('bg-cave.jpg');
-  background-size: cover; background-position: center 30%;
-  opacity: 0.035; pointer-events: none; z-index: 0;
-}
-#contributions > .sw,
-#contributions > .carousel-wrap { position: relative; z-index: 1; }
-
-
-
-/* ══ GLOBAL TEXT LEGIBILITY FIXES ══ */
-.entry-desc   { color: #b8a070 !important; }
-.entry-org    { color: #9a8050 !important; }
-.sec-eye      { color: #c8782a; }
-.nav-sub      { color: #7a6848; }
-.c-foot       { color: #9a8060; }
-
-
-/* ══════════════════════════════════════════════
-   SECTION BACKGROUNDS — single source of truth
-   Value ladder (perceived lightness):
-   Home #070503  → 4%  L  (darkest)
-   Contribs #060402 → 3%  L  (near-black)
-   Projects #0F0C07 → 8%  L
-   About #181209  → 11% L
-   Resume #221A0E  → 15% L  (warmest/lightest)
-   Each step is a clear visual jump, not a tweak.
-   ══════════════════════════════════════════════ */
-
-#home {
-  background: #070503;
-}
-
-#about {
-  background: #181209;
-  border-top: 3px solid #3a2210;
-  border-bottom: 3px solid #3a2210;
-}
-
-#contributions {
-  background: #060402;
-  border-bottom: 3px solid #2a1808;
-  position: relative; overflow: hidden;
-}
-#contributions::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url('bg-cave.jpg');
-  background-size: cover;
-  background-position: center 30%;
-  opacity: 0.04;
-  pointer-events: none; z-index: 0;
-}
-#contributions > .sw,
-#contributions > .carousel-wrap { position: relative; z-index: 1; }
-
-#projects {
-  background: #0f0c07;
-  border-top: 3px solid #2a1808;
-  border-bottom: 3px solid #2a1808;
-}
-
-#resume {
-  background: #221a0e;
-  border-top: 3px solid #3a2210;
-  border-bottom: 3px solid #3a2210;
-}
-
-/* Eyebrow labels */
-.sec-eye { color: #d4843a !important; }
-
-/* Global text fixes — one place */
-.entry-role   { color: #f0ddb8 !important; font-size: 15px; }
-.entry-period { color: #d4843a !important; }
-.entry-org    { color: #b89860 !important; }
-.entry-desc   { color: #c8aa78 !important; font-size: 13.5px; }
-.dossier-col h3 { color: #f0e6ce !important; }
-
-
-/* ═══════════════════════════════════════════════
-   LEGIBILITY OVERRIDES — single source of truth
-   All problem areas addressed here with !important
-   to beat specificity conflicts from earlier edits.
-   ═══════════════════════════════════════════════ */
-
-/* ── HERO BOARD (Evidence Board pins) ── */
-.board-heading {
-  font-size: 11px !important;
-  color: #c8a870 !important;
-  letter-spacing: 0.25em !important;
-}
-.pin-body {
-  font-size: 13px !important;
-  color: #2a1808 !important;
-  line-height: 1.7 !important;
-}
-.pin-foot {
-  font-size: 10px !important;
-  color: #6a3c10 !important;
-}
-.pin-stamp {
-  font-size: 8px !important;
-  color: #6a3010 !important;
-}
-.pin-title {
-  font-size: 14px !important;
-  color: #100602 !important;
-}
-.pin-annotation {
-  font-size: 11px !important;
-  color: #5a3010 !important;
-}
-
-/* ── ABOUT — Analytics Stack, Specializations, etc. ── */
-.tag {
-  font-size: 13px !important;
-  color: #e8cc90 !important;
-  border-color: #6a4828 !important;
-  letter-spacing: 0.04em !important;
-  padding: 7px 16px !important;
-}
-.skill-lbl {
-  font-size: 13px !important;
-  color: #e89848 !important;
-  letter-spacing: 0.15em !important;
-  font-weight: bold;
-}
-
-/* ── CAROUSEL SLIDES ── */
-.c-tag {
-  font-size: 10px !important;
-  color: #b8a070 !important;
-  border-color: #4a3018 !important;
-  padding: 5px 12px !important;
-  letter-spacing: 0.08em !important;
-}
-.c-foot {
-  font-size: 11px !important;
-  color: #b8803a !important;
-  letter-spacing: 0.08em !important;
-}
-.c-org {
-  font-size: 10px !important;
-  color: #d4843a !important;
-  letter-spacing: 0.2em !important;
-}
-.c-desc {
-  font-size: 15px !important;
-  color: #d0b888 !important;
-  line-height: 1.85 !important;
-}
-.c-desc strong {
-  color: #f0e0b8 !important;
-}
-.c-role {
-  font-size: 24px !important;
-  color: #f0e6ce !important;
-}
-
-/* ── SECTION EYEBROWS ── */
-.sec-eye {
-  font-size: 10px !important;
-  color: #d4843a !important;
-  letter-spacing: 0.3em !important;
-}
-
-/* ── PROJECTS — excavation hint text ── */
-.projects-hint {
-  font-size: 12px !important;
-  color: #b8906a !important;
-  letter-spacing: 0.1em !important;
-}
-
-/* ── RESUME entries ── */
-.entry-role   { font-size: 15px !important; color: #f0ddb8 !important; }
-.entry-period { font-size: 12px !important; color: #d4843a !important; }
-.entry-org    { font-size: 13px !important; color: #b89860 !important; }
-.entry-desc   { font-size: 13.5px !important; color: #c8aa78 !important; }
-.entry-bullets li { font-size: 13.5px !important; color: #c8aa78 !important; }
-.entry-bullets li strong { color: #f0e0b8 !important; }
-.dossier-col h3 { color: #f0e6ce !important; }
-
-/* ── NAV links ── */
-nav a {
-  font-size: 10px !important;
-  color: #c0a878 !important;
-}
-
 </style>
 </head>
 <body>
 
-<!-- ═══ NAV ═══ -->
+<!-- MAGNIFYING GLASS CURSOR -->
+<div id="mag-cursor">
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- lens circle -->
+    <circle cx="19" cy="19" r="13" stroke="#D4A853" stroke-width="2.5" fill="rgba(212,168,83,0.07)"/>
+    <!-- inner shine -->
+    <circle cx="15" cy="15" r="4" fill="rgba(255,255,255,0.06)"/>
+    <!-- handle -->
+    <line x1="28" y1="28" x2="43" y2="43" stroke="#8B5E2A" stroke-width="4" stroke-linecap="round"/>
+    <line x1="28" y1="28" x2="42" y2="42" stroke="#D4A853" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</div>
+<div id="mag-lens"></div>
+
+<!-- NAV -->
 <nav>
-  <div class="nav-id">
-    <img src="data:image/png;base64,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cF6QsMpIbztGT8l89ruFFeKYVEU7G4GXtH7Kx3XOrYLbSGiodss2dpew84PC5oxzM6dU3iI2+TqBqllKx1pt8gc54yT2IP8ARVm6X6RrtW35nhROkibIPaHZOWj+sL4dJ6euGqLwyFjZJHSknxBzt57LsnpZoui01Zog2BgneweI7HJKueDw++dz6VXN5fZGo9rzonTdFpqzRUFLGP1fG4t94/ar+ijuvRREVjUPPzMzO5AhUqCVlhCIiAqlSqkBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBFBOAoa4OzjyQVIoygQSiIeyDW/X+eWl6dXB8RIIx/Irje3N9q1HTCcgtfL72fku5Optln1BpGqtsce58nYD5FcSaotVXY79LDIwsdFJhqpup1ncSt+n3iKzDcMlNam0wonujMLezd4WHay0TSTU76u1RNjwOx7krB6Gvrqi8MMksn125G8+q3DdrzbbTamTSze+I2+6eR2VDaLRbwuK2rMNL2+5XGzvqaSkk8MvO2TjuvW0Wiuvd1Y2FjpJpHNDiGk8EoWG86ic2naC6pl9wDzXVnQjptDYKGK6VkGat7drmvbkDj4/NWHE405bf9OHk8iMVV36LdOafStpjmq42Grdh7XNxwDytnKGgNaAOwUr0lKRSuoUF7zedyIijC3ahUKcJhBCKcJhBCqUYUoCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgKCQO6leNbIyGmklkcA1jS7k+gQWvU1/obFQvqaueNgbzhxWjNW9fmQVL4qSgBaw43td3/AIrEuv8AroXi6PpaaX/gmtLJGk9yOPxWL9Nemd21m+aWLZFTRcnxRjcOO2fmqfk823d20WWDjVivddsjT/0hj4zRNb94PHLu38VtnSXVCxXpjfGqqeme79kuWh9Q/R+vEELprZUUrMZOMjt961hcrXfNK1hFTTzvkaTh7InYUWPnZKz58t78bHaPD9AaSqp6qMPp5myNIzlq9SfJcYaJ6xagtG2OorXCBvGzBzhb76fdYbHfoWwy72ThuXOkdgH7wrLDy8eTx6lx5ONenlnOs79T2CyzV8xbiPyJXDmvbsbzqStqWDDXSktx8luH6SuvI6qY2Whl3RTRZO05GcD8VpjSVudd79R0jIy7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Tlbcf0xoh9V8v3n8V5P6aQge74p+0qKel8iPpJHUuPP21W1ebojvytoP6akfVbIftKoPTeX9x/3laz03kf6tv7hg/lrV0RwOQgYcdwtmM6bOI5bJ95VTOmgzyJfvKf2zkf6sf3DBH+TVzo+VLYj5ArbsfTKi43Pl/j+K+2n6b2xp958v9fato6RyJ+ms9UwR9tMeG89o3H7FWIpj2hk/0lbzh0DaY8e88/Z+a+6DSVsi7Nz82qevRMs+5Q26xij1DQcdFVSH3YJf9BX302nrhPjbE8fNhW/aez0MONsMZ+bAvrbTU7RxBEP/ANAumnQ4/wArOe/Wf9atG0ehbrUkElv2hX+39NKrIdUGJw+xbXEcY7MaPkFUurH0fj1nc+XLfqma3rww21aDtVOAZqdpd8CFktBbKSiAFPHtwvtRWGPj48X6w4smfJk/aUEA91KIpkQiIgIiICIiClFOEwghVKMKUBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERARETQhT5oiAiImgREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH//2Q==" class="nav-logo" alt="MN">
-    <div>
-      <div class="nav-name">Mariana Nannetti</div>
-      <div class="nav-sub">Data Analyst · Austin TX</div>
+  <div class="nav-logo-wrap">
+    <!-- Logo: trowel + stone SVG, original design -->
+    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- soil mound -->
+      <ellipse cx="20" cy="32" rx="14" ry="5" fill="#3a2208" opacity="0.9"/>
+      <!-- stone with code symbol -->
+      <rect x="10" y="21" width="20" height="13" rx="3" fill="#5a3a18" stroke="#8B5E2A" stroke-width="1"/>
+      <text x="20" y="31" text-anchor="middle" font-family="monospace" font-size="7" fill="#D4A853" font-weight="bold">&lt;/&gt;</text>
+      <!-- scattered dirt flecks -->
+      <circle cx="8" cy="25" r="1.2" fill="#3a2208"/>
+      <circle cx="32" cy="27" r="1" fill="#3a2208"/>
+      <circle cx="9" cy="29" r="0.8" fill="#3a2208"/>
+      <!-- trowel handle -->
+      <line x1="22" y1="18" x2="30" y2="8" stroke="#8B5E2A" stroke-width="2" stroke-linecap="round"/>
+      <!-- trowel blade -->
+      <polygon points="18,22 22,18 26,14 20,12" fill="#D4A853" stroke="#8B5E2A" stroke-width="0.8"/>
+      <!-- trowel shine -->
+      <line x1="20" y1="14" x2="23" y2="17" stroke="rgba(255,255,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo-text">
+      <div class="nav-logo-name">M. Nannetti</div>
+      <div class="nav-logo-sub">Data Analyst</div>
     </div>
   </div>
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contributions">Work</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#resume">Resume</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#timeline">Work</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">mari.nannetti@gmail.com</div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
-<section id="home">
+<!-- SOCIAL -->
+<div class="social-bar">
+  <a href="https://github.com/marinannetti" target="_blank">
+    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1-.32 3.3 1.23A11.5 11.5 0 0 1 12 5.8c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/mariana-nannetti/" target="_blank">
+    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.95v5.66H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+  </a>
+</div>
+
+<a class="resume-fixed" href="#">Resume ↗</a>
+
+<!-- HERO -->
+<section id="hero">
   <div class="hero-left">
-    <div class="case-label">Field Operative · Austin, TX</div>
+    <div class="hero-eyebrow">Field Operative · Austin, TX · Case File Open</div>
     <h1 class="hero-name">Mariana<br>Nannetti</h1>
-    <div class="hero-title">Data Analyst <span class="blink" style="animation:blink 1.2s infinite;">|</span></div>
-    <p class="hero-quote">
-      I treat every dataset like an <strong>archaeological site</strong>  
-      digging through complexity, reading the layers, and surfacing
-      the story no one else found.
-    </p>
-    <div class="annotation">Open to data analyst roles &amp; opportunities</div>
+    <div class="hero-title">Data Analyst</div>
+    <p class="hero-quote">I treat every dataset like an <strong>archaeological site</strong> — digging through complexity, reading the layers, and surfacing the story no one else found.</p>
+    <div class="hero-status">Open to data analyst roles &amp; opportunities</div>
     <div class="hero-btns">
       <a href="#projects" class="btn-primary">Open Case Files</a>
       <a href="#contact" class="btn-ghost">Send Transmission</a>
     </div>
+    <div class="scroll-hint">Scroll to explore</div>
   </div>
+  <div class="hero-right">
+    <div class="board-grid"></div>
+    <div class="evidence-board-label">Evidence Board</div>
+    <div class="cards-container">
+      <div class="card">
+        <div class="card-tag">Verified · Current</div>
+        <h3>Fraud Intelligence @ Meta</h3>
+        <p>MO Labeling · Risk Ops · Ads &amp; Payments. Built fraud trend dashboard from scratch.</p>
+        <div class="card-meta">Aug 2025 – Present</div>
+        <div class="card-tags"><span>Trust &amp; Safety</span><span>Forensics</span><span>SQL</span></div>
+      </div>
+      <div class="card">
+        <div class="card-tag">Active · Closed</div>
+        <h3>Business Analytics @ Samba Sips</h3>
+        <p>+140% reel engagement · +22% sales lift via A/B testing. BI built from zero.</p>
+        <div class="card-meta">Jun 2024 – Aug 2025</div>
+        <div class="card-tags"><span>SQL</span><span>Python</span><span>Power BI</span></div>
+      </div>
+      <div class="card">
+        <div class="card-tag">Field Op</div>
+        <h3>Hospital Ops &amp; Clinical Data</h3>
+        <p>NPS 88→93% in one month. ICD coding. Led 25+ staff. Client satisfaction award.</p>
+        <div class="card-meta">2023 – 2024</div>
+        <div class="card-tags"><span>Operations</span><span>Healthcare</span><span>Excel</span></div>
+      </div>
+      <div class="card">
+        <div class="card-tag">Academic</div>
+        <h3>Yale + Spain Research</h3>
+        <p>AI sepsis detection proposal · Bilingual honors thesis · Top honors awarded.</p>
+        <div class="card-meta">Yale · Madrid · 2021–2022</div>
+        <div class="card-tags"><span>A/B Testing</span><span>ANOVA</span><span>Bilingual</span></div>
+      </div>
+      <div class="card span2">
+        <div class="card-tag">Mission · Open</div>
+        <h3>Open to Opportunities</h3>
+        <p>Data analyst roles across tech, entertainment, gaming, healthcare. M.S. AI in progress · University of Colorado Boulder · 2026–2028</p>
+        <div class="card-meta">● Austin TX · Remote-Ready · 3 Languages</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div class="hero-board">
-    <div style="position:absolute;inset:0;background:linear-gradient(to right, rgba(7,5,3,0.15) 0%, rgba(7,5,3,0.05) 50%, rgba(7,5,3,0.2) 100%);pointer-events:none;z-index:0;"></div>
-    <div style="position:relative;z-index:1;width:100%;">
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="section-eyebrow">Field Notes</div>
+  <h2 class="section-title">About <em>Me</em></h2>
+  <div class="section-divider"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>data analyst</strong> with a background spanning fraud intelligence at Meta, business operations, and hospital leadership. Every role has sharpened the same instinct: <em>find what the numbers are trying to say.</em></p>
+      <p>I approach data like an archaeologist approaches a dig site — with patience, method, and a healthy suspicion that the most interesting find is still buried. I don't just clean and query. I <strong>investigate.</strong></p>
+      <p>I'm open to <strong>data analyst roles</strong> across industries — anywhere curiosity, precision, and good storytelling with data are valued. Open to remote and hybrid opportunities.</p>
+      <p>Fluent in <strong>English, Portuguese, and Spanish</strong> — a real edge in global content markets. Based in <em>Austin, TX.</em></p>
+      <div class="about-available">Available · Open to Offers</div>
+    </div>
+    <div class="about-skills">
+      <div class="skill-group">
+        <div class="skill-label">Analytics Stack</div>
+        <div class="skill-chips"><span class="chip">SQL</span><span class="chip">Python</span><span class="chip">Tableau</span><span class="chip">Power BI</span><span class="chip">Google Sheets</span><span class="chip">Excel</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-label">Specializations</div>
+        <div class="skill-chips"><span class="chip">Fraud Detection</span><span class="chip">Business Intelligence</span><span class="chip">A/B Testing</span><span class="chip">Data Storytelling</span><span class="chip">Operations Analysis</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-label">Target Industries</div>
+        <div class="skill-chips"><span class="chip">Tech</span><span class="chip">Entertainment</span><span class="chip">Gaming</span><span class="chip">Healthcare</span><span class="chip">Fintech</span><span class="chip">Creative Tech</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-label">Proven In</div>
+        <div class="skill-chips"><span class="chip">Big Tech · Meta</span><span class="chip">Healthcare</span><span class="chip">F&amp;B</span><span class="chip">Academic Research</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="board-heading">Evidence Board</div>
+<!-- TIMELINE -->
+<section id="timeline" class="section">
+  <div class="section-eyebrow">Expedition Log</div>
+  <h2 class="section-title">Career &amp; <em>Experience</em></h2>
+  <div class="section-divider"></div>
+  <div class="timeline-grid">
+    <div>
+      <div class="tl-item left">
+        <div class="tl-dates">Aug 2025 – Present</div>
+        <div class="tl-role">Fraud Data Analyst</div>
+        <div class="tl-company">TekSystems · Meta</div>
+        <div class="tl-desc">MO Labeling Team within Risk Ops. Accurately identifying and labeling fraud methods by bad actors across Ads and Payments. Built a fraud trend dashboard to proactively detect emerging threats.</div>
+      </div>
+      <div class="tl-item left" style="margin-top:60px">
+        <div class="tl-dates">2023 – 2024</div>
+        <div class="tl-role">Team Lead & Operations Analyst</div>
+        <div class="tl-company">Hospital</div>
+        <div class="tl-desc">Led 25+ staff. NPS improved 88→93% in one month. ICD coding, clinical data management, and operational analytics. Client satisfaction award.</div>
+      </div>
+      <div class="tl-item left" style="margin-top:60px">
+        <div class="tl-dates">Sep 2021 – Feb 2022</div>
+        <div class="tl-role">Undergraduate Researcher</div>
+        <div class="tl-company">Hospital Nacional de Parapléjicos · Spain</div>
+        <div class="tl-desc">Independently led a neuroscience research project on recovery pattern analysis in spinal cord injuries. Bilingual honors thesis. Top honors awarded.</div>
+      </div>
+    </div>
+    <div class="timeline-line">
+      <div class="tl-dot"></div>
+      <div class="tl-year" style="margin-top:20px">NOW</div>
+      <div class="tl-dot" style="margin-top:80px"></div>
+      <div class="tl-year" style="margin-top:16px">2025</div>
+      <div class="tl-dot" style="margin-top:80px"></div>
+      <div class="tl-year" style="margin-top:16px">2024</div>
+      <div class="tl-dot" style="margin-top:80px"></div>
+      <div class="tl-year" style="margin-top:16px">2022</div>
+      <div class="tl-dot" style="margin-top:80px"></div>
+      <div class="tl-year" style="margin-top:16px">2021</div>
+    </div>
+    <div>
+      <div class="tl-item right" style="margin-top:120px">
+        <div class="tl-dates">Jun 2024 – Aug 2025</div>
+        <div class="tl-role">Business Data Analyst</div>
+        <div class="tl-company">Samba Sips</div>
+        <div class="tl-desc">Used SQL and Python to analyze customer behavior. Increased reel engagement by 140% after implementation. A/B tests led to 22% sales lift. KPI dashboards in Excel and Power BI.</div>
+      </div>
+      <div class="tl-item right" style="margin-top:100px">
+        <div class="tl-dates">Jan 2021 – Feb 2022</div>
+        <div class="tl-role">Undergraduate Researcher</div>
+        <div class="tl-company">Yale University Stem Cell Center</div>
+        <div class="tl-desc">Proposed AI-based sepsis detection tool using symptom clustering and EHR data. Strengthened research design, data modeling, and scientific communication.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Red string / map coordinate decoration -->
-    <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35;" viewBox="0 0 500 600" preserveAspectRatio="none">
-      <path d="M120,80 Q180,160 340,120 Q400,200 380,300 Q360,380 200,420 Q140,450 100,520" fill="none" stroke="#8b2020" stroke-width="1" stroke-dasharray="none"/>
-      <path d="M340,120 Q420,90 460,160 Q480,220 420,280" fill="none" stroke="#8b2020" stroke-width="0.8"/>
-      <circle cx="120" cy="80" r="4" fill="#8b2020"/>
-      <circle cx="340" cy="120" r="4" fill="#8b2020"/>
-      <circle cx="380" cy="300" r="4" fill="#8b2020"/>
-      <circle cx="200" cy="420" r="4" fill="#8b2020"/>
-      <circle cx="460" cy="160" r="3" fill="#8b2020" opacity="0.6"/>
+<!-- STACK -->
+<section id="stack" class="section">
+  <div class="section-eyebrow">Equipment</div>
+  <h2 class="section-title">Tech <em>Stack</em></h2>
+  <div class="section-divider"></div>
+  <div class="stack-section-title">Analytics & Data</div>
+  <div class="stack-grid">
+    <div class="stack-item"><div class="stack-icon">🐍</div><div class="stack-name">Python</div></div>
+    <div class="stack-item"><div class="stack-icon">🗄️</div><div class="stack-name">SQL</div></div>
+    <div class="stack-item"><div class="stack-icon">📊</div><div class="stack-name">Tableau</div></div>
+    <div class="stack-item"><div class="stack-icon">📈</div><div class="stack-name">Power BI</div></div>
+    <div class="stack-item"><div class="stack-icon">🐼</div><div class="stack-name">Pandas</div></div>
+    <div class="stack-item"><div class="stack-icon">🔢</div><div class="stack-name">NumPy</div></div>
+    <div class="stack-item"><div class="stack-icon">📉</div><div class="stack-name">matplotlib</div></div>
+    <div class="stack-item"><div class="stack-icon">📋</div><div class="stack-name">Excel</div></div>
+    <div class="stack-item"><div class="stack-icon">📝</div><div class="stack-name">G Sheets</div></div>
+  </div>
+  <div class="stack-section-title">Tools & Platforms</div>
+  <div class="stack-grid">
+    <div class="stack-item"><div class="stack-icon">📓</div><div class="stack-name">Jupyter</div></div>
+    <div class="stack-item"><div class="stack-icon">🐙</div><div class="stack-name">GitHub</div></div>
+    <div class="stack-item"><div class="stack-icon">💻</div><div class="stack-name">VS Code</div></div>
+    <div class="stack-item"><div class="stack-icon">☁️</div><div class="stack-name">GCP</div></div>
+    <div class="stack-item"><div class="stack-icon">🌐</div><div class="stack-name">HTML/CSS</div></div>
+    <div class="stack-item"><div class="stack-icon">🧠</div><div class="stack-name">NLP</div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <div class="section-eyebrow">Case Files</div>
+  <h2 class="section-title">Key <em>Projects</em></h2>
+  <div class="section-divider"></div>
+
+  <!-- INTERACTIVE MAP -->
+  <div class="map-container" id="mapContainer">
+    <!-- Map SVG background -->
+    <svg width="100%" height="100%" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="roughen"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <radialGradient id="mapFog" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="transparent"/><stop offset="100%" stop-color="#0a0804" stop-opacity="0.7"/></radialGradient>
+        <pattern id="crosshatch" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="12" stroke="#5a3a18" stroke-width="0.4" opacity="0.4"/>
+        </pattern>
+      </defs>
+      <!-- Base terrain -->
+      <rect width="1000" height="520" fill="#100c06"/>
+      <!-- Parchment texture zones -->
+      <ellipse cx="500" cy="260" rx="460" ry="230" fill="#16100a" filter="url(#roughen)"/>
+      <!-- Region fills -->
+      <path d="M80,80 C150,60 300,50 400,90 C480,120 520,100 600,80 C700,55 800,70 900,100 L920,420 C800,450 700,440 600,430 C500,420 400,440 300,450 C200,460 120,440 80,420 Z" fill="#1a1208" stroke="#3a2208" stroke-width="1.5" filter="url(#roughen)" opacity="0.8"/>
+      <!-- Mountain ranges top -->
+      <g opacity="0.6">
+        <polygon points="200,95 220,60 240,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
+        <polygon points="230,95 255,55 280,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
+        <polygon points="260,95 285,58 310,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
+        <polygon points="290,95 315,62 340,95" fill="#2a1c0a" stroke="#5a3a18" stroke-width="1"/>
+        <text x="265" y="52" text-anchor="middle" fill="#7a5a30" font-size="11" font-family="serif" font-style="italic">Ridgeline of Queries</text>
+      </g>
+      <!-- Forest blobs left -->
+      <circle cx="110" cy="280" r="35" fill="#0f1a0a" opacity="0.6"/>
+      <circle cx="135" cy="295" r="28" fill="#0f1a0a" opacity="0.5"/>
+      <circle cx="95" cy="300" r="22" fill="#0f1a0a" opacity="0.5"/>
+      <text x="118" y="340" text-anchor="middle" fill="#4a6830" font-size="9" font-family="serif" font-style="italic">Dark Forest</text>
+      <!-- River -->
+      <path d="M500,50 C490,130 510,200 480,280 C460,340 470,400 450,470" fill="none" stroke="#2a4060" stroke-width="2.5" opacity="0.5" filter="url(#roughen)"/>
+      <!-- Dashed expedition trails -->
+      <path d="M200,200 C300,180 400,220 500,200 C600,180 700,220 800,200" fill="none" stroke="#5a3a18" stroke-width="1" stroke-dasharray="6,5" opacity="0.5"/>
+      <path d="M300,350 C400,320 500,360 650,330 C720,315 780,340 860,320" fill="none" stroke="#5a3a18" stroke-width="1" stroke-dasharray="6,5" opacity="0.4"/>
+      <text x="500" y="175" text-anchor="middle" fill="#4a3018" font-size="9" font-family="serif" font-style="italic">The Old Data Road</text>
+      <!-- Region names -->
+      <text x="700" y="160" text-anchor="middle" fill="#4a3a20" font-size="13" font-family="serif" font-style="italic" opacity="0.5">Fraudlands</text>
+      <text x="200" y="420" text-anchor="middle" fill="#4a3a20" font-size="11" font-family="serif" font-style="italic" opacity="0.4">Hospitalum</text>
+      <text x="780" y="400" text-anchor="middle" fill="#4a3a20" font-size="11" font-family="serif" font-style="italic" opacity="0.4">Research Vale</text>
+      <!-- Compass rose -->
+      <g transform="translate(900,420)">
+        <circle cx="0" cy="0" r="28" fill="#0e0b06" stroke="#5a3a18" stroke-width="1" opacity="0.8"/>
+        <polygon points="0,-22 -4,-6 0,-10 4,-6" fill="#D4A853"/>
+        <polygon points="0,22 -4,6 0,10 4,6" fill="#5a3a18"/>
+        <polygon points="-22,0 -6,-4 -10,0 -6,4" fill="#5a3a18"/>
+        <polygon points="22,0 6,-4 10,0 6,4" fill="#5a3a18"/>
+        <text x="0" y="-26" text-anchor="middle" fill="#D4A853" font-size="8" font-family="serif">N</text>
+        <text x="0" y="34" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">S</text>
+        <text x="-30" y="3" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">W</text>
+        <text x="30" y="3" text-anchor="middle" fill="#7a5a30" font-size="7" font-family="serif">E</text>
+      </g>
+      <!-- Legend -->
+      <g transform="translate(30,390)">
+        <rect width="130" height="90" rx="2" fill="#0e0b06" stroke="#3a2208" stroke-width="1" opacity="0.9"/>
+        <text x="65" y="16" text-anchor="middle" fill="#8B5E2A" font-size="9" font-family="serif" letter-spacing="2">LEGEND</text>
+        <circle cx="16" cy="30" r="5" fill="#D4A853" stroke="#F5F0E8" stroke-width="1"/>
+        <text x="28" y="34" fill="#7a5a30" font-size="8" font-family="serif">Excavation Site</text>
+        <polygon points="16,48 10,58 22,58" fill="#3a2208" stroke="#5a3a18" stroke-width="0.8"/>
+        <text x="28" y="56" fill="#7a5a30" font-size="8" font-family="serif">Mountain Range</text>
+        <line x1="10" y1="72" x2="22" y2="72" stroke="#2a4060" stroke-width="2"/>
+        <text x="28" y="76" fill="#7a5a30" font-size="8" font-family="serif">River</text>
+      </g>
+      <!-- Fog overlay -->
+      <rect width="1000" height="520" fill="url(#mapFog)" pointer-events="none"/>
     </svg>
 
-    <div class="pins">
+    <!-- Clickable markers -->
+    <div class="map-marker" style="left:29%;top:38%" data-project="0">
+      <div class="marker-label">Fraud Intelligence</div>
+      <div class="marker-dot"></div>
+    </div>
+    <div class="map-marker" style="left:52%;top:55%" data-project="1">
+      <div class="marker-label">Samba Sips BI</div>
+      <div class="marker-dot"></div>
+    </div>
+    <div class="map-marker" style="left:70%;top:42%" data-project="2">
+      <div class="marker-label">Incredibles 2 NLP</div>
+      <div class="marker-dot"></div>
+    </div>
+    <div class="map-marker" style="left:44%;top:72%" data-project="3">
+      <div class="marker-label">Yale Research</div>
+      <div class="marker-dot"></div>
+    </div>
 
-      <div class="pin">
-        <div class="pin-inner">
-          <div class="pin-stamp">Verified · Current</div>
-          <div class="pin-title">Fraud Intelligence @ Meta</div>
-          <div class="pin-body">MO Labeling · Risk Ops · Ads &amp; Payments. Built fraud trend dashboard from scratch.</div>
-          <div class="pin-annotation">Aug 2025 – Present</div>
-          <div class="pin-foot">Trust &amp; Safety · Forensics · SQL</div>
-        </div>
+    <!-- Popup -->
+    <div class="map-popup" id="mapPopup">
+      <div class="popup-tag" id="popupTag"></div>
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-sub" id="popupSub"></div>
+      <div class="popup-chips" id="popupChips"></div>
+    </div>
+
+    <div class="map-hint">↑ Click markers to explore</div>
+  </div>
+
+  <!-- Project list -->
+  <div class="projects-list">
+    <div class="project-row">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <div class="project-title">Incredibles 2 Sentiment Analysis</div>
+        <div class="project-subtitle">NLP · Python · Custom Emotion Lexicon · matplotlib</div>
+        <div class="project-chips"><span class="project-chip">NLP</span><span class="project-chip">Python</span><span class="project-chip">Data Viz</span><span class="project-chip">Lexicon Engineering</span></div>
       </div>
-
-      <div class="pin">
-        <div class="pin-inner">
-          <div class="pin-stamp">Active · Closed</div>
-          <div class="pin-title">Business Analytics @ Samba Sips</div>
-          <div class="pin-body">+140% reel engagement · +22% sales lift via A/B testing. BI built from zero.</div>
-          <div class="pin-annotation">Jun 2024 – Aug 2025</div>
-          <div class="pin-foot">SQL · Python · Power BI</div>
-        </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <div class="project-title">Fraud Trend Dashboard</div>
+        <div class="project-subtitle">TekSystems · Meta · Risk Ops · SQL</div>
+        <div class="project-chips"><span class="project-chip">SQL</span><span class="project-chip">Dashboard</span><span class="project-chip">Fraud Detection</span></div>
       </div>
-
-      <div class="pin">
-        <div class="pin-inner">
-          <div class="pin-stamp">Field Op</div>
-          <div class="pin-title">Hospital Ops &amp; Clinical Data</div>
-          <div class="pin-body">NPS 88→93% in one month. ICD coding. Led 25+ staff. Client satisfaction award.</div>
-          <div class="pin-annotation">2023 – 2024</div>
-          <div class="pin-foot">Operations · Healthcare · Excel</div>
-        </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <div class="project-title">Samba Sips BI System</div>
+        <div class="project-subtitle">Business Intelligence · Power BI · A/B Testing</div>
+        <div class="project-chips"><span class="project-chip">Power BI</span><span class="project-chip">A/B Testing</span><span class="project-chip">Python</span></div>
       </div>
-
-      <div class="pin">
-        <div class="pin-inner">
-          <div class="pin-stamp">Academic</div>
-          <div class="pin-title">Yale + Spain Research</div>
-          <div class="pin-body">AI sepsis detection proposal · Bilingual honors thesis · Top honors awarded.</div>
-          <div class="pin-annotation">Yale · Madrid · 2021–2022</div>
-          <div class="pin-foot">A/B Testing · ANOVA · Bilingual</div>
-        </div>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-row">
+      <div class="project-num">04</div>
+      <div class="project-info">
+        <div class="project-title">AI Sepsis Detection Proposal</div>
+        <div class="project-subtitle">Yale University · NLP · EHR Data · Research</div>
+        <div class="project-chips"><span class="project-chip">Research</span><span class="project-chip">NLP</span><span class="project-chip">Healthcare</span></div>
       </div>
-
-      <div class="pin">
-        <div class="pin-inner">
-          <div class="pin-stamp">Mission · Open</div>
-          <div class="pin-title">Open to Opportunities</div>
-          <div class="pin-body">Data analyst roles across tech, entertainment, gaming, healthcare, and beyond. M.S. AI in progress · University of Colorado Boulder · 2026–2028</div>
-          <div class="pin-foot">Austin TX · Remote-Ready · 3 Languages</div>
-        </div>
-      </div>
-
-    </div><!-- /pins -->
+      <div class="project-arrow">→</div>
     </div>
   </div>
 </section>
 
-<!-- ═══ ABOUT ═══ -->
-<section id="about">
-  <div class="sw">
-    <div style="margin-bottom:56px;">
-      <div class="sec-eye">Field Notes</div>
-      <h2 class="sec-title">About Me</h2>
-      <div class="sec-rule"></div>
-    </div>
-    <div class="about-grid">
-      <div class="field-notes">
-        <p>I'm a <strong>data analyst</strong> with a background spanning fraud intelligence at Meta, business operations, and hospital leadership. Every role has sharpened the same instinct: <em>find what the numbers are trying to say.</em></p>
-        <p>I approach data like an archaeologist approaches a dig site with patience, method, and a healthy suspicion that the most interesting find is still buried. I don't just clean and query. I <strong>investigate.</strong></p>
-        <p>I'm open to <strong>data analyst roles</strong> across industries — anywhere curiosity, precision, and good storytelling with data are valued. Open to remote and hybrid opportunities.</p>
-        <p>Fluent in <strong>English, Portuguese, and Spanish</strong> a real edge in global content markets. Based in <em>Austin, TX</em>, open to remote or hybrid roles.</p>
-        <div class="available-stamp">Available · Open to Offers</div>
-      </div>
-      <div>
-        <div class="skill-group">
-          <div class="skill-lbl">Analytics Stack</div>
-          <div class="tags">
-            <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Tableau</span><span class="tag">Power BI</span>
-            <span class="tag">Google Sheets</span><span class="tag">Excel</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-lbl">Specializations</div>
-          <div class="tags">
-            <span class="tag">Fraud Detection</span><span class="tag">Business Intelligence</span>
-            <span class="tag">A/B Testing</span><span class="tag">Data Storytelling</span>
-            <span class="tag">Operations Analysis</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-lbl">Target Industries</div>
-          <div class="tags">
-            <span class="tag">Tech</span><span class="tag">Entertainment</span><span class="tag">Gaming</span>
-            <span class="tag">Healthcare</span><span class="tag">Fintech</span><span class="tag">Creative Tech</span>
-          </div>
-        </div>
-        <div class="skill-group">
-          <div class="skill-lbl">Proven In</div>
-          <div class="tags">
-            <span class="tag">Big Tech · Meta</span><span class="tag">Healthcare</span>
-            <span class="tag">F&B</span><span class="tag">Academic Research</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CONTRIBUTIONS CAROUSEL ═══ -->
-<section id="contributions">
-  <div class="sw" style="padding-bottom:0;">
-    <div style="margin-bottom:48px;">
-      <div class="sec-eye">Dossier</div>
-      <h2 class="sec-title">Key Contributions</h2>
-      <div class="sec-rule"></div>
-    </div>
-  </div>
-
-  <div class="carousel-wrap">
-    <div class="carousel-track-outer">
-      <div class="carousel-track" id="carouselTrack">
-
-        <div class="c-slide">
-          <div class="c-visual">
-            <div class="c-num">01</div>
-            <div class="c-icon">🔍</div>
-            <div class="c-org">TekSystems · Meta</div>
-            <div class="c-role">Fraud Pattern Intelligence</div>
-          </div>
-          <div class="c-body-col">
-            <p class="c-desc">Designed and built a <strong>fraud trend dashboard from scratch</strong> within Meta's Risk Ops MO Labeling Team — enabling the team to proactively detect emerging threats and directly inform risk strategy across Ads and Payments at platform scale.</p>
-            <div class="c-tags">
-              <span class="c-tag">Dashboard Design</span>
-              <span class="c-tag">Risk Ops</span>
-              <span class="c-tag">Fraud Detection</span>
-              <span class="c-tag">Trust &amp; Safety</span>
-            </div>
-            <div class="c-foot">Fraud Data Analyst · TekSystems supporting Meta · Aug 2025 – Present</div>
-          </div>
-        </div>
-
-        <div class="c-slide">
-          <div class="c-visual">
-            <div class="c-num">02</div>
-            <div class="c-icon">📈</div>
-            <div class="c-org">Samba Sips</div>
-            <div class="c-role">+140% Engagement · +22% Sales</div>
-          </div>
-          <div class="c-body-col">
-            <p class="c-desc">Used SQL and Python to analyze customer behavior and surface engagement trends. Strategic recommendations led to a <strong>140% increase in reel engagement</strong>. A/B tested pricing and product mix — identifying the SKUs that drove a <strong>22% sales lift</strong>.</p>
-            <div class="c-tags">
-              <span class="c-tag">SQL</span>
-              <span class="c-tag">Python</span>
-              <span class="c-tag">A/B Testing</span>
-              <span class="c-tag">Power BI</span>
-            </div>
-            <div class="c-foot">Business Data Analyst · Samba Sips · Jun 2024 – Aug 2025</div>
-          </div>
-        </div>
-
-        <div class="c-slide">
-          <div class="c-visual">
-            <div class="c-num">03</div>
-            <div class="c-icon">🏥</div>
-            <div class="c-org">Hospital Felicio Rocho</div>
-            <div class="c-role">NPS 88% → 93% in One Month</div>
-          </div>
-          <div class="c-body-col">
-            <p class="c-desc">Drove NPS from 88% to 93% within a single month through <strong>KPI-driven workflow and staffing optimizations</strong> — earning the hospital client satisfaction award. Led two departments with 25+ staff while delivering financial and operational reports to senior leadership.</p>
-            <div class="c-tags">
-              <span class="c-tag">KPI Dashboards</span>
-              <span class="c-tag">Operations</span>
-              <span class="c-tag">Team Leadership</span>
-              <span class="c-tag">Excel</span>
-            </div>
-            <div class="c-foot">Operations Business Analyst &amp; Team Lead · Hospital Felicio Rocho · Feb 2023 – Dec 2023</div>
-          </div>
-        </div>
-
-        <div class="c-slide">
-          <div class="c-visual">
-            <div class="c-num">04</div>
-            <div class="c-icon">🩺</div>
-            <div class="c-org">Hospital Felicio Rocho</div>
-            <div class="c-role">Clinical Analytics &amp; ICD Coding</div>
-          </div>
-          <div class="c-body-col">
-            <p class="c-desc">Applied ICD coding standards to patient records, improving <strong>reporting accuracy and regulatory compliance</strong>. Built Excel dashboards to monitor complications, readmission rates, and care quality metrics — enabling clinical teams to identify trends and act on them.</p>
-            <div class="c-tags">
-              <span class="c-tag">ICD Coding</span>
-              <span class="c-tag">Clinical Analytics</span>
-              <span class="c-tag">Excel</span>
-              <span class="c-tag">Healthcare</span>
-            </div>
-            <div class="c-foot">Clinical Data Analyst &amp; ICD Coding Specialist · Hospital Felicio Rocho · Jan 2024 – Jun 2024</div>
-          </div>
-        </div>
-
-        <div class="c-slide">
-          <div class="c-visual">
-            <div class="c-num">05</div>
-            <div class="c-icon">🔬</div>
-            <div class="c-org">Yale · Hospital Nacional Spain</div>
-            <div class="c-role">Bilingual Honors Thesis · Top Honors</div>
-          </div>
-          <div class="c-body-col">
-            <p class="c-desc">Proposed an AI-based sepsis detection tool at Yale using symptom clustering and EHR data. Independently led neuroscience research in Spain — applied t-tests and ANOVA, and <strong>authored a bilingual honors thesis in English and Portuguese</strong>, awarded top honors.</p>
-            <div class="c-tags">
-              <span class="c-tag">A/B Testing</span>
-              <span class="c-tag">Statistical Analysis</span>
-              <span class="c-tag">Research Design</span>
-              <span class="c-tag">Bilingual</span>
-            </div>
-            <div class="c-foot">Undergraduate Researcher · Yale University &amp; Hospital Nacional de Parapléjicos · Spain</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="carousel-controls">
-      <button class="c-btn" id="cPrev" aria-label="Previous">&#8592;</button>
-      <div class="c-dots" id="cDots"></div>
-      <button class="c-btn" id="cNext" aria-label="Next">&#8594;</button>
-      <div class="c-counter" id="cCounter">01 / 05</div>
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <div class="sw" style="padding-bottom:40px;">
-    <div style="margin-bottom:40px;">
-      <div class="sec-eye">Investigation Files</div>
-      <h2 class="sec-title">Projects</h2>
-      <div class="sec-rule"></div>
-    </div>
-    <p class="projects-hint" style="font-family:'Share Tech Mono',monospace;text-transform:uppercase;margin-bottom:32px;">
-      Click an excavation site to open the case file
-    </p>
-  </div>
-
-  <div style="position:relative; padding:0 80px 80px;">
-    <div class="map-container" id="mapContainer">
-
-      <!-- ════════════════════════════════════════
-           THE NANNETTI CODEX — FICTIONAL FIELD MAP
-           ════════════════════════════════════════ -->
-      <svg class="map-svg" viewBox="0 0 1100 680" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2.5" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="roughen">
-            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-          <filter id="aged">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" stitchTiles="stitch"/>
-            <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
-            <feBlend in="SourceGraphic" in2="grey" mode="multiply" result="blend"/>
-            <feComposite in="blend" in2="SourceGraphic" operator="in"/>
-          </filter>
-          <radialGradient id="mapFog" cx="50%" cy="50%" r="55%">
-            <stop offset="0%" stop-color="#1e1408" stop-opacity="0"/>
-            <stop offset="70%" stop-color="#0f0a04" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="#07050300" stop-opacity="0.85"/>
-          </radialGradient>
-          <pattern id="crosshatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="8" stroke="#b5621a" stroke-width="0.3" opacity="0.15"/>
-          </pattern>
-        </defs>
-
-        <!-- ═══ PARCHMENT BASE ═══ -->
-        <rect width="1100" height="680" fill="#1c1208" opacity="0.4"/>
-
-        <!-- ═══ OCEAN / SEA AREAS (hatched) ═══ -->
-        <!-- West Sea of Rhandis -->
-        <path d="M0,0 L180,0 L160,80 Q140,140 120,200 Q100,270 80,340 Q60,410 40,480 Q20,550 0,620 Z"
-              fill="url(#crosshatch)" opacity="0.6"/>
-        <path d="M0,0 L180,0 L160,80 Q140,140 120,200 Q100,270 80,340 Q60,410 40,480 Q20,550 0,620 Z"
-              fill="#0d0e18" opacity="0.25"/>
-        <!-- East Shallows -->
-        <path d="M1100,0 L900,0 L920,100 Q950,200 960,320 Q970,440 940,560 Q920,620 1100,680 Z"
-              fill="url(#crosshatch)" opacity="0.5"/>
-        <path d="M1100,0 L900,0 L920,100 Q950,200 960,320 Q970,440 940,560 Q920,620 1100,680 Z"
-              fill="#0d0e18" opacity="0.2"/>
-        <!-- Southern Depths -->
-        <path d="M0,680 L0,560 Q80,580 200,590 Q350,600 500,598 Q650,596 800,590 Q920,585 1100,575 L1100,680 Z"
-              fill="url(#crosshatch)" opacity="0.5"/>
-        <path d="M0,680 L0,560 Q80,580 200,590 Q350,600 500,598 Q650,596 800,590 Q920,585 1100,575 L1100,680 Z"
-              fill="#0d0e18" opacity="0.2"/>
-
-        <!-- Sea labels -->
-        <text x="58" y="300" font-family="Special Elite" font-size="11" fill="#b5621a" opacity="0.3"
-              transform="rotate(-90,58,300)" letter-spacing="3">SEA OF RHANDIS</text>
-        <text x="1060" y="320" font-family="Special Elite" font-size="10" fill="#b5621a" opacity="0.25"
-              transform="rotate(90,1060,320)" letter-spacing="2">EASTERN SHALLOWS</text>
-
-        <!-- ═══ LANDMASS OUTLINE ═══ -->
-        <!-- Main continent — hand-drawn irregular coastline -->
-        <path d="
-          M185,15
-          Q220,8 280,12 Q340,16 400,10 Q460,5 520,8
-          Q580,12 640,8 Q700,4 760,10 Q820,16 870,12 Q900,8 895,0
-          L895,0
-          Q910,20 905,50 Q920,80 910,110
-          Q930,140 920,170 Q940,200 930,230
-          Q950,260 940,290 Q960,320 945,350
-          Q935,380 945,410 Q930,440 935,470
-          Q920,490 910,520 Q895,545 880,565
-          Q860,575 830,572 Q800,568 770,572
-          Q740,575 710,570 Q680,565 650,568
-          Q620,572 590,568 Q560,564 530,568
-          Q500,572 470,568 Q440,564 410,570
-          Q380,576 350,572 Q320,568 290,572
-          Q260,576 230,570 Q200,564 175,560
-          Q155,550 150,530 Q140,510 148,490
-          Q135,470 138,450 Q125,430 128,410
-          Q115,390 118,370 Q105,350 108,330
-          Q95,310 98,290 Q85,270 90,248
-          Q78,228 82,208 Q70,188 75,168
-          Q62,148 68,128 Q55,108 60,88
-          Q48,68 55,48 Q45,28 60,15
-          Q90,5 130,10 Q160,14 185,15 Z"
-              fill="#2a1c0a" stroke="#7a4e20" stroke-width="1.5" filter="url(#roughen)" opacity="0.9"/>
-
-        <!-- Interior land fill layers for depth -->
-        <path d="M200,40 Q350,25 550,30 Q750,35 880,45 Q895,200 890,380 Q885,500 870,545
-                 Q700,565 550,560 Q350,558 180,548 Q160,420 165,300 Q170,180 200,40 Z"
-              fill="#341e0c" opacity="0.4"/>
-
-        <!-- ═══ MOUNTAIN RANGES ═══ -->
-        <!-- Korath Mountains - North -->
-        <g opacity="0.7" fill="#4a2e12" stroke="#6a3e18" stroke-width="0.8">
-          <!-- Individual peaks -->
-          <polygon points="260,55 275,28 290,55"/>
-          <polygon points="278,58 296,25 314,58"/>
-          <polygon points="298,55 318,22 338,55"/>
-          <polygon points="320,58 342,18 364,58"/>
-          <polygon points="344,56 368,14 392,56"/>
-          <polygon points="370,58 396,20 422,58"/>
-          <polygon points="398,55 426,16 454,55"/>
-          <polygon points="428,58 458,22 488,58"/>
-          <polygon points="460,55 492,18 524,55"/>
-          <!-- Snow caps -->
-          <polygon points="280,30 288,22 296,30" fill="#c8b080" opacity="0.4" stroke="none"/>
-          <polygon points="320,24 330,14 340,24" fill="#c8b080" opacity="0.4" stroke="none"/>
-          <polygon points="368,17 380,8 392,17" fill="#c8b080" opacity="0.35" stroke="none"/>
-          <polygon points="458,20 470,12 482,20" fill="#c8b080" opacity="0.3" stroke="none"/>
-        </g>
-        <text x="360" y="74" font-family="Special Elite" font-size="10" fill="#c8a060" opacity="0.55"
-              text-anchor="middle" font-style="italic">Korath Mountains</text>
-
-        <!-- Veld Ridge - East -->
-        <g opacity="0.65" fill="#3e2810" stroke="#5a3814" stroke-width="0.7">
-          <polygon points="820,120 832,98 844,120"/>
-          <polygon points="835,125 850,100 865,125"/>
-          <polygon points="852,120 868,95 884,120"/>
-          <polygon points="870,125 888,98 906,125"/>
-          <polygon points="830,175 845,152 860,175"/>
-          <polygon points="848,178 865,155 882,178"/>
-          <polygon points="868,175 887,148 906,175"/>
-        </g>
-        <text x="865" y="145" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.5"
-              transform="rotate(8,865,145)" font-style="italic">Veld Ridge</text>
-
-        <!-- ═══ RIVERS ═══ -->
-        <!-- Amarat River - main flowing south -->
-        <path d="M395,58 Q380,90 370,130 Q355,175 360,220 Q365,265 350,310
-                 Q335,355 340,400 Q345,440 330,480 Q315,510 295,545"
-              fill="none" stroke="#4a6890" stroke-width="2.5" opacity="0.55" filter="url(#roughen)"/>
-        <path d="M395,58 Q380,90 370,130 Q355,175 360,220 Q365,265 350,310
-                 Q335,355 340,400 Q345,440 330,480 Q315,510 295,545"
-              fill="none" stroke="#6080a8" stroke-width="1" opacity="0.3"/>
-        <text x="318" y="340" font-family="Special Elite" font-size="9" fill="#6080a8" opacity="0.45"
-              transform="rotate(-75,318,340)" font-style="italic">River Amarat</text>
-
-        <!-- Shan Tributary - east -->
-        <path d="M780,88 Q755,130 730,175 Q705,220 695,270
-                 Q688,315 700,360 Q710,400 695,445"
-              fill="none" stroke="#4a6890" stroke-width="2" opacity="0.5" filter="url(#roughen)"/>
-        <text x="662" y="290" font-family="Special Elite" font-size="8" fill="#6080a8" opacity="0.4"
-              transform="rotate(-80,662,290)" font-style="italic">Shan Creek</text>
-
-        <!-- Small delta at south -->
-        <path d="M295,545 Q275,555 265,565" fill="none" stroke="#4a6890" stroke-width="1.5" opacity="0.45"/>
-        <path d="M295,545 Q295,558 285,565" fill="none" stroke="#4a6890" stroke-width="1.5" opacity="0.4"/>
-        <path d="M295,545 Q310,555 315,565" fill="none" stroke="#4a6890" stroke-width="1.5" opacity="0.4"/>
-
-        <!-- ═══ FOREST AREAS ═══ -->
-        <!-- Oryn Forest - center-left -->
-        <g opacity="0.55">
-          <circle cx="220" cy="280" r="22" fill="#1e3018" stroke="#2e4822" stroke-width="0.8"/>
-          <circle cx="242" cy="268" r="18" fill="#1e3018" stroke="#2e4822" stroke-width="0.8"/>
-          <circle cx="210" cy="260" r="16" fill="#243820" stroke="#344a28" stroke-width="0.8"/>
-          <circle cx="235" cy="290" r="14" fill="#1a2c16" stroke="#2a3e22" stroke-width="0.8"/>
-          <!-- Tree symbols -->
-          <g fill="#3a5428" stroke="none">
-            <polygon points="220,268 215,280 225,280"/>
-            <polygon points="230,270 225,282 235,282"/>
-            <polygon points="215,278 210,290 220,290"/>
-            <polygon points="225,272 219,285 231,285"/>
-          </g>
-        </g>
-        <text x="225" y="308" font-family="Special Elite" font-size="9" fill="#4a6830" opacity="0.55"
-              text-anchor="middle" font-style="italic">Oryn Forest</text>
-
-        <!-- Duskwood - southeast -->
-        <g opacity="0.5">
-          <circle cx="720" cy="430" r="28" fill="#1e2c18" stroke="#2a3c20" stroke-width="0.8"/>
-          <circle cx="748" cy="418" r="22" fill="#1e3018" stroke="#2e4222" stroke-width="0.8"/>
-          <circle cx="710" cy="415" r="20" fill="#1a2814" stroke="#283818" stroke-width="0.8"/>
-          <circle cx="738" cy="445" r="18" fill="#1c2c16" stroke="#2c3e20" stroke-width="0.8"/>
-          <g fill="#384e28" stroke="none">
-            <polygon points="720,423 715,436 725,436"/>
-            <polygon points="733,420 727,433 739,433"/>
-            <polygon points="715,434 710,446 720,446"/>
-          </g>
-        </g>
-        <text x="728" y="470" font-family="Special Elite" font-size="9" fill="#4a6030" opacity="0.5"
-              text-anchor="middle" font-style="italic">Duskwood</text>
-
-        <!-- ═══ DESERT AREA ═══ -->
-        <path d="M580,300 Q640,280 700,295 Q745,310 750,355
-                 Q755,400 720,425 Q680,445 640,430
-                 Q595,415 578,380 Q560,345 580,300 Z"
-              fill="#3a2408" opacity="0.5" filter="url(#roughen)"/>
-        <!-- Sand dune lines -->
-        <g opacity="0.25" fill="none" stroke="#c8a060" stroke-width="0.7">
-          <path d="M590,330 Q620,322 650,330 Q680,338 710,328"/>
-          <path d="M585,348 Q618,338 652,348 Q686,358 715,346"/>
-          <path d="M582,366 Q616,355 652,366 Q688,377 718,364"/>
-          <path d="M584,384 Q618,373 654,384 Q690,395 718,382"/>
-        </g>
-        <text x="648" y="365" font-family="Special Elite" font-size="10" fill="#c8a060" opacity="0.4"
-              text-anchor="middle" font-style="italic">Khet Wastes</text>
-
-        <!-- ═══ SWAMP AREA ═══ -->
-        <g opacity="0.45">
-          <path d="M155,410 Q180,395 210,408 Q235,420 228,445
-                   Q220,465 195,472 Q168,478 152,462 Q135,446 155,410 Z"
-                fill="#183020" stroke="#243828" stroke-width="0.8"/>
-          <!-- Swamp squiggles -->
-          <path d="M162,425 Q172,420 182,428 Q192,436 202,425" fill="none" stroke="#2a5030" stroke-width="1" opacity="0.6"/>
-          <path d="M158,438 Q170,432 183,440 Q196,448 208,438" fill="none" stroke="#2a5030" stroke-width="1" opacity="0.6"/>
-          <path d="M162,452 Q175,445 188,453 Q200,460 212,452" fill="none" stroke="#2a5030" stroke-width="1" opacity="0.6"/>
-        </g>
-        <text x="188" y="490" font-family="Special Elite" font-size="8" fill="#3a6840" opacity="0.5"
-              text-anchor="middle" font-style="italic">Murk Fen</text>
-
-        <!-- ═══ FICTIONAL TOWNS / LANDMARKS ═══ -->
-        <!-- Small settlement symbols -->
-        <g fill="#c8a060" stroke="#8a6030" stroke-width="0.8" opacity="0.55">
-          <!-- Town: Velantha -->
-          <rect x="295" y="138" width="10" height="10" transform="rotate(0)"/>
-          <rect x="303" y="134" width="6" height="6"/>
-          <!-- Town: Ossary -->
-          <rect x="575" y="195" width="9" height="9"/>
-          <rect x="582" y="191" width="5" height="5"/>
-          <!-- Town: Maraketh -->
-          <rect x="490" y="360" width="9" height="9"/>
-          <rect x="497" y="356" width="5" height="5"/>
-          <!-- Port: Draeven -->
-          <rect x="200" y="490" width="8" height="8"/>
-          <polygon points="200,490 196,498 208,498" fill="#c8a060" stroke="none"/>
-        </g>
-
-        <text x="316" y="144" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.5">Velantha</text>
-        <text x="596" y="202" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.5">Ossary</text>
-        <text x="510" y="368" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.5">Maraketh</text>
-        <text x="215" y="498" font-family="Special Elite" font-size="8" fill="#c8a060" opacity="0.45">Port Draeven</text>
-
-        <!-- ═══ ANCIENT ROADS ═══ -->
-        <g opacity="0.2" fill="none" stroke="#c8a060" stroke-width="1.2" stroke-dasharray="4,6">
-          <!-- The Old Road -->
-          <path d="M308,148 Q350,180 370,230 Q385,280 380,330 Q370,375 360,405 Q345,435 330,475"/>
-          <!-- Eastern Trade Route -->
-          <path d="M308,148 Q400,160 470,180 Q540,198 585,200 Q630,202 680,215 Q720,228 760,240"/>
-          <!-- Southern Pass -->
-          <path d="M380,330 Q420,345 460,350 Q500,355 540,345 Q580,335 615,330 Q650,325 690,340"/>
-        </g>
-        <text x="425" y="172" font-family="Special Elite" font-size="8" fill="#c8a060" opacity="0.3"
-              transform="rotate(6,425,172)" font-style="italic">The Old Road</text>
-
-        <!-- ═══ EXPEDITION TRAILS (between project sites) ═══ -->
-        <g fill="none" stroke="#b5621a" stroke-width="1.4" stroke-dasharray="6,9" opacity="0.4">
-          <path d="M295,320 Q380,280 500,255"/>
-          <path d="M500,255 Q610,235 730,310"/>
-          <path d="M295,320 Q340,390 450,445"/>
-          <path d="M730,310 Q680,385 570,445"/>
-          <path d="M500,255 Q505,340 450,445"/>
-        </g>
-
-        <!-- ═══ COMPASS ROSE ═══ -->
-        <g transform="translate(72,90)" opacity="0.6">
-          <!-- Outer decorative ring -->
-          <circle cx="0" cy="0" r="42" fill="none" stroke="#7a4e20" stroke-width="0.7"/>
-          <circle cx="0" cy="0" r="36" fill="none" stroke="#b5621a" stroke-width="1"/>
-          <circle cx="0" cy="0" r="28" fill="none" stroke="#7a4e20" stroke-width="0.5"/>
-          <!-- Cardinal points -->
-          <polygon points="0,-36 -5,-15 0,-8 5,-15" fill="#c8a060" stroke="#8a6020" stroke-width="0.5"/>
-          <polygon points="0,36 -5,15 0,8 5,15" fill="#7a4e20" stroke="#5a3610" stroke-width="0.5"/>
-          <polygon points="-36,0 -15,-5 -8,0 -15,5" fill="#7a4e20" stroke="#5a3610" stroke-width="0.5"/>
-          <polygon points="36,0 15,-5 8,0 15,5" fill="#7a4e20" stroke="#5a3610" stroke-width="0.5"/>
-          <!-- Intercardinal tick marks -->
-          <line x1="-25" y1="-25" x2="-20" y2="-20" stroke="#7a4e20" stroke-width="0.8"/>
-          <line x1="25" y1="-25" x2="20" y2="-20" stroke="#7a4e20" stroke-width="0.8"/>
-          <line x1="-25" y1="25" x2="-20" y2="20" stroke="#7a4e20" stroke-width="0.8"/>
-          <line x1="25" y1="25" x2="20" y2="20" stroke="#7a4e20" stroke-width="0.8"/>
-          <!-- Center -->
-          <circle cx="0" cy="0" r="5" fill="#b5621a" stroke="#f0e6ce" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="2" fill="#f0e6ce"/>
-          <!-- Labels -->
-          <text x="0" y="-46" text-anchor="middle" font-family="Special Elite" font-size="11" fill="#c8a060">N</text>
-          <text x="0" y="56" text-anchor="middle" font-family="Special Elite" font-size="10" fill="#8a6030">S</text>
-          <text x="48" y="4" text-anchor="start" font-family="Special Elite" font-size="10" fill="#8a6030">E</text>
-          <text x="-48" y="4" text-anchor="end" font-family="Special Elite" font-size="10" fill="#8a6030">W</text>
-        </g>
-
-        <!-- ═══ DECORATIVE BORDER ═══ -->
-        <rect x="8" y="8" width="1084" height="664" fill="none" stroke="#7a4e20" stroke-width="1.5" opacity="0.4"/>
-        <rect x="14" y="14" width="1072" height="652" fill="none" stroke="#4a2e10" stroke-width="0.8" opacity="0.3"/>
-        <!-- Corner ornaments -->
-        <g fill="none" stroke="#7a4e20" stroke-width="1" opacity="0.4">
-          <path d="M8,8 L40,8 M8,8 L8,40"/>
-          <path d="M1092,8 L1060,8 M1092,8 L1092,40"/>
-          <path d="M8,672 L40,672 M8,672 L8,640"/>
-          <path d="M1092,672 L1060,672 M1092,672 L1092,640"/>
-          <!-- Corner diamonds -->
-          <polygon points="8,8 20,14 8,20 2,14" fill="#7a4e20" stroke="none" opacity="0.5"/>
-          <polygon points="1092,8 1086,14 1092,20 1098,14" fill="#7a4e20" stroke="none" opacity="0.5"/>
-          <polygon points="8,672 14,666 20,672 14,678" fill="#7a4e20" stroke="none" opacity="0.5"/>
-          <polygon points="1092,672 1086,666 1092,660 1098,666" fill="#7a4e20" stroke="none" opacity="0.5"/>
-        </g>
-
-        <!-- ═══ MAP TITLE CARTOUCHE ═══ -->
-        <g transform="translate(980,580)">
-          <rect x="-90" y="-50" width="175" height="78" fill="#1a1006" stroke="#7a4e20" stroke-width="1" rx="2" opacity="0.9"/>
-          <rect x="-86" y="-46" width="167" height="70" fill="none" stroke="#4a2e10" stroke-width="0.5" rx="1"/>
-          <text x="0" y="-28" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#b5621a" letter-spacing="2">FIELD MAP</text>
-          <text x="0" y="-12" text-anchor="middle" font-family="Special Elite" font-size="11" fill="#c8a060">The Nannetti Codex</text>
-          <line x1="-70" y1="-4" x2="75" y2="-4" stroke="#7a4e20" stroke-width="0.5"/>
-          <text x="0" y="8" text-anchor="middle" font-family="Share Tech Mono" font-size="7" fill="#7a4e20" letter-spacing="1">EXCAVATION ZONE IV</text>
-          <text x="0" y="20" text-anchor="middle" font-family="Share Tech Mono" font-size="6" fill="#5a3e18" letter-spacing="1">RESTRICTED ACCESS</text>
-        </g>
-
-        <!-- ═══ SCALE BAR ═══ -->
-        <g transform="translate(120,635)" opacity="0.5">
-          <rect x="0" y="-6" width="10" height="10" fill="#7a4e20"/>
-          <rect x="10" y="-6" width="10" height="10" fill="#c8a060"/>
-          <rect x="20" y="-6" width="10" height="10" fill="#7a4e20"/>
-          <rect x="30" y="-6" width="10" height="10" fill="#c8a060"/>
-          <rect x="40" y="-6" width="10" height="10" fill="#7a4e20"/>
-          <line x1="0" y1="8" x2="50" y2="8" stroke="#7a4e20" stroke-width="0.5"/>
-          <text x="0" y="18" font-family="Share Tech Mono" font-size="7" fill="#7a4e20">0</text>
-          <text x="20" y="18" font-family="Share Tech Mono" font-size="7" fill="#7a4e20">50</text>
-          <text x="44" y="18" font-family="Share Tech Mono" font-size="7" fill="#7a4e20">100 km</text>
-        </g>
-
-        <!-- ═══ LEGEND ═══ -->
-        <g transform="translate(870,440)" opacity="0.65">
-          <rect x="-5" y="-15" width="145" height="120" fill="#0f0a04" stroke="#4a2e10" stroke-width="0.8" opacity="0.9" rx="2"/>
-          <text x="67" y="-2" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#b5621a" letter-spacing="1">LEGEND</text>
-          <line x1="0" y1="4" x2="135" y2="4" stroke="#4a2e10" stroke-width="0.5"/>
-          <!-- Legend items -->
-          <circle cx="10" cy="18" r="5" fill="#b5621a" stroke="#f0e6ce" stroke-width="1"/>
-          <text x="22" y="22" font-family="Share Tech Mono" font-size="7" fill="#c8a060">Excavation Site</text>
-          <polygon points="10,32 5,42 15,42" fill="#4a2e12" stroke="#6a3e18" stroke-width="0.8"/>
-          <text x="22" y="42" font-family="Share Tech Mono" font-size="7" fill="#c8a060">Mountain Range</text>
-          <line x1="5" y1="58" x2="18" y2="58" stroke="#4a6890" stroke-width="2"/>
-          <text x="22" y="62" font-family="Share Tech Mono" font-size="7" fill="#c8a060">River</text>
-          <rect x="5" y="70" width="8" height="8" fill="#c8a060" stroke="#8a6030" stroke-width="0.8" opacity="0.7"/>
-          <text x="22" y="78" font-family="Share Tech Mono" font-size="7" fill="#c8a060">Settlement</text>
-          <line x1="5" y1="92" x2="18" y2="92" stroke="#b5621a" stroke-width="1.2" stroke-dasharray="4,4"/>
-          <text x="22" y="96" font-family="Share Tech Mono" font-size="7" fill="#c8a060">Expedition Trail</text>
-        </g>
-
-        <!-- ═══════════════════════════════════
-             EXCAVATION SITES (clickable)
-             ═══════════════════════════════════ -->
-
-        <!-- SITE 1: The Ludus Vault — Player Behavior (SW area) -->
-        <g class="site-group" data-site="0" style="cursor:crosshair">
-          <!-- Ruin footprint -->
-          <g opacity="0.6" fill="none" stroke="#b5621a" stroke-width="0.9">
-            <rect x="262" y="295" width="50" height="40" transform="rotate(-6,287,315)"/>
-            <rect x="270" y="302" width="35" height="26" fill="rgba(181,98,26,0.07)" transform="rotate(-6,287,315)"/>
-            <line x1="270" y1="308" x2="300" y2="308" stroke-width="0.6" opacity="0.5"/>
-            <line x1="270" y1="316" x2="300" y2="316" stroke-width="0.6" opacity="0.5"/>
-            <line x1="270" y1="324" x2="300" y2="324" stroke-width="0.6" opacity="0.5"/>
-            <!-- Column stubs -->
-            <circle cx="268" cy="299" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="308" cy="295" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="264" cy="333" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="306" cy="330" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-          </g>
-          <!-- Pulse aura -->
-          <circle class="site-pulse" cx="295" cy="315" r="9" fill="rgba(181,98,26,0.18)" stroke="#b5621a" stroke-width="1.5"/>
-          <!-- Hover ring -->
-          <circle class="site-ring" cx="295" cy="315" r="24" fill="none" stroke="#b5621a" stroke-width="1" stroke-dasharray="3,4"/>
-          <!-- Pin -->
-          <circle cx="295" cy="315" r="6" fill="#b5621a" stroke="#f0e6ce" stroke-width="1.5" filter="url(#glow)"/>
-          <circle cx="295" cy="315" r="2.5" fill="#f0e6ce" opacity="0.8"/>
-          <!-- Floating label -->
-          <g class="site-label-bg" opacity="0">
-            <rect x="308" y="298" width="148" height="34" fill="rgba(10,6,2,0.9)" stroke="#3a2010" stroke-width="0.8" rx="1"/>
-            <text x="315" y="311" font-family="Share Tech Mono" font-size="8" fill="#b5621a" letter-spacing="1.2">SITE I</text>
-            <text x="315" y="324" font-family="Special Elite" font-size="9" fill="#f0e6ce">The Ludus Vault</text>
-          </g>
-          <!-- Permanent small label -->
-          <text x="295" y="345" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.65">The Ludus Vault</text>
-        </g>
-
-        <!-- SITE 2: The Cipher Sanctum — Fraud Detection (Center-North) -->
-        <g class="site-group" data-site="1" style="cursor:crosshair">
-          <g opacity="0.6" fill="none" stroke="#b5621a" stroke-width="0.9">
-            <!-- Larger ruin with outer walls -->
-            <path d="M468,230 L520,220 L535,260 L480,270 Z" fill="rgba(181,98,26,0.06)"/>
-            <rect x="478" y="232" width="38" height="28" transform="rotate(3,497,246)" fill="rgba(181,98,26,0.05)"/>
-            <line x1="480" y1="238" x2="515" y2="236" stroke-width="0.5" opacity="0.4"/>
-            <line x1="480" y1="246" x2="516" y2="244" stroke-width="0.5" opacity="0.4"/>
-            <!-- Column stubs -->
-            <circle cx="472" cy="233" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="518" cy="224" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="480" cy="268" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="533" cy="258" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-          </g>
-          <circle class="site-pulse" cx="500" cy="247" r="9" fill="rgba(181,98,26,0.18)" stroke="#b5621a" stroke-width="1.5"/>
-          <circle class="site-ring" cx="500" cy="247" r="24" fill="none" stroke="#b5621a" stroke-width="1" stroke-dasharray="3,4"/>
-          <circle cx="500" cy="247" r="6" fill="#b5621a" stroke="#f0e6ce" stroke-width="1.5" filter="url(#glow)"/>
-          <circle cx="500" cy="247" r="2.5" fill="#f0e6ce" opacity="0.8"/>
-          <g class="site-label-bg" opacity="0">
-            <rect x="512" y="230" width="165" height="34" fill="rgba(10,6,2,0.9)" stroke="#3a2010" stroke-width="0.8" rx="1"/>
-            <text x="520" y="243" font-family="Share Tech Mono" font-size="8" fill="#b5621a" letter-spacing="1.2">SITE II</text>
-            <text x="520" y="256" font-family="Special Elite" font-size="9" fill="#f0e6ce">The Cipher Sanctum</text>
-          </g>
-          <text x="500" y="278" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.65">Cipher Sanctum</text>
-        </g>
-
-        <!-- SITE 3: Obsidian Archive — Streaming Dashboard (East) -->
-        <g class="site-group" data-site="2" style="cursor:crosshair">
-          <g opacity="0.6" fill="none" stroke="#b5621a" stroke-width="0.9">
-            <rect x="740" y="268" width="55" height="50" transform="rotate(-10,767,293)" fill="rgba(181,98,26,0.06)"/>
-            <rect x="748" y="275" width="40" height="36" transform="rotate(-10,767,293)" fill="rgba(181,98,26,0.04)"/>
-            <line x1="752" y1="282" x2="785" y2="278" stroke-width="0.5" opacity="0.4"/>
-            <line x1="750" y1="292" x2="784" y2="287" stroke-width="0.5" opacity="0.4"/>
-            <line x1="748" y1="302" x2="783" y2="296" stroke-width="0.5" opacity="0.4"/>
-            <circle cx="742" cy="272" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="793" cy="262" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="737" cy="314" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="791" cy="306" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-          </g>
-          <circle class="site-pulse" cx="765" cy="292" r="9" fill="rgba(181,98,26,0.18)" stroke="#b5621a" stroke-width="1.5"/>
-          <circle class="site-ring" cx="765" cy="292" r="24" fill="none" stroke="#b5621a" stroke-width="1" stroke-dasharray="3,4"/>
-          <circle cx="765" cy="292" r="6" fill="#b5621a" stroke="#f0e6ce" stroke-width="1.5" filter="url(#glow)"/>
-          <circle cx="765" cy="292" r="2.5" fill="#f0e6ce" opacity="0.8"/>
-          <g class="site-label-bg" opacity="0">
-            <rect x="620" y="266" width="130" height="34" fill="rgba(10,6,2,0.9)" stroke="#3a2010" stroke-width="0.8" rx="1"/>
-            <text x="628" y="279" font-family="Share Tech Mono" font-size="8" fill="#b5621a" letter-spacing="1.2">SITE III</text>
-            <text x="628" y="292" font-family="Special Elite" font-size="9" fill="#f0e6ce">Obsidian Archive</text>
-          </g>
-          <text x="765" y="324" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.65">Obsidian Archive</text>
-        </g>
-
-        <!-- SITE 4: Hall of Mending — Operations (Center-South) -->
-        <g class="site-group" data-site="3" style="cursor:crosshair">
-          <g opacity="0.6" fill="none" stroke="#b5621a" stroke-width="0.9">
-            <rect x="468" y="440" width="48" height="44" transform="rotate(5,492,462)" fill="rgba(181,98,26,0.06)"/>
-            <rect x="475" y="447" width="34" height="30" transform="rotate(5,492,462)" fill="rgba(181,98,26,0.04)"/>
-            <line x1="478" y1="454" x2="508" y2="455" stroke-width="0.5" opacity="0.4"/>
-            <line x1="477" y1="463" x2="508" y2="465" stroke-width="0.5" opacity="0.4"/>
-            <line x1="476" y1="472" x2="507" y2="474" stroke-width="0.5" opacity="0.4"/>
-            <circle cx="470" cy="443" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="514" cy="446" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="467" cy="482" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-            <circle cx="512" cy="484" r="3" fill="#3a2010" stroke="#b5621a" stroke-width="0.8"/>
-          </g>
-          <circle class="site-pulse" cx="492" cy="462" r="9" fill="rgba(181,98,26,0.18)" stroke="#b5621a" stroke-width="1.5"/>
-          <circle class="site-ring" cx="492" cy="462" r="24" fill="none" stroke="#b5621a" stroke-width="1" stroke-dasharray="3,4"/>
-          <circle cx="492" cy="462" r="6" fill="#b5621a" stroke="#f0e6ce" stroke-width="1.5" filter="url(#glow)"/>
-          <circle cx="492" cy="462" r="2.5" fill="#f0e6ce" opacity="0.8"/>
-          <g class="site-label-bg" opacity="0">
-            <rect x="505" y="445" width="140" height="34" fill="rgba(10,6,2,0.9)" stroke="#3a2010" stroke-width="0.8" rx="1"/>
-            <text x="513" y="458" font-family="Share Tech Mono" font-size="8" fill="#b5621a" letter-spacing="1.2">SITE IV</text>
-            <text x="513" y="471" font-family="Special Elite" font-size="9" fill="#f0e6ce">Hall of Mending</text>
-          </g>
-          <text x="492" y="494" text-anchor="middle" font-family="Special Elite" font-size="9" fill="#c8a060" opacity="0.65">Hall of Mending</text>
-        </g>
-
-        <!-- Fog of war vignette overlay -->
-        <rect width="1100" height="680" fill="url(#mapFog)" pointer-events="none"/>
-
-      </svg><!-- /map-svg -->
-
-      <!-- ── Site Detail Panels ── -->
-      <div class="site-panel" id="panel-0" style="top:28%;left:5%;">
-        <button class="panel-close" onclick="closePanel(0)">x CLOSE</button>
-        <div class="panel-stamp">EXCAVATION SITE I · In Progress</div>
-        <div class="panel-title">The Ludus Vault</div>
-        <p class="panel-desc">Player Behavior and Churn Analysis. Excavating engagement signals and dropout patterns in gaming datasets — identifying what keeps players in and what drives them away.</p>
-        <div class="panel-tags">
-          <span class="panel-tag">Python</span>
-          <span class="panel-tag">Gaming</span>
-          <span class="panel-tag">EDA</span>
-          <span class="panel-tag">Churn Modeling</span>
-        </div>
-        <span class="panel-status ps-active">In Progress</span>
-      </div>
-
-      <div class="site-panel" id="panel-1" style="top:5%;left:32%;">
-        <button class="panel-close" onclick="closePanel(1)">x CLOSE</button>
-        <div class="panel-stamp">EXCAVATION SITE II · Pending</div>
-        <div class="panel-title">The Cipher Sanctum</div>
-        <p class="panel-desc">Fraud Detection Model. Supervised learning approach to transaction anomaly detection, drawing on investigative experience from Meta-scale data environments.</p>
-        <div class="panel-tags">
-          <span class="panel-tag">SQL</span>
-          <span class="panel-tag">ML</span>
-          <span class="panel-tag">Fraud</span>
-          <span class="panel-tag">Anomaly Detection</span>
-        </div>
-        <span class="panel-status ps-pending">Pending</span>
-      </div>
-
-      <div class="site-panel" id="panel-2" style="top:5%;right:2%;left:auto;">
-        <button class="panel-close" onclick="closePanel(2)">x CLOSE</button>
-        <div class="panel-stamp">EXCAVATION SITE III · Pending</div>
-        <div class="panel-title">Obsidian Archive</div>
-        <p class="panel-desc">Streaming Content Trends Dashboard. Visualizing genre performance, audience segmentation, and content lifecycle patterns across major streaming catalogs.</p>
-        <div class="panel-tags">
-          <span class="panel-tag">Tableau</span>
-          <span class="panel-tag">Entertainment</span>
-          <span class="panel-tag">Segmentation</span>
-        </div>
-        <span class="panel-status ps-pending">Pending</span>
-      </div>
-
-      <div class="site-panel" id="panel-3" style="bottom:5%;left:28%;top:auto;">
-        <button class="panel-close" onclick="closePanel(3)">x CLOSE</button>
-        <div class="panel-stamp">EXCAVATION SITE IV · Pending</div>
-        <div class="panel-title">Hall of Mending</div>
-        <p class="panel-desc">Hospital Operations Efficiency. Quantifying workflow bottlenecks, staffing optimization, and process improvement outcomes through operational data analysis.</p>
-        <div class="panel-tags">
-          <span class="panel-tag">Excel</span>
-          <span class="panel-tag">Operations</span>
-          <span class="panel-tag">Process Mining</span>
-        </div>
-        <span class="panel-status ps-pending">Pending</span>
-      </div>
-
-    </div><!-- /map-container -->
-  </div>
-</section>
-
-
-<!-- ═══ RESUME ═══ -->
-<section id="resume">
-  <div class="sw">
-    <div style="margin-bottom:56px;">
-      <div class="sec-eye">Personnel File</div>
-      <h2 class="sec-title">Resume</h2>
-      <div class="sec-rule"></div>
-    </div>
-
-    <div class="dossier-grid">
-
-      <!-- LEFT: Work Experience -->
-      <div class="dossier-col">
-        <h3>Work Experience</h3>
-
-        <div class="entry">
-          <div class="entry-period">Aug 2025 – Present</div>
-          <div class="entry-role">Fraud Data Analyst</div>
-          <div class="entry-org">TekSystems · Meta</div>
-          <ul class="entry-bullets">
-            <li>Part of the MO Labeling Team within Risk Ops, responsible for accurately identifying and labeling the underlying methods used by bad actors to commit financial fraud and abuse across platforms, especially Ads and Payments.</li>
-            <li>Designed and developed a dashboard to identify and visualize trends in fraud patterns, enabling the team to proactively detect emerging threats and inform risk strategy.</li>
-          </ul>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">Jun 2024 – Aug 2025</div>
-          <div class="entry-role">Business Data Analyst</div>
-          <div class="entry-org">Samba Sips</div>
-          <ul class="entry-bullets">
-            <li>Used SQL and Python to analyze customer behavior and identify engagement trends, leading to strategic recommendations that increased reel engagement by <strong>140%</strong> after implementation.</li>
-            <li>Conducted A/B tests to evaluate product-market fit and pricing, identifying SKUs that led to a <strong>22% sales lift</strong>.</li>
-            <li>Built KPI dashboards in Excel and Power BI to track conversion, CTR, and retention over time.</li>
-          </ul>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">Jan 2024 – Jun 2024</div>
-          <div class="entry-role">Clinical Data Analyst &amp; ICD Coding Specialist</div>
-          <div class="entry-org">Hospital Felicio Rocho</div>
-          <ul class="entry-bullets">
-            <li>Applied ICD coding standards to patient records, improving reporting accuracy and supporting compliance with healthcare regulations.</li>
-            <li>Built Excel dashboards to monitor complications, readmission rates, and care quality metrics, enabling clinical teams to identify trends and improvement areas.</li>
-            <li>Worked cross-functionally with medical and administrative teams to validate data integrity and improve diagnostic record accuracy.</li>
-          </ul>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">Feb 2023 – Dec 2023</div>
-          <div class="entry-role">Operations Business Analyst &amp; Team Lead</div>
-          <div class="entry-org">Hospital Felicio Rocho</div>
-          <ul class="entry-bullets">
-            <li>Improved NPS from <strong>88% to 93%</strong> within one month through KPI-driven workflow and staffing optimizations; received hospital client satisfaction award.</li>
-            <li>Created monthly financial and operational reports presented to senior leadership to guide resource allocation and process improvements.</li>
-            <li>Led two departments with 25+ staff, aligning operational execution with data insights across surgical and outpatient services.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- RIGHT: Research + Education + Skills -->
-      <div class="dossier-col">
-        <h3>Research Experience</h3>
-
-        <div class="entry">
-          <div class="entry-period">Jan 2021 – Feb 2022</div>
-          <div class="entry-role">Undergraduate Researcher</div>
-          <div class="entry-org">Yale University Stem Cell Center</div>
-          <ul class="entry-bullets">
-            <li>Proposed AI-based sepsis detection tool using symptom clustering, early warning scores, and EHR data to support early intervention.</li>
-            <li>Strengthened research design, data modeling, and scientific communication through structured proposal development and presentations.</li>
-          </ul>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">Sep 2021 – Feb 2022</div>
-          <div class="entry-role">Undergraduate Researcher</div>
-          <div class="entry-org">Hospital Nacional de Parapléjicos · Spain</div>
-          <ul class="entry-bullets">
-            <li>Independently led a neuroscience research project in Spain focused on recovery pattern analysis in cases of spinal cord injuries.</li>
-            <li>Designed A/B tests, and applied t-tests and ANOVA to validate outcomes.</li>
-            <li>Authored and defended a bilingual honors thesis in English and Portuguese; awarded top honors.</li>
-          </ul>
-        </div>
-
-        <h3 style="margin-top:48px;">Education</h3>
-
-        <div class="entry">
-          <div class="entry-period">Feb 2026 – Dec 2028</div>
-          <div class="entry-role">M.S. Artificial Intelligence</div>
-          <div class="entry-org">University of Colorado Boulder</div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">Feb 2018 – Dec 2022</div>
-          <div class="entry-role">B.S. Nursing</div>
-          <div class="entry-org">PUC Minas · UCLM Toledo</div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-period">May 2024 – Jan 2025</div>
-          <div class="entry-role">Data Science · Technical Studies</div>
-          <div class="entry-org">Infinity School</div>
-        </div>
-
-        <h3 style="margin-top:48px;">Skills</h3>
-        <div class="entry">
-          <div class="entry-role" style="margin-bottom:12px;">Coding</div>
-          <div class="tags" style="margin-bottom:20px;">
-            <span class="tag">SQL</span><span class="tag">Python</span>
-          </div>
-          <div class="entry-role" style="margin-bottom:12px;">Data Visualization</div>
-          <div class="tags" style="margin-bottom:20px;">
-            <span class="tag">Power BI</span><span class="tag">Tableau</span><span class="tag">Excel</span><span class="tag">Data Storytelling</span>
-          </div>
-          <div class="entry-role" style="margin-bottom:12px;">Analysis &amp; Modeling</div>
-          <div class="tags" style="margin-bottom:20px;">
-            <span class="tag">Data Analysis</span><span class="tag">Statistical Analysis</span><span class="tag">A/B Testing</span>
-          </div>
-          <div class="entry-role" style="margin-bottom:12px;">Languages</div>
-          <div class="tags">
-            <span class="tag">English (native)</span><span class="tag">Portuguese (native)</span><span class="tag">Spanish (B2 → C1)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="resume-foot">
-      <p>"The data always has something to say. You just have to know how to listen."</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact" style="position:relative; overflow:hidden; background-image:url('bg-hat.jpg'); background-size:cover; background-position:center 35%;">
-  <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(7,5,3,0.94) 0%,rgba(7,5,3,0.78) 50%,rgba(7,5,3,0.90) 100%);z-index:0;pointer-events:none;"></div>
-  <div class="sw contact-inner" style="position:relative;z-index:2;" style="position:relative;z-index:1;">
-    <div class="transmission">Transmission</div>
-    <div class="contact-heading">
-      Let's Dig Into<br>Something <em>Real.</em>
-    </div>
-    <p class="contact-body">
-      Open to <strong>data analyst roles</strong> across industries.
-      If you're working on something worth investigating, I want to hear about it.
-    </p>
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="contact-inner">
+    <div class="section-eyebrow">Transmission</div>
+    <h2 class="contact-big">Let's Work<br><em>Together.</em></h2>
+    <p class="contact-sub">Open to data analyst roles across tech, entertainment, gaming, and healthcare. Remote and hybrid. Three languages. Always curious.</p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#95ecfae0e7d5f0f8f4fcf9bbf6faf8" class="contact-link">✉ &nbsp; <span class="__cf_email__" data-cfemail="b1c8dec4c3f1d4dcd0d8dd9fd2dedc">[email&#160;protected]</span></a>
-      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">in &nbsp; LinkedIn</a>
-      <a href="https://github.com/yourprofile" target="_blank" class="contact-link">⌥ &nbsp; GitHub</a>
+      <a href="mailto:mari.nannetti@gmail.com" class="contact-link">✉ Email</a>
+      <a href="https://www.linkedin.com/in/mariana-nannetti/" target="_blank" class="contact-link">in LinkedIn</a>
+      <a href="https://github.com/marinannetti" target="_blank" class="contact-link">⌥ GitHub</a>
     </div>
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <p>© 2026 <span>Mariana Nannetti</span> Data Analyst</p>
-  <p>Austin, TX &nbsp;·&nbsp; <span>Data Analyst</span> · Open to Opportunities</p>
-</footer>
+<script>
+// ── MAGNIFYING GLASS CURSOR ──
+const magCursor = document.getElementById('mag-cursor');
+const magLens = document.getElementById('mag-lens');
+let mx = 0, my = 0, lx = 0, ly = 0;
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ═══════════════════════════
-//  CAROUSEL — bulletproof click, drag, touch, keyboard
-// ═══════════════════════════
-(function() {
-  const outer    = document.querySelector('.carousel-track-outer');
-  const track    = document.getElementById('carouselTrack');
-  const dotsWrap = document.getElementById('cDots');
-  const counter  = document.getElementById('cCounter');
-  const slides   = Array.from(track.children);
-  const total    = slides.length;
-  let current    = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  magCursor.style.left = mx + 'px';
+  magCursor.style.top = my + 'px';
+});
 
-  // Each slide is 100% of outer width; track is total*100% wide
-  // We translate by -current * outerWidth px
-  function slideWidth() { return outer.offsetWidth; }
+function animateLens() {
+  lx += (mx - lx) * 0.1;
+  ly += (my - ly) * 0.1;
+  magLens.style.left = lx + 'px';
+  magLens.style.top = ly + 'px';
+  requestAnimationFrame(animateLens);
+}
+animateLens();
 
-  function goTo(n) {
-    current = ((n % total) + total) % total;
-    track.style.transition = 'transform 0.5s cubic-bezier(0.77, 0, 0.18, 1)';
-    track.style.transform  = `translateX(-${current * slideWidth()}px)`;
-    dotsWrap.querySelectorAll('.c-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-    });
-    counter.textContent =
-      String(current + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
-  }
+document.querySelectorAll('a, button, .stack-item, .project-row, .card, .chip, .map-marker').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+});
 
-  // Rebuild dots
-  dotsWrap.innerHTML = '';
-  for (let i = 0; i < total; i++) {
-    const d = document.createElement('div');
-    d.className = 'c-dot' + (i === 0 ? ' active' : '');
-    d.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(d);
-  }
-
-  document.getElementById('cPrev').addEventListener('click', () => goTo(current - 1));
-  document.getElementById('cNext').addEventListener('click', () => goTo(current + 1));
-
-  // Set slide widths and recalculate on resize
-  function setSlideWidths() {
-    const w = outer.offsetWidth;
-    slides.forEach(s => { s.style.width = w + 'px'; });
-  }
-  setSlideWidths();
-  window.addEventListener('resize', () => { setSlideWidths(); goTo(current); });
-
-  // ── Touch swipe ──
-  let touchStartX = 0;
-  outer.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-  }, {passive: true});
-  outer.addEventListener('touchmove', e => {
-    e.preventDefault();
-    const dx = e.touches[0].clientX - touchStartX;
-    track.style.transition = 'none';
-    track.style.transform = `translateX(${-current * slideWidth() + dx}px)`;
-  }, {passive: false});
-  outer.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    goTo(dx < -40 ? current + 1 : dx > 40 ? current - 1 : current);
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const children = e.target.querySelectorAll('.tl-item, .stack-item, .project-row, .skill-group');
+      children.forEach((child, i) => {
+        child.style.opacity = '0';
+        child.style.transform = 'translateY(20px)';
+        child.style.transition = `opacity 0.6s ${i*0.08}s, transform 0.6s ${i*0.08}s`;
+        setTimeout(() => { child.style.opacity = '1'; child.style.transform = 'translateY(0)'; }, i * 80 + 150);
+      });
+    }
   });
+}, { threshold: 0.08 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
 
-  // ── Mouse drag ──
-  let dragStartX   = 0;
-  let dragging     = false;
+// ── MAP PROJECTS ──
+const projects = [
+  { tag: 'ACTIVE · FRAUD', title: 'Fraud Intelligence @ Meta', sub: 'Built a fraud trend dashboard identifying patterns in Ads & Payments. MO Labeling within Risk Ops, enabling proactive threat detection.', chips: ['SQL', 'Dashboard', 'Risk Ops', 'Trust & Safety'] },
+  { tag: 'COMPLETE · BI', title: 'Samba Sips BI System', sub: '+140% reel engagement, +22% sales lift via A/B testing. KPI dashboards built from zero in Power BI and Excel.', chips: ['Power BI', 'Python', 'A/B Testing', 'SQL'] },
+  { tag: 'PERSONAL · NLP', title: 'Incredibles 2 Sentiment Analysis', sub: 'Custom 13-category emotion lexicon. Act-by-act breakdown and scene-level arc visualization using Python and matplotlib.', chips: ['Python', 'NLP', 'matplotlib', 'Lexicon Engineering'] },
+  { tag: 'ACADEMIC · RESEARCH', title: 'AI Sepsis Detection — Yale', sub: 'AI-based early warning system proposal using symptom clustering and EHR data. Bilingual thesis awarded top honors.', chips: ['NLP', 'Research', 'EHR', 'Healthcare'] }
+];
 
-  outer.style.cursor = 'grab';
+const popup = document.getElementById('mapPopup');
+const popupTag = document.getElementById('popupTag');
+const popupTitle = document.getElementById('popupTitle');
+const popupSub = document.getElementById('popupSub');
+const popupChips = document.getElementById('popupChips');
+const mapContainer = document.getElementById('mapContainer');
+let activeMarker = null;
 
-  outer.addEventListener('mousedown', e => {
-    dragging   = true;
-    dragStartX = e.clientX;
-    outer.style.cursor = 'grabbing';
-    track.style.transition = 'none';
-    e.preventDefault();
-  });
+document.querySelectorAll('.map-marker').forEach(marker => {
+  marker.addEventListener('click', e => {
+    e.stopPropagation();
+    const idx = parseInt(marker.dataset.project);
+    const p = projects[idx];
+    popupTag.textContent = p.tag;
+    popupTitle.textContent = p.title;
+    popupSub.textContent = p.sub;
+    popupChips.innerHTML = p.chips.map(c => `<span class="popup-chip">${c}</span>`).join('');
 
-  window.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const dx = e.clientX - dragStartX;
-    track.style.transform = `translateX(${-current * slideWidth() + dx}px)`;
-  });
+    const rect = mapContainer.getBoundingClientRect();
+    const mRect = marker.getBoundingClientRect();
+    let left = mRect.left - rect.left + 20;
+    let top = mRect.top - rect.top - 10;
+    if (left + 320 > rect.width) left = mRect.left - rect.left - 340;
+    if (top + 160 > rect.height) top = mRect.top - rect.top - 170;
 
-  window.addEventListener('mouseup', e => {
-    if (!dragging) return;
-    dragging = false;
-    outer.style.cursor = 'grab';
-    const dx = e.clientX - dragStartX;
-    goTo(dx < -60 ? current + 1 : dx > 60 ? current - 1 : current);
-  });
-
-  // ── Keyboard ──
-  document.addEventListener('keydown', e => {
-    const rect    = document.getElementById('contributions').getBoundingClientRect();
-    const visible = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!visible) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
-  });
-})();
-
-// ═══════════════════════════
-//  MAP SITES
-// ═══════════════════════════
-document.querySelectorAll('.site-group').forEach(g => {
-  g.addEventListener('click', () => {
-    const idx = g.dataset.site;
-    // Close others
-    document.querySelectorAll('.site-panel').forEach(p => p.classList.remove('visible'));
-    const panel = document.getElementById('panel-' + idx);
-    if (panel) panel.classList.add('visible');
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+    popup.classList.add('active');
+    activeMarker = marker;
   });
 });
 
-function closePanel(idx) {
-  document.getElementById('panel-' + idx).classList.remove('visible');
-}
-
-// Close on outside click
-document.getElementById('mapContainer').ad
+mapContainer.addEventListener('click', () => { popup.classList.remove('active'); activeMarker = null; });
+document.addEventListener('scroll', () => { popup.classList.remove('active'); });
+</script>
+</body>
+</html>
