@@ -14,9 +14,9 @@
   --amber: #C4812A;
   --gold: #D4A853;
   --cream: #E8DFC8;
-  --muted: #6B5A42;
-  --text: #D4C4A8;
-  --dim: #7A6A52;
+  --muted: #8A7558;
+  --text: #E8DBC0;
+  --dim: #A08C6E;
   --parchment: #C8A96E;
   --parchment-dark: #8B6914;
 }
@@ -62,7 +62,7 @@ nav {
 .nav-logo-name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: var(--gold); line-height: 1; }
 .nav-logo-sub { font-size: 9px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 .nav-links { display: flex; gap: 40px; }
-.nav-links a { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+.nav-links a { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #9A8060; text-decoration: none; transition: color 0.3s; }
 .nav-links a:hover { color: var(--gold); }
 .nav-right { font-size: 11px; letter-spacing: 1px; color: var(--muted); }
 
@@ -137,20 +137,24 @@ nav {
 .about-available { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--brown); padding: 10px 20px; font-size: 10px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-top: 24px; }
 .about-available::before { content: '●'; animation: pulse 2s infinite; }
 .skill-group { margin-bottom: 28px; }
-.skill-label { font-size: 9px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 12px; }
+.skill-label { font-size: 11px; letter-spacing: 4px; color: var(--amber); text-transform: uppercase; margin-bottom: 14px; font-weight: 700; }
 .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--muted); color: var(--dim); padding: 6px 12px; transition: border-color 0.3s, color 0.3s; }
+.chip { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.5); color: #B8A080; padding: 8px 14px; transition: border-color 0.3s, color 0.3s; }
 .chip:hover { border-color: var(--gold); color: var(--gold); }
 
 /* STACK */
 #stack { background: var(--bg2); }
 .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; }
-.stack-item { background: rgba(139,94,42,0.06); border: 1px solid rgba(139,94,42,0.2); padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.2s; position: relative; overflow: hidden; }
-.stack-item:hover { background: rgba(139,94,42,0.15); border-color: var(--amber); transform: translateY(-4px); }
-.stack-item:hover::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--amber); }
-.stack-icon { font-size: 26px; }
-.stack-name { font-size: 9px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
-.stack-section-title { font-size: 10px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; margin-top: 32px; }
+.stack-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(139,94,42,0.22); padding: 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.25s, box-shadow 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(8px) brightness(0.9); }
+.stack-item:hover { background: rgba(212,168,83,0.08); border-color: var(--gold); transform: translateY(-5px); backdrop-filter: blur(12px) brightness(1.1); box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,168,83,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
+.stack-item:hover::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+
+.stack-item:hover .stack-icon { transform: scale(1.15); }
+.stack-item:hover .stack-name { color: var(--gold); }
+
+.stack-icon { font-size: 28px; transition: transform 0.3s; }
+.stack-name { font-size: 10px; letter-spacing: 2px; color: #A08060; text-transform: uppercase; transition: color 0.3s; }
+.stack-section-title { font-size: 11px; letter-spacing: 5px; color: var(--amber); text-transform: uppercase; margin-bottom: 20px; margin-top: 40px; }
 
 /* ======= INDIANA JONES MAP ======= */
 #projects { background: var(--bg); }
@@ -257,11 +261,7 @@ nav {
 .popup-chip { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.4); color: var(--muted); padding: 3px 8px; }
 
 /* Map hint */
-.map-hint {
-  position: absolute; bottom: 14px; right: 18px;
-  font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; z-index: 10;
-  font-family: 'Courier Prime', monospace;
-}
+
 
 /* Map title stamp */
 .map-title-stamp {
@@ -279,31 +279,31 @@ nav {
 .project-row:hover::before { opacity: 1; }
 .project-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 32px; color: rgba(139,94,42,0.3); }
 .project-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--cream); margin-bottom: 4px; }
-.project-subtitle { font-size: 12px; color: var(--dim); margin-bottom: 8px; }
+.project-subtitle { font-size: 13px; color: #9A8060; margin-bottom: 8px; }
 .project-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.project-chip { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.3); color: var(--muted); padding: 4px 10px; }
+.project-chip { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; border: 1px solid rgba(139,94,42,0.35); color: #9A8060; padding: 4px 10px; }
 .project-arrow { font-size: 20px; color: var(--muted); transition: color 0.3s, transform 0.3s; }
 .project-row:hover .project-arrow { color: var(--gold); transform: translateX(4px); }
 
 /* RESUME */
 #resume { background: var(--bg2); }
 .resume-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-.resume-col-title { font-size: 10px; letter-spacing: 5px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+.resume-col-title { font-size: 12px; letter-spacing: 5px; color: var(--amber); text-transform: uppercase; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
 .resume-col-title::before { content: ''; width: 16px; height: 1px; background: var(--amber); }
 .resume-entry { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(139,94,42,0.12); }
 .resume-entry:last-child { border-bottom: none; }
-.resume-dates { font-size: 9px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.resume-dates { font-size: 11px; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
 .resume-dates::before { content: '◇'; font-size: 8px; color: var(--amber); }
 .resume-role { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); margin-bottom: 3px; }
 .resume-company { font-size: 11px; letter-spacing: 1px; color: var(--amber); font-style: italic; margin-bottom: 14px; }
 .resume-bullets { list-style: none; padding: 0; }
-.resume-bullets li { font-size: 13px; color: var(--dim); line-height: 1.7; margin-bottom: 8px; padding-left: 16px; position: relative; }
+.resume-bullets li { font-size: 14px; color: #B0956E; line-height: 1.8; margin-bottom: 10px; padding-left: 16px; position: relative; }
 .resume-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--amber); font-size: 18px; line-height: 1.3; }
 .resume-edu { padding: 24px 0; border-bottom: 1px solid rgba(139,94,42,0.12); }
 .resume-edu:last-child { border-bottom: none; }
 .resume-edu-degree { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--cream); margin-bottom: 4px; }
-.resume-edu-school { font-size: 12px; color: var(--amber); margin-bottom: 3px; letter-spacing: 1px; }
-.resume-edu-dates { font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+.resume-edu-school { font-size: 13px; color: var(--amber); margin-bottom: 3px; letter-spacing: 1px; }
+.resume-edu-dates { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
 
 /* CONTACT */
 #contact { background: var(--bg); min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
@@ -339,6 +339,16 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   .social-bar { display: none; }
 }
 
+
+/* MAP PIN INSTRUCTION */
+.map-pin-instruction {
+  font-size: 12px; letter-spacing: 3px; color: var(--amber);
+  text-transform: uppercase; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0.85;
+}
+.map-pin-instruction::before { content: ''; width: 32px; height: 1px; background: var(--amber); }
+
 /* ===== LOADING SCREEN ===== */
 #loader {
   position: fixed; inset: 0; z-index: 99999;
@@ -348,20 +358,20 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 }
 #loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
 .loader-classify {
-  font-size: 9px; letter-spacing: 8px; color: #5a3a18; text-transform: uppercase;
+  font-size: 12px; letter-spacing: 8px; color: #8a5a28; text-transform: uppercase;
   margin-bottom: 40px; opacity: 0; animation: loaderFade 0.5s 0.2s forwards;
 }
 .loader-title {
   font-family: 'Courier Prime', monospace;
-  font-size: 13px; letter-spacing: 4px; color: #D4A853; text-transform: uppercase;
-  margin-bottom: 6px; opacity: 0; animation: loaderFade 0.5s 0.5s forwards;
+  font-size: 28px; letter-spacing: 6px; color: #D4A853; text-transform: uppercase;
+  margin-bottom: 8px; opacity: 0; animation: loaderFade 0.5s 0.5s forwards;
 }
 .loader-subtitle {
-  font-size: 10px; letter-spacing: 3px; color: #6B5A42; text-transform: uppercase;
+  font-size: 14px; letter-spacing: 4px; color: #9A7A4A; text-transform: uppercase;
   margin-bottom: 48px; opacity: 0; animation: loaderFade 0.5s 0.7s forwards;
 }
 .loader-bar-wrap {
-  width: 320px; height: 2px; background: rgba(139,94,42,0.2);
+  width: 420px; height: 3px; background: rgba(139,94,42,0.2);
   position: relative; overflow: hidden;
   opacity: 0; animation: loaderFade 0.4s 0.9s forwards;
 }
@@ -372,14 +382,14 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   box-shadow: 0 0 10px rgba(212,168,83,0.6);
 }
 .loader-status {
-  font-size: 9px; letter-spacing: 3px; color: #5a3a18; margin-top: 16px;
-  text-transform: uppercase; min-height: 14px;
+  font-size: 13px; letter-spacing: 3px; color: #9A7A4A; margin-top: 16px;
+  text-transform: uppercase; min-height: 20px;
   opacity: 0; animation: loaderFade 0.4s 0.9s forwards;
 }
 .loader-stamp {
-  margin-top: 48px; font-size: 28px; letter-spacing: 6px; color: rgba(180,40,40,0.0);
-  font-family: 'Bebas Neue', sans-serif; border: 3px solid rgba(180,40,40,0);
-  padding: 6px 20px; transform: rotate(-12deg);
+  margin-top: 48px; font-size: 42px; letter-spacing: 8px; color: rgba(180,40,40,0.0);
+  font-family: 'Bebas Neue', sans-serif; border: 4px solid rgba(180,40,40,0);
+  padding: 8px 28px; transform: rotate(-12deg);
   transition: color 0.3s, border-color 0.3s;
 }
 .loader-stamp.show { color: rgba(180,40,40,0.75); border-color: rgba(180,40,40,0.6); animation: stampIn 0.25s ease; }
@@ -452,6 +462,17 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .map-inner { cursor: none; }
 
 
+
+
+/* BOARD SILHOUETTES & STRINGS */
+.board-string-svg, .board-silhouettes {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+.board-string-svg { z-index: 2; }
+.board-silhouettes { z-index: 0; }
+.cards-container { position: relative; }
+.cards-container > .card { position: relative; z-index: 3; }
 
 /* ===== DOSSIER HOVER CARD ===== */
 .dossier-trigger { position: relative; display: inline-block; cursor: none; }
@@ -624,9 +645,106 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     <div class="board-grid"></div>
     <div class="evidence-board-label">Evidence Board</div>
     <div class="cards-container">
+
+    <!-- SVG red strings connecting cards -->
+    <svg class="board-string-svg" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- String from card1 pin to card2 pin -->
+      <path d="M130,90 C200,130 280,115 370,90" stroke="rgba(200,40,40,0.65)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- String from card1 to card3 -->
+      <path d="M120,95 C130,200 130,290 130,340" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- String from card2 to card4 -->
+      <path d="M380,95 C370,200 370,290 370,340" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <!-- String from card3 to card5 (bottom) -->
+      <path d="M140,345 C200,390 280,385 360,345" stroke="rgba(200,40,40,0.55)" stroke-width="1.3" fill="none"/>
+      <!-- Diagonal cross string -->
+      <path d="M130,90 C240,200 330,280 370,340" stroke="rgba(200,40,40,0.3)" stroke-width="1" fill="none" stroke-dasharray="4,6"/>
+      <!-- String to bottom card -->
+      <path d="M250,345 L250,430" stroke="rgba(200,40,40,0.5)" stroke-width="1.3" fill="none"/>
+      <!-- Pin dots at card tops -->
+      <circle cx="130" cy="88" r="4" fill="rgba(220,50,50,0.85)"/>
+      <circle cx="370" cy="88" r="4" fill="rgba(220,50,50,0.85)"/>
+      <circle cx="130" cy="342" r="4" fill="rgba(220,50,50,0.85)"/>
+      <circle cx="370" cy="342" r="4" fill="rgba(220,50,50,0.85)"/>
+      <circle cx="250" cy="432" r="4" fill="rgba(220,50,50,0.85)"/>
+    </svg>
+
+    <!-- Scattered silhouettes: pyramids, temples, artifacts, fossils -->
+    <svg class="board-silhouettes" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <!-- Great Pyramid (top-left corner) -->
+      <polygon points="38,195 65,145 92,195" fill="rgba(139,94,42,0.12)" stroke="rgba(139,94,42,0.2)" stroke-width="0.8"/>
+      <polygon points="46,195 65,153 84,195" fill="rgba(139,94,42,0.08)"/>
+      <!-- Small pyramid beside -->
+      <polygon points="95,195 107,172 119,195" fill="rgba(139,94,42,0.1)" stroke="rgba(139,94,42,0.15)" stroke-width="0.6"/>
+
+      <!-- Temple / columns (right side) -->
+      <g opacity="0.13" transform="translate(420, 150)">
+        <rect x="0" y="30" width="52" height="4" fill="#D4A853"/>
+        <rect x="4" y="8" width="44" height="3" fill="#D4A853"/>
+        <rect x="6" y="0" width="40" height="8" fill="#D4A853"/>
+        <rect x="7"  y="11" width="5" height="19" fill="#D4A853"/>
+        <rect x="16" y="11" width="5" height="19" fill="#D4A853"/>
+        <rect x="25" y="11" width="5" height="19" fill="#D4A853"/>
+        <rect x="34" y="11" width="5" height="19" fill="#D4A853"/>
+        <rect x="43" y="11" width="5" height="19" fill="#D4A853"/>
+      </g>
+
+      <!-- Trilobite fossil (bottom-left) -->
+      <g opacity="0.14" transform="translate(28, 430)">
+        <ellipse cx="22" cy="18" rx="14" ry="20" fill="none" stroke="#C4812A" stroke-width="1.2"/>
+        <line x1="22" y1="0" x2="22" y2="36" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M8,10 C14,12 30,12 36,10" fill="none" stroke="#C4812A" stroke-width="0.7"/>
+        <path d="M6,18 C13,20 31,20 38,18" fill="none" stroke="#C4812A" stroke-width="0.7"/>
+        <path d="M8,26 C14,28 30,28 36,26" fill="none" stroke="#C4812A" stroke-width="0.7"/>
+        <!-- Antennae -->
+        <path d="M16,2 C12,-4 8,-6 6,-8" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M28,2 C32,-4 36,-6 38,-8" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+      </g>
+
+      <!-- Ancient vase / artifact (between card 2 and 4) -->
+      <g opacity="0.13" transform="translate(402, 270)">
+        <path d="M10,0 L14,0 C18,0 24,6 26,14 C28,22 27,32 24,38 C22,42 18,44 14,44 C10,44 6,42 4,38 C1,32 0,22 2,14 C4,6 6,0 10,0Z" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <line x1="10" y1="0" x2="14" y2="0" stroke="#C4812A" stroke-width="1"/>
+        <path d="M4,12 C2,12 0,13 0,15 C0,17 2,18 4,18" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M20,12 C22,12 24,13 24,15 C24,17 22,18 20,18" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M6,22 C10,24 14,24 18,22" fill="none" stroke="#C4812A" stroke-width="0.6"/>
+        <path d="M5,30 C10,33 14,33 19,30" fill="none" stroke="#C4812A" stroke-width="0.6"/>
+      </g>
+
+      <!-- Magnifying glass icon (top right) -->
+      <g opacity="0.1" transform="translate(450, 50)">
+        <circle cx="16" cy="16" r="13" fill="none" stroke="#D4A853" stroke-width="1.5"/>
+        <line x1="25" y1="25" x2="36" y2="36" stroke="#D4A853" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- Compass rose (tiny, scattered) -->
+      <g opacity="0.11" transform="translate(440, 320)">
+        <circle cx="18" cy="18" r="14" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <polygon points="18,4 15,14 18,12 21,14" fill="#C4812A"/>
+        <polygon points="18,32 15,22 18,24 21,22" fill="#3a2208" stroke="#C4812A" stroke-width="0.5"/>
+        <polygon points="4,18 14,15 12,18 14,21" fill="#3a2208" stroke="#C4812A" stroke-width="0.5"/>
+        <polygon points="32,18 22,15 24,18 22,21" fill="#3a2208" stroke="#C4812A" stroke-width="0.5"/>
+        <circle cx="18" cy="18" r="3" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <text x="18" y="-2" text-anchor="middle" fill="#C4812A" font-size="7" font-family="serif">N</text>
+      </g>
+
+      <!-- Ankh (scattered middle-left) -->
+      <g opacity="0.12" transform="translate(20, 290)">
+        <circle cx="14" cy="10" r="8" fill="none" stroke="#C4812A" stroke-width="1.2"/>
+        <line x1="14" y1="18" x2="14" y2="42" stroke="#C4812A" stroke-width="1.2"/>
+        <line x1="6" y1="26" x2="22" y2="26" stroke="#C4812A" stroke-width="1.2"/>
+      </g>
+
+      <!-- Dinosaur skull (bottom right corner) -->
+      <g opacity="0.13" transform="translate(408, 440)">
+        <path d="M8,28 C4,28 0,24 0,18 C0,10 4,4 10,2 C16,0 26,0 32,4 C38,8 40,14 38,20 C36,26 32,28 28,30 L28,36 L12,36 L12,30 Z" fill="none" stroke="#C4812A" stroke-width="1"/>
+        <circle cx="10" cy="12" r="4" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <circle cx="24" cy="10" r="5" fill="none" stroke="#C4812A" stroke-width="0.8"/>
+        <path d="M14,36 L14,42 M18,36 L18,44 M22,36 L22,42 M26,36 L26,40" stroke="#C4812A" stroke-width="0.8"/>
+      </g>
+    </svg>
       <div class="card">
-        <div class="card-classified">Ongoing</div>
-        <div class="card-tag">Ongoing · Current</div>
+        <div class="card-classified">Verified</div>
+        <div class="card-tag">Verified · Current</div>
         <h3>Fraud Intelligence @ Meta</h3>
         <p>MO Labeling · Risk Ops · Ads &amp; Payments. Built fraud trend dashboard from scratch.</p>
         <div class="card-meta">Aug 2025 – Present</div>
@@ -634,23 +752,23 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
       </div>
       <div class="card">
         <div class="card-classified">On File</div>
-        <div class="card-tag">Active · Closed</div>
+        <div class="card-tag">Archived · Closed</div>
         <h3>Business Analytics @ Samba Sips</h3>
         <p>+140% reel engagement · +22% sales lift via A/B testing. BI built from zero.</p>
         <div class="card-meta">Jun 2024 – Aug 2025</div>
         <div class="card-tags"><span>SQL</span><span>Python</span><span>Power BI</span></div>
       </div>
       <div class="card">
-        <div class="card-classified">Archived</div>
-        <div class="card-tag">Field Op</div>
+        <div class="card-classified">Declassified</div>
+        <div class="card-tag">Archived · Field Op</div>
         <h3>Hospital Ops &amp; Clinical Data</h3>
         <p>NPS 88→93% in one month. ICD coding. Led 25+ staff. Client satisfaction award.</p>
         <div class="card-meta">2023 – 2024</div>
         <div class="card-tags"><span>Operations</span><span>Healthcare</span><span>Excel</span></div>
       </div>
       <div class="card">
-        <div class="card-classified">Archived</div>
-        <div class="card-tag">Academic</div>
+        <div class="card-classified">Classified</div>
+        <div class="card-tag">Archived · Academic</div>
         <h3>Yale + Spain Research</h3>
         <p>AI sepsis detection proposal · Bilingual honors thesis · Top honors awarded.</p>
         <div class="card-meta">Yale · Madrid · 2021–2022</div>
@@ -753,6 +871,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 <section id="projects" class="section">
   <div class="section-eyebrow">Case Files</div>
   <h2 class="section-title">Key <em>Projects</em></h2>
+  <div class="map-pin-instruction">◉ Click the glowing pins on the map to open case files</div>
   <div class="section-divider"></div>
 
   <!-- INDIANA JONES MAP -->
@@ -1163,7 +1282,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="popup-chips" id="popupChips"></div>
       </div>
 
-      <div class="map-hint">Click the markers to explore</div>
     </div>
   </div>
 
