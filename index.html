@@ -599,17 +599,13 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .char-standing {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  width: 480px;
+  left: 44%;
+  transform: translateX(-50%);
+  height: 90vh;
+  width: auto;
   z-index: 6;
   pointer-events: none;
   filter: drop-shadow(-8px 8px 28px rgba(0,0,0,0.65));
-  animation: charFloat 4s ease-in-out infinite;
-  transform-origin: bottom center;
-}
-@keyframes charFloat {
-  0%, 100% { transform: translateX(-60%) translateY(0px); }
-  50%       { transform: translateX(-60%) translateY(-10px); }
 }
 
 .char-kneeling-wrap {
