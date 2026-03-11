@@ -274,7 +274,7 @@ nav {
 
 /* PROJECTS LIST */
 .projects-list { display: flex; flex-direction: column; gap: 2px; }
-.project-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 32px; padding: 28px 0; border-bottom: 1px solid rgba(139,94,42,0.15); transition: background 0.3s; position: relative; }
+.project-row { display: grid; grid-template-columns: 60px 1fr auto; align-items: center; gap: 32px; padding: 28px 0; border-bottom: 1px solid rgba(139,94,42,0.15); transition: background 0.3s; position: relative; text-decoration: none; color: inherit; cursor: none; }
 .project-row::before { content: ''; position: absolute; left: -96px; right: -96px; top: 0; bottom: 0; background: rgba(139,94,42,0.04); opacity: 0; transition: opacity 0.3s; }
 .project-row:hover::before { opacity: 1; }
 .project-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 32px; color: rgba(139,94,42,0.3); }
@@ -378,7 +378,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .loader-bar {
   height: 100%; width: 0%;
   background: linear-gradient(to right, #8B5E2A, #D4A853);
-  transition: width 0.05s linear;
+  transition: width 0.3s ease;
   box-shadow: 0 0 10px rgba(212,168,83,0.6);
 }
 .loader-status {
@@ -559,6 +559,41 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 }
 .project-row.counted .case-badge { opacity: 1; transform: translateY(0); }
 
+
+/* ── CHARACTER ILLUSTRATIONS ── */
+.char-standing {
+  position: absolute;
+  bottom: 0;
+  right: -30px;
+  width: 320px;
+  z-index: 6;
+  pointer-events: none;
+  filter: drop-shadow(-8px 8px 24px rgba(0,0,0,0.6));
+  animation: charFloat 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes charFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+.char-kneeling-wrap {
+  position: absolute;
+  right: -40px;
+  bottom: -20px;
+  width: 260px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(-6px 6px 18px rgba(0,0,0,0.5));
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+#projects.visible .char-kneeling-wrap {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 </style>
 </head>
 <body>
@@ -610,7 +645,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     <a href="#resume">Resume</a>
     <a href="#contact">Contact</a>
   </div>
-  <div class="nav-right">mari.nannetti@gmail.com</div>
+  <div class="nav-right"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="375a56455e19595659595243435e77505a565e5b1954585a">[email&#160;protected]</a></div>
 </nav>
 
 <!-- SOCIAL -->
@@ -871,7 +906,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" class="section">
+<section id="projects" class="section" style="position:relative; overflow:visible;">
   <div class="section-eyebrow">Case Files</div>
   <h2 class="section-title">Key <em>Projects</em></h2>
   <div class="map-pin-instruction">◉ Click the glowing pins on the map to open case files</div>
@@ -1290,7 +1325,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
   <!-- Projects list -->
   <div class="projects-list">
-    <div class="project-row">
+    <a href="projects/incredibles2/index.html" class="project-row">
       <div class="project-num">01<span class="case-badge">CASE #2401</span></div>
       <div class="project-info">
         <div class="project-title">Incredibles 2 Sentiment Analysis</div>
@@ -1298,8 +1333,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="project-chips"><span class="project-chip">NLP</span><span class="project-chip">Python</span><span class="project-chip">Data Viz</span><span class="project-chip">Lexicon Engineering</span></div>
       </div>
       <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row">
+    </a>
+    <a href="projects/fraud-dashboard/index.html" class="project-row">
       <div class="project-num">02<span class="case-badge">CASE #2502</span></div>
       <div class="project-info">
         <div class="project-title">Fraud Trend Dashboard</div>
@@ -1307,8 +1342,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="project-chips"><span class="project-chip">SQL</span><span class="project-chip">Dashboard</span><span class="project-chip">Fraud Detection</span></div>
       </div>
       <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row">
+    </a>
+    <a href="projects/samba-sips/index.html" class="project-row">
       <div class="project-num">03<span class="case-badge">CASE #2403</span></div>
       <div class="project-info">
         <div class="project-title">Samba Sips BI System</div>
@@ -1316,8 +1351,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="project-chips"><span class="project-chip">Power BI</span><span class="project-chip">A/B Testing</span><span class="project-chip">Python</span></div>
       </div>
       <div class="project-arrow">→</div>
-    </div>
-    <div class="project-row">
+    </a>
+    <a href="projects/ai-sepsis/index.html" class="project-row">
       <div class="project-num">04<span class="case-badge">CASE #2104</span></div>
       <div class="project-info">
         <div class="project-title">AI Sepsis Detection Proposal</div>
@@ -1325,7 +1360,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
         <div class="project-chips"><span class="project-chip">Research</span><span class="project-chip">NLP</span><span class="project-chip">Healthcare</span></div>
       </div>
       <div class="project-arrow">→</div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -1451,36 +1486,56 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     <h2 class="contact-big">Let's Work<br><em>Together.</em></h2>
     <p class="contact-sub">Open to data analyst roles across tech, entertainment, gaming, and healthcare. Remote and hybrid. Three languages. Always curious.</p>
     <div class="contact-links">
-      <a href="mailto:mari.nannetti@gmail.com" class="contact-link">✉ Email</a>
+      <a href="/cdn-cgi/l/email-protection#8de0ecffe4a3e3ece3e3e8f9f9e4cdeae0ece4e1a3eee2e0" class="contact-link">✉ Email</a>
       <a href="https://www.linkedin.com/in/mariana-nannetti/" target="_blank" class="contact-link">in LinkedIn</a>
       <a href="https://github.com/marinannetti" target="_blank" class="contact-link">⌥ GitHub</a>
     </div>
   </div>
 </section>
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // LOADING SCREEN
 const loader = document.getElementById('loader');
 const loaderBar = document.getElementById('loaderBar');
 const loaderStatus = document.getElementById('loaderStatus');
 const loaderStamp = document.getElementById('loaderStamp');
+
+function dismissLoader() {
+  if (!loader) return;
+  if (loaderStamp) loaderStamp.classList.add('show');
+  setTimeout(() => {
+    loader.style.transition = 'opacity 0.7s ease, visibility 0.7s ease';
+    loader.classList.add('done');
+    // Hard remove after transition so it never blocks the page
+    setTimeout(() => { loader.style.display = 'none'; }, 800);
+  }, 700);
+}
+
 const steps = [
-  { pct: 12, msg: 'Decrypting personnel records...' },
-  { pct: 28, msg: 'Cross-referencing field reports...' },
-  { pct: 44, msg: 'Verifying identity clearance...' },
-  { pct: 61, msg: 'Retrieving excavation logs...' },
-  { pct: 77, msg: 'Authenticating credentials...' },
-  { pct: 90, msg: 'Compiling case file...' },
+  { pct: 14, msg: 'Decrypting personnel records...' },
+  { pct: 30, msg: 'Cross-referencing field reports...' },
+  { pct: 48, msg: 'Verifying identity clearance...' },
+  { pct: 64, msg: 'Retrieving excavation logs...' },
+  { pct: 80, msg: 'Authenticating credentials...' },
+  { pct: 93, msg: 'Compiling case file...' },
   { pct: 100, msg: 'Access granted.' }
 ];
 let stepIdx = 0;
 function runLoader() {
-  if (stepIdx >= steps.length) { loaderStamp.classList.add('show'); setTimeout(() => loader.classList.add('done'), 900); return; }
+  if (stepIdx >= steps.length) { dismissLoader(); return; }
   const s = steps[stepIdx++];
-  loaderBar.style.width = s.pct + '%';
-  loaderStatus.textContent = s.msg;
-  setTimeout(runLoader, stepIdx === steps.length ? 600 : 260 + Math.random() * 160);
+  if (loaderBar) loaderBar.style.width = s.pct + '%';
+  if (loaderStatus) loaderStatus.textContent = s.msg;
+  const delay = stepIdx === steps.length ? 500 : 220 + Math.random() * 130;
+  setTimeout(runLoader, delay);
 }
-setTimeout(runLoader, 1200);
+setTimeout(runLoader, 800);
+
+// Nuclear fallback — if anything goes wrong, page is always reachable after 6s
+setTimeout(() => {
+  if (loader && !loader.classList.contains('done')) {
+    loader.style.display = 'none';
+  }
+}, 6000);
 
 // TYPEWRITER
 function typeWriter(el, text, speed, onDone) {
@@ -1637,12 +1692,4 @@ const heroSec = document.getElementById('hero');
 const boardCards = document.querySelectorAll('.card');
 window.addEventListener('scroll', () => {
   if (!heroSec) return;
-  const prog = Math.min(window.scrollY / heroSec.offsetHeight, 1);
-  boardCards.forEach((card,i) => {
-    const depth = [0.8,1.4,1.0,1.6,0.6][i%5];
-    card.style.transform = 'rotate(var(--rot,0deg)) translateY('+(prog*depth*55)+'px)';
-  });
-}, {passive:true});
-</script>
-</body>
-</html>
+  const
