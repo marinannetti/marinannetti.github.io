@@ -813,6 +813,16 @@ function initCards() {
     })(cards[i]);
   }
 }
+  window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function(card) {
+      card.style.left = '';
+      card.style.top = '';
+      card.style.transform = '';
+    });
+  }
+});
 </script>
 </body>
 </html>
