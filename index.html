@@ -824,5 +824,13 @@ function initCards() {
   }
 });
 </script>
+  window.addEventListener('beforeunload', function() {
+  var cards = document.querySelectorAll('.card');
+  cards.forEach(function(card) {
+    card.style.left = '';
+    card.style.top = '';
+    card.style.transform = '';
+  });
+});
 </body>
 </html>
