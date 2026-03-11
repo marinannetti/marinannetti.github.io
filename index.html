@@ -599,30 +599,30 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .char-standing {
   position: absolute;
   bottom: 0;
-  right: -30px;
-  width: 320px;
+  left: 50%;
+  width: 480px;
   z-index: 6;
   pointer-events: none;
-  filter: drop-shadow(-8px 8px 24px rgba(0,0,0,0.6));
+  filter: drop-shadow(-8px 8px 28px rgba(0,0,0,0.65));
   animation: charFloat 4s ease-in-out infinite;
   transform-origin: bottom center;
 }
 @keyframes charFloat {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  0%, 100% { transform: translateX(-60%) translateY(0px); }
+  50%       { transform: translateX(-60%) translateY(-10px); }
 }
 
 .char-kneeling-wrap {
   position: absolute;
-  right: -20px;
-  bottom: -10px;
-  width: 300px;
+  right: -40px;
+  bottom: -20px;
+  width: 520px;
   z-index: 2;
   pointer-events: none;
-  filter: drop-shadow(-6px 6px 18px rgba(0,0,0,0.5));
+  filter: drop-shadow(-6px 6px 22px rgba(0,0,0,0.55));
   opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateX(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
 }
 #stack.visible .char-kneeling-wrap {
   opacity: 1;
@@ -912,7 +912,6 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     <div class="stack-item"><div class="stack-icon">🐙</div><div class="stack-name">GitHub</div></div>
     <div class="stack-item"><div class="stack-icon">💻</div><div class="stack-name">VS Code</div></div>
     <div class="stack-item"><div class="stack-icon">☁️</div><div class="stack-name">GCP</div></div>
-    <div class="stack-item"><div class="stack-icon">🌐</div><div class="stack-name">HTML / CSS</div></div>
     <div class="stack-item"><div class="stack-icon">🧠</div><div class="stack-name">NLP</div></div>
   </div>
 
