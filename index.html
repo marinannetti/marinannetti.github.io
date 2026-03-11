@@ -733,7 +733,51 @@ var iv = setInterval(function() {
     okEl.classList.add('show');
     setTimeout(function() {
       ldEl.classList.add('hidden');
-      initCards();
+      function initCards() {
+  var defaults = {
+    cid:  { left: '38px',  top: '18px'  },
+    cexp: { left: '375px', top: '8px'   },
+    csk:  { left: '46px',  top: '368px' },
+    cst:  { left: '363px', top: '368px' },
+    cco:  { left: '756px', top: '18px'  },
+    cph:  { left: '656px', top: '360px' },
+    cin:  { left: '920px', top: '372px' }
+  };
+
+  var cards = document.querySelectorAll('.card');
+  for (var i = 0; i < cards.length; i++) {
+    (function(card) {
+      // Reset para posição default
+      var d = defaults[card.id];
+      if (d) { card.style.left = d.left; card.style.top = d.top; }
+
+      var active = false, sx, sy, ox, oy;
+      var rot = parseFloat(card.style.getPropertyValue('--rot')) || 0;
+      card.addEventListener('mousedown', function(e) {
+        if (e.target.closest && e.target.closest('a')) return;
+        active = true; sx = e.clientX; sy = e.clientY;
+        var cr = card.getBoundingClientRect();
+        var pr = card.parentElement.getBoundingClientRect();
+        ox = cr.left - pr.left; oy = cr.top - pr.top;
+        card.style.zIndex = '100';
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', function(e) {
+        if (!active) return;
+        var dx = e.clientX - sx, dy = e.clientY - sy;
+        card.style.left = (ox + dx) + 'px';
+        card.style.top = (oy + dy) + 'px';
+        card.style.transform = 'rotate(' + (rot + dx * 0.015) + 'deg)';
+      });
+      document.addEventListener('mouseup', function() {
+        if (!active) return;
+        active = false;
+        card.style.zIndex = '';
+        card.style.transform = 'rotate(' + rot + 'deg)';
+      });
+    })(cards[i]);
+  }
+}
     }, 1100);
   }
 }, 550);
